@@ -634,14 +634,6 @@ function selectBook(ncode){
         ${renderDonut(b.pc, b.sp, b.app)}
       </div>
     </div>
-    ${b.kakuyomu ? `
-    <div class="retention">
-      <div class="retention-head">
-        <div class="rt-label">話数別 累計PV（カクヨム・読了カーブ）全${b.kakuyomu.episodes.length}話</div>
-        <div class="rt-meta">集計開始 ${b.kakuyomu.periodStart} 〜　累計 <b>${b.kakuyomu.totalPv.toLocaleString()}PV</b></div>
-      </div>
-      ${renderRetentionChart(b.kakuyomu.episodes)}
-    </div>` : ''}
     ${b.hourly ? `
     <div class="hourly-block">
       <div class="hourly-head">
@@ -660,6 +652,14 @@ function selectBook(ncode){
       </div>
       <div class="naro-daily-note">※直近2日は集計未確定のため含まれません。カクヨムの読了カーブとは別サイト・別読者層の累計です</div>
       ${renderNaroCumulativeChart(b.naroEpisodeCumulative)}
+    </div>` : ''}
+    ${b.kakuyomu ? `
+    <div class="retention">
+      <div class="retention-head">
+        <div class="rt-label">話数別 累計PV（カクヨム・読了カーブ）全${b.kakuyomu.episodes.length}話</div>
+        <div class="rt-meta">集計開始 ${b.kakuyomu.periodStart} 〜　累計 <b>${b.kakuyomu.totalPv.toLocaleString()}PV</b></div>
+      </div>
+      ${renderRetentionChart(b.kakuyomu.episodes)}
     </div>` : ''}
     ${b.naroDailyHistory && b.naroDailyHistory.length ? `
     <div class="naro-history">

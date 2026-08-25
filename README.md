@@ -30,9 +30,11 @@ git push -u origin main
 
 ## データの更新方法
 
-### なろう側（KASASAGI・日別トレンド）
+### なろう側（KASASAGI・日別トレンド・時間帯別）
 1. [KASASAGI](https://kasasagi.hinaproject.com/) で各作品の「総合」ページを開き、直近7日間のPV・ユニークアクセス・PC/SP内訳を確認
 2. `data.js` の該当作品の `week` 配列・`unique`/`pc`/`sp`/`app` を書き換え
+3. 同じページの「本日」「昨日」の時間帯別PV（0〜23時）を `hourly.today` / `hourly.yesterday` に反映
+   - 「本日」は取得時点までしか値が入らないので、取得時刻をだいたい覚えておくと後で見返しやすい
 
 ### カクヨム側（累計PV・読了カーブ）
 1. `https://kakuyomu.jp/works/{作品ID}/accesses` を開く（ログインしなくても閲覧可能）

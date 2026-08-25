@@ -152,6 +152,15 @@ body{
 .retention-head .rt-meta b{ color:var(--rose-deep); font-family:'Shippori Mincho', serif; font-size:14px; }
 .retention svg{ width:100%; height:120px; display:block; }
 
+/* ---------- hourly chart ---------- */
+.hourly-block{ margin-top:26px; padding-top:24px; border-top:1px dashed var(--cream-line); }
+.hourly-head{ display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; margin-bottom:12px;}
+.hourly-head .rt-label{ font-size:11px; color:var(--plum-soft); }
+.hourly-legend{ display:flex; gap:14px; font-size:10.5px; color:var(--plum-soft); }
+.hourly-legend .line-swatch{ display:inline-block; width:16px; height:2px; margin-right:5px; vertical-align:middle; }
+.hourly-block svg{ width:100%; height:130px; display:block; }
+.hourly-axis{ display:flex; justify-content:space-between; font-size:9px; color:var(--text-dim); margin-top:4px; padding:0 2px; }
+
 /* ---------- daily heatmap table ---------- */
 .daily{
   background:var(--panel); border:1px solid var(--panel-line); border-radius:14px;
@@ -333,6 +342,26 @@ function renderDonut(pc, sp, app){
   `;
 }
 
+function renderHourlyChart(hourly){
+  const w = 600, h = 120, pad = 6;
+  const all = [...hourly.today, ...hourly.yesterday];
+  const max = Math.max(...all, 1);
+  const n = 24;
+  const toPoly = (arr) => arr.map((v,i)=>{
+    const x = pad + (i/(n-1))*(w-pad*2);
+    const y = h - pad - (v/max)*(h-pad*2);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const todayPts = toPoly(hourly.today);
+  const yestPts = toPoly(hourly.yesterday);
+  return `
+    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      <polyline points="${yestPts}" fill="none" stroke="var(--lilac)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 3" opacity="0.85"/>
+      <polyline points="${todayPts}" fill="none" stroke="var(--rose-deep)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+}
+
 function renderRetentionChart(episodes){
   const max = Math.max(...episodes);
   const w = 600, h = 110, pad = 4;
@@ -390,6 +419,18 @@ function selectBook(ncode){
         <div class="rt-meta">集計開始 ${b.kakuyomu.periodStart} 〜　累計 <b>${b.kakuyomu.totalPv.toLocaleString()}PV</b></div>
       </div>
       ${renderRetentionChart(b.kakuyomu.episodes)}
+    </div>` : ''}
+    ${b.hourly ? `
+    <div class="hourly-block">
+      <div class="hourly-head">
+        <div class="rt-label">時間帯別PV（なろう・0〜23時）</div>
+        <div class="hourly-legend">
+          <span><span class="line-swatch" style="background:var(--rose-deep);"></span>本日 ${b.hourly.todayDate}</span>
+          <span><span class="line-swatch" style="background:var(--lilac); opacity:0.85;"></span>前日 ${b.hourly.yesterdayDate}</span>
+        </div>
+      </div>
+      ${renderHourlyChart(b.hourly)}
+      <div class="hourly-axis"><span>0時</span><span>6時</span><span>12時</span><span>18時</span><span>23時</span></div>
     </div>` : ''}
   `;
 }

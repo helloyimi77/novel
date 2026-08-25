@@ -161,6 +161,21 @@ body{
 .hourly-block svg{ width:100%; height:160px; display:block; }
 .hourly-axis{ display:flex; justify-content:space-between; font-size:9px; color:var(--text-dim); margin-top:4px; padding:0 2px; }
 
+/* ---------- narou daily episode chart (single-day snapshot) ---------- */
+.naro-daily{ margin-top:26px; padding-top:24px; border-top:1px dashed var(--cream-line); }
+.naro-daily-head{ display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; margin-bottom:4px;}
+.naro-daily-head .rt-label{ font-size:11px; color:var(--plum-soft); }
+.naro-daily-head .rt-meta{ font-size:11px; color:var(--plum-soft); }
+.naro-daily-note{ font-size:10.5px; color:var(--text-dim); margin-bottom:10px; }
+.naro-daily svg{ width:100%; height:130px; display:block; }
+
+/* ---------- narou full daily history (permanent local db) ---------- */
+.naro-history{ margin-top:26px; padding-top:24px; border-top:1px dashed var(--cream-line); }
+.naro-history-head{ display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; margin-bottom:4px;}
+.naro-history-head .rt-label{ font-size:11px; color:var(--plum-soft); }
+.naro-history-note{ font-size:10.5px; color:var(--text-dim); margin-bottom:10px; }
+.naro-history svg{ width:100%; height:130px; display:block; }
+
 /* ---------- daily heatmap table ---------- */
 .daily{
   background:var(--panel); border:1px solid var(--panel-line); border-radius:14px;
@@ -397,6 +412,110 @@ function renderHourlyChart(hourly){
   `;
 }
 
+function renderNaroHistoryChart(history){
+  const w = 600, h = 130, padL = 40, padR = 10, padT = 10, padB = 20;
+  const plotW = w - padL - padR, plotH = h - padT - padB;
+  const n = history.length;
+  const vals = history.map(h=>h.pv);
+  const max = Math.max(...vals, 1);
+
+  const niceMax = (() => {
+    const mag = Math.pow(10, Math.floor(Math.log10(max || 1)));
+    const norm = max / mag;
+    const step = norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 5 ? 5 : 10;
+    return step * mag;
+  })();
+  const gridSteps = [0, 0.5, 1].map(f => Math.round(niceMax * f));
+
+  const gridlines = gridSteps.map(v => {
+    const y = (padT + plotH - (v/niceMax)*plotH).toFixed(1);
+    return `
+      <line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="var(--cream-line)" stroke-width="1"/>
+      <text x="${padL-6}" y="${Number(y)+3}" text-anchor="end" font-size="9" fill="var(--plum-soft)">${v.toLocaleString()}</text>
+    `;
+  }).join('');
+
+  const barW = Math.max(plotW / n * 0.65, 1);
+  const bars = history.map((h,i) => {
+    const x = padL + (i/n) * plotW + (plotW/n - barW)/2;
+    const bh = (h.pv/niceMax) * plotH;
+    const y = padT + plotH - bh;
+    const isLast = i === n-1;
+    return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(bh,0).toFixed(1)}" fill="${isLast ? 'var(--rose-deep)' : 'var(--lilac)'}" opacity="0.9"/>`;
+  }).join('');
+
+  const step = n <= 10 ? 1 : n <= 20 ? 2 : Math.ceil(n/12);
+  const xTicks = [];
+  for (let i = 0; i < n; i += step) xTicks.push(i);
+  if (xTicks[xTicks.length-1] !== n-1) xTicks.push(n-1);
+  const xAxis = xTicks.map(i => {
+    const x = (padL + (i+0.5)/n * plotW).toFixed(1);
+    return `<text x="${x}" y="${h-4}" text-anchor="middle" font-size="9" fill="var(--text-dim)">${history[i].d}</text>`;
+  }).join('');
+
+  return `
+    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      ${gridlines}
+      ${xAxis}
+      ${bars}
+    </svg>
+  `;
+}
+
+function renderNaroCumulativeChart(episodes){
+  const w = 600, h = 130, padL = 34, padR = 10, padT = 10, padB = 20;
+  const plotW = w - padL - padR, plotH = h - padT - padB;
+  const n = episodes.length;
+  const max = Math.max(...episodes, 1);
+
+  const niceMax = (() => {
+    const mag = Math.pow(10, Math.floor(Math.log10(max || 1)));
+    const norm = max / mag;
+    const step = norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 5 ? 5 : 10;
+    return step * mag;
+  })();
+  const gridSteps = [0, 0.5, 1].map(f => Math.round(niceMax * f));
+
+  const xOf = (i) => padL + (n===1 ? 0 : (i/(n-1)) * plotW);
+  const yOf = (v) => padT + plotH - (v/niceMax) * plotH;
+
+  const pts = episodes.map((v,i)=> `${xOf(i).toFixed(1)},${yOf(v).toFixed(1)}`).join(' ');
+  const areaPts = `${xOf(0).toFixed(1)},${(h-padB).toFixed(1)} ${pts} ${xOf(n-1).toFixed(1)},${(h-padB).toFixed(1)}`;
+
+  const gridlines = gridSteps.map(v => {
+    const y = yOf(v).toFixed(1);
+    return `
+      <line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="var(--cream-line)" stroke-width="1"/>
+      <text x="${padL-6}" y="${Number(y)+3}" text-anchor="end" font-size="9" fill="var(--plum-soft)">${v}</text>
+    `;
+  }).join('');
+
+  const step = n <= 15 ? 1 : n <= 30 ? 5 : 10;
+  const xTicks = [];
+  for (let i = 0; i < n; i += step) xTicks.push(i);
+  if (xTicks[xTicks.length-1] !== n-1) xTicks.push(n-1);
+  const xAxis = xTicks.map(i => {
+    const x = xOf(i).toFixed(1);
+    return `<text x="${x}" y="${h-4}" text-anchor="middle" font-size="9" fill="var(--text-dim)">${i+1}</text>`;
+  }).join('');
+
+  const firstX = xOf(0), firstY = yOf(episodes[0]);
+  const lastX = xOf(n-1), lastY = yOf(episodes[n-1]);
+
+  return `
+    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      ${gridlines}
+      ${xAxis}
+      <polygon points="${areaPts}" fill="var(--lilac-soft)" opacity="0.22"/>
+      <polyline points="${pts}" fill="none" stroke="var(--lilac)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${firstX.toFixed(1)}" cy="${firstY.toFixed(1)}" r="3" fill="var(--lilac)"/>
+      <text x="${firstX.toFixed(1)}" y="${(firstY-8).toFixed(1)}" text-anchor="start" font-size="10" font-weight="700" fill="var(--lilac)">${episodes[0]}</text>
+      <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3" fill="var(--lilac)"/>
+      <text x="${lastX.toFixed(1)}" y="${(lastY-8).toFixed(1)}" text-anchor="end" font-size="10" font-weight="700" fill="var(--lilac)">${episodes[n-1]}</text>
+    </svg>
+  `;
+}
+
 function renderRetentionChart(episodes){
   const w = 600, h = 150, padL = 34, padR = 10, padT = 10, padB = 20;
   const plotW = w - padL - padR, plotH = h - padT - padB;
@@ -503,6 +622,22 @@ function selectBook(ncode){
         </div>
       </div>
       ${renderHourlyChart(b.hourly)}
+    </div>` : ''}
+    ${b.naroEpisodeCumulative && b.naroEpisodeCumulative.length ? `
+    <div class="naro-daily">
+      <div class="naro-daily-head">
+        <div class="rt-label">なろう 話数別累計PV（連載開始日〜集計確定日まで積み上げ）</div>
+      </div>
+      <div class="naro-daily-note">※直近2日は集計未確定のため含まれません。カクヨムの読了カーブとは別サイト・別読者層の累計です</div>
+      ${renderNaroCumulativeChart(b.naroEpisodeCumulative)}
+    </div>` : ''}
+    ${b.naroDailyHistory && b.naroDailyHistory.length ? `
+    <div class="naro-history">
+      <div class="naro-history-head">
+        <div class="rt-label">なろう 日別PV推移（連載開始日〜今日・全期間）</div>
+      </div>
+      <div class="naro-history-note">※確定済みの日は永続キャッシュに保存し、直近2日だけ毎回ライブ取得しています（直近日=ローズ色）</div>
+      ${renderNaroHistoryChart(b.naroDailyHistory)}
     </div>` : ''}
   `;
 }

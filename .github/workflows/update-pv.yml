@@ -2,11 +2,10 @@ name: Update PV data
 
 on:
   schedule:
-    # UTC基準。JSTでだいたい 8:00 / 13:00 / 21:00 頃に実行（1日3回）
-    - cron: '0 23 * * *'
-    - cron: '0 4 * * *'
-    - cron: '0 12 * * *'
+    # UTC基準。30分おきに実行
+    - cron: '*/30 * * * *'
   workflow_dispatch: {}
+
 
 permissions:
   contents: write

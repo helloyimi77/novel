@@ -84,7 +84,7 @@ body{
   color:#FFF8F9; border-radius:10px 10px 3px 3px;
   padding:36px 10px 26px; position:relative; z-index:1;
   display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
-  height:240px; transition:transform 0.25s ease, box-shadow 0.25s ease;
+  height:274px; transition:transform 0.25s ease, box-shadow 0.25s ease;
   box-shadow:2px 0 6px rgba(74,46,60,0.15), -1px 0 0 rgba(255,255,255,0.15) inset;
 }
 .spine:hover{ transform:translateY(-8px); }
@@ -126,6 +126,11 @@ body{
 .spine .pv7{ font-family:'Shippori Mincho', serif; font-size:20px; font-weight:800; text-shadow:0 1px 3px rgba(0,0,0,0.15);}
 .spine .pv7 small{ font-size:10px; font-weight:400; opacity:0.85; margin-left:3px;}
 .spine .spark{ width:100%; height:26px; margin-top:6px; }
+.spine .kaku-stats{
+  display:flex; gap:8px; margin-top:3px; font-size:9.5px; opacity:0.92;
+  text-shadow:0 1px 2px rgba(0,0,0,0.15);
+}
+.spine .kaku-stats span{ display:flex; align-items:center; gap:2px; }
 
 /* per-book color variants — matched to each story's own atmosphere */
 .spine[data-book="n9971mp"]{ background:linear-gradient(160deg,#9BA57E,#6E7A5A); } /* サラリーマン：乾いた現場感のセージ×カーキ */
@@ -337,6 +342,15 @@ BOOKS.forEach((b)=>{
     ${b.order ? `<div class="order-badge">${b.order}</div>` : ''}
     <div class="title-vert">${b.shortTitle}</div>
     <div class="pv7">${weekTotal(b).toLocaleString()}<small>PV/7日</small></div>
+    ${b.narouStats ? `<div class="kaku-stats">
+      <span>🔖${b.narouStats.bookmarks}</span>
+      <span>⭐${b.narouStats.globalPoint}</span>
+    </div>` : ''}
+    ${b.kakuyomu ? `<div class="kaku-stats">
+      <span>📖${b.kakuyomu.followers}</span>
+      ${b.kakuyomu.reviewCount ? `<span>★${b.kakuyomu.reviewAvg}(${b.kakuyomu.reviewCount})</span>` : ''}
+      ${b.kakuyomu.comments ? `<span>💬${b.kakuyomu.comments}</span>` : ''}
+    </div>` : ''}
     <div class="spark">${sparkSvg(b.week, b.hot)}</div>
   `;
   el.addEventListener('click', ()=> selectBook(b.ncode));
@@ -652,7 +666,12 @@ function selectBook(ncode){
       <div class="detail-metrics">
         <div class="metric"><div class="m-val">${weekTotal(b).toLocaleString()}</div><div class="m-lab">7日間PV（なろう）</div></div>
         <div class="metric"><div class="m-val">${b.unique.toLocaleString()}</div><div class="m-lab">ユニークアクセス（なろう）</div></div>
+        ${b.narouStats ? `<div class="metric"><div class="m-val">${b.narouStats.bookmarks.toLocaleString()}</div><div class="m-lab">ブックマーク（なろう）</div></div>` : ''}
+        ${b.narouStats ? `<div class="metric"><div class="m-val">${b.narouStats.globalPoint.toLocaleString()}</div><div class="m-lab">総合ポイント（なろう）</div></div>` : ''}
         ${b.kakuyomu ? `<div class="metric"><div class="m-val">${b.kakuyomu.totalPv.toLocaleString()}</div><div class="m-lab">累計PV（カクヨム）</div></div>` : ''}
+        ${b.kakuyomu ? `<div class="metric"><div class="m-val">${b.kakuyomu.followers.toLocaleString()}</div><div class="m-lab">フォロワー（カクヨム）</div></div>` : ''}
+        ${b.kakuyomu && b.kakuyomu.reviewCount ? `<div class="metric"><div class="m-val">★${b.kakuyomu.reviewAvg}</div><div class="m-lab">評価（${b.kakuyomu.reviewCount}件）</div></div>` : ''}
+        ${b.kakuyomu && b.kakuyomu.comments ? `<div class="metric"><div class="m-val">${b.kakuyomu.comments.toLocaleString()}</div><div class="m-lab">コメント（カクヨム）</div></div>` : ''}
       </div>
     </div>
     ${b.note ? `<div style="font-size:12px;color:var(--rose-deep);margin-bottom:18px;">※ ${b.note}</div>` : ''}

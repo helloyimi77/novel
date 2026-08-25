@@ -93,6 +93,64 @@ def parse_kasasagi(ncode):
     }
 
 
+def fetch_narou_api_stats(ncodes):
+    """
+    なろう公式の「なろう小説API」から、ブックマーク数・総合ポイント・評価などをまとめて取得。
+    1回のリクエストで複数Ncodeを取得できる（ncode1-ncode2-...の形でハイフン区切り）。
+    戻り値: {ncode(小文字): {...}} の辞書
+    """
+    joined = "-".join(ncodes)
+    url = f"https://api.syosetu.com/novelapi/api/?ncode={joined}&out=json"
+    r = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
+    r.raise_for_status()
+    rows = r.json()
+    result = {}
+    for row in rows:
+        if "ncode" not in row:
+            continue  # 先頭の {"allcount": N} をスキップ
+        ncode_lower = row["ncode"].lower()
+        all_hyoka_cnt = row.get("all_hyoka_cnt", 0)
+        all_point = row.get("all_point", 0)
+        rating_avg = round(all_point / all_hyoka_cnt, 1) if all_hyoka_cnt else None
+        result[ncode_lower] = {
+            "bookmarks": row.get("fav_novel_cnt", 0),
+            "globalPoint": row.get("global_point", 0),
+            "weeklyPoint": row.get("weekly_point", 0),
+            "reviewCnt": row.get("review_cnt", 0),
+            "impressionCnt": row.get("impression_cnt", 0),
+            "ratingAvg": rating_avg,
+            "ratingCnt": all_hyoka_cnt,
+        }
+    return result
+
+
+def parse_kakuyomu_work_stats(work_id):
+    """作品メインページから フォロワー数・レビュー評価・コメント数 を取得"""
+    url = f"https://kakuyomu.jp/works/{work_id}"
+    html = fetch(url)
+    m = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', html, re.S)
+    if not m:
+        raise ValueError(f"__NEXT_DATA__ not found for work {work_id}")
+    data = json.loads(m.group(1))
+    apollo = data["props"]["pageProps"]["__APOLLO_STATE__"]
+    work = apollo.get(f"Work:{work_id}")
+    if not work:
+        raise ValueError(f"Work:{work_id} not found in __NEXT_DATA__")
+
+    followers = work.get("totalFollowers", 0)
+    review_point_sum = work.get("totalReviewPoint", 0)
+    review_count = work.get("reviewCount", 0)
+    comments = work.get("totalPublicEpisodeCommentCount", 0)
+    review_avg = round(review_point_sum / review_count, 1) if review_count else None
+
+    return {
+        "followers": followers,
+        "reviewAvg": review_avg,
+        "reviewCount": review_count,
+        "comments": comments,
+    }
+
+
 def parse_kakuyomu(work_id):
     """Returns dict: totalPv, periodStart (YYYY-MM-DD), episodes[]"""
     url = f"https://kakuyomu.jp/works/{work_id}/accesses"
@@ -328,7 +386,7 @@ def js_string(s):
     return json.dumps(s, ensure_ascii=False)
 
 
-def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history):
+def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_extra):
     week_lines = ", ".join(
         f'{{ d: {js_string(w["d"])}, pv: {w["pv"]} }}' for w in kasasagi["week"]
     )
@@ -367,12 +425,25 @@ def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history):
     mood: {js_string(book["mood"])},
     week: [{week_lines}],
     unique: {kasasagi["unique"]}, pc: {kasasagi["pc"]}, sp: {kasasagi["sp"]}, app: {kasasagi["app"]},
+    narouStats: {{
+      bookmarks: {narou_extra.get("bookmarks", 0)},
+      globalPoint: {narou_extra.get("globalPoint", 0)},
+      weeklyPoint: {narou_extra.get("weeklyPoint", 0)},
+      reviewCnt: {narou_extra.get("reviewCnt", 0)},
+      impressionCnt: {narou_extra.get("impressionCnt", 0)},
+      ratingAvg: {narou_extra.get("ratingAvg") if narou_extra.get("ratingAvg") is not None else "null"},
+      ratingCnt: {narou_extra.get("ratingCnt", 0)},
+    }},
     hot: {str(hot).lower()}, note: {js_string(note)},
     kakuyomu: {{
       workId: {js_string(book["kakuyomuId"])},
       totalPv: {kakuyomu["totalPv"]},
       periodStart: {js_string(kakuyomu["periodStart"] or "")},
       episodes: [{ep_line}],
+      followers: {kakuyomu.get("followers", 0)},
+      reviewAvg: {kakuyomu.get("reviewAvg") if kakuyomu.get("reviewAvg") is not None else "null"},
+      reviewCount: {kakuyomu.get("reviewCount", 0)},
+      comments: {kakuyomu.get("comments", 0)},
     }},
     hourly: {{
       todayDate: {js_string(kasasagi["hourly"]["todayDate"] or "")},
@@ -394,6 +465,13 @@ def main():
     cache = load_cache()
     daily_cache = load_json_cache(DAILY_CACHE_PATH)
 
+    all_ncodes = [b["ncode"] for b in config["books"]]
+    try:
+        narou_api_stats = fetch_narou_api_stats(all_ncodes)
+    except Exception as e:
+        print(f"WARNING: narou API stats fetch failed entirely: {e}", file=sys.stderr)
+        narou_api_stats = {}
+
     for book in config["books"]:
         ncode = book["ncode"]
         try:
@@ -403,7 +481,11 @@ def main():
             naro_history = build_naro_daily_history(ncode, kasasagi, daily_cache)
             time.sleep(1)
             kakuyomu = parse_kakuyomu(book["kakuyomuId"])
-            rendered_books.append(render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history))
+            time.sleep(1)
+            kakuyomu_stats = parse_kakuyomu_work_stats(book["kakuyomuId"])
+            kakuyomu.update(kakuyomu_stats)
+            narou_extra = narou_api_stats.get(ncode.lower(), {})
+            rendered_books.append(render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_extra))
             print(f"OK: {ncode}", file=sys.stderr)
         except Exception as e:
             had_error = True

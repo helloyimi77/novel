@@ -634,6 +634,14 @@ function selectBook(ncode){
         ${renderDonut(b.pc, b.sp, b.app)}
       </div>
     </div>
+    ${b.naroDailyHistory && b.naroDailyHistory.length ? `
+    <div class="naro-history">
+      <div class="naro-history-head">
+        <div class="rt-label">なろう 日別PV推移（連載開始日〜今日・全期間）</div>
+      </div>
+      <div class="naro-history-note">※確定済みの日は永続キャッシュに保存し、直近2日だけ毎回ライブ取得しています（直近日=ローズ色）</div>
+      ${renderNaroHistoryChart(b.naroDailyHistory)}
+    </div>` : ''}
     ${b.hourly ? `
     <div class="hourly-block">
       <div class="hourly-head">
@@ -660,14 +668,6 @@ function selectBook(ncode){
         <div class="rt-meta">集計開始 ${b.kakuyomu.periodStart} 〜　累計 <b>${b.kakuyomu.totalPv.toLocaleString()}PV</b></div>
       </div>
       ${renderRetentionChart(b.kakuyomu.episodes)}
-    </div>` : ''}
-    ${b.naroDailyHistory && b.naroDailyHistory.length ? `
-    <div class="naro-history">
-      <div class="naro-history-head">
-        <div class="rt-label">なろう 日別PV推移（連載開始日〜今日・全期間）</div>
-      </div>
-      <div class="naro-history-note">※確定済みの日は永続キャッシュに保存し、直近2日だけ毎回ライブ取得しています（直近日=ローズ色）</div>
-      ${renderNaroHistoryChart(b.naroDailyHistory)}
     </div>` : ''}
   `;
 }

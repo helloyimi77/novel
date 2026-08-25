@@ -343,12 +343,12 @@ BOOKS.forEach((b)=>{
     <div class="title-vert">${b.shortTitle}</div>
     <div class="pv7">${weekTotal(b).toLocaleString()}<small>PV/7日</small></div>
     ${b.narouStats ? `<div class="kaku-stats">
-      <span>🔖${b.narouStats.bookmarks}</span>
-      <span>⭐${b.narouStats.globalPoint}</span>
+      <span>🔖${b.narouStats.bookmarks ?? 0}</span>
+      <span>⭐${b.narouStats.globalPoint ?? 0}</span>
     </div>` : ''}
     ${b.kakuyomu ? `<div class="kaku-stats">
-      <span>📖${b.kakuyomu.followers}</span>
-      <span>❤️${b.kakuyomu.cheers}</span>
+      <span>📖${b.kakuyomu.followers ?? 0}</span>
+      <span>❤️${b.kakuyomu.cheers ?? 0}</span>
       ${b.kakuyomu.reviewCount ? `<span>★${b.kakuyomu.reviewAvg}(${b.kakuyomu.reviewCount})</span>` : ''}
       ${b.kakuyomu.comments ? `<span>💬${b.kakuyomu.comments}</span>` : ''}
     </div>` : ''}
@@ -667,11 +667,11 @@ function selectBook(ncode){
       <div class="detail-metrics">
         <div class="metric"><div class="m-val">${weekTotal(b).toLocaleString()}</div><div class="m-lab">7日間PV（なろう）</div></div>
         <div class="metric"><div class="m-val">${b.unique.toLocaleString()}</div><div class="m-lab">ユニークアクセス（なろう）</div></div>
-        ${b.narouStats ? `<div class="metric"><div class="m-val">${b.narouStats.bookmarks.toLocaleString()}</div><div class="m-lab">ブックマーク（なろう）</div></div>` : ''}
-        ${b.narouStats ? `<div class="metric"><div class="m-val">${b.narouStats.globalPoint.toLocaleString()}</div><div class="m-lab">総合ポイント（なろう）</div></div>` : ''}
+        ${b.narouStats ? `<div class="metric"><div class="m-val">${(b.narouStats.bookmarks ?? 0).toLocaleString()}</div><div class="m-lab">ブックマーク（なろう）</div></div>` : ''}
+        ${b.narouStats ? `<div class="metric"><div class="m-val">${(b.narouStats.globalPoint ?? 0).toLocaleString()}</div><div class="m-lab">総合ポイント（なろう）</div></div>` : ''}
         ${b.kakuyomu ? `<div class="metric"><div class="m-val">${b.kakuyomu.totalPv.toLocaleString()}</div><div class="m-lab">累計PV（カクヨム）</div></div>` : ''}
-        ${b.kakuyomu ? `<div class="metric"><div class="m-val">${b.kakuyomu.followers.toLocaleString()}</div><div class="m-lab">フォロワー（カクヨム）</div></div>` : ''}
-        ${b.kakuyomu ? `<div class="metric"><div class="m-val">${b.kakuyomu.cheers.toLocaleString()}</div><div class="m-lab">応援（カクヨム）</div></div>` : ''}
+        ${b.kakuyomu ? `<div class="metric"><div class="m-val">${(b.kakuyomu.followers ?? 0).toLocaleString()}</div><div class="m-lab">フォロワー（カクヨム）</div></div>` : ''}
+        ${b.kakuyomu ? `<div class="metric"><div class="m-val">${(b.kakuyomu.cheers ?? 0).toLocaleString()}</div><div class="m-lab">応援（カクヨム）</div></div>` : ''}
         ${b.kakuyomu && b.kakuyomu.reviewCount ? `<div class="metric"><div class="m-val">★${b.kakuyomu.reviewAvg}</div><div class="m-lab">評価（${b.kakuyomu.reviewCount}件）</div></div>` : ''}
         ${b.kakuyomu && b.kakuyomu.comments ? `<div class="metric"><div class="m-val">${b.kakuyomu.comments.toLocaleString()}</div><div class="m-lab">コメント（カクヨム）</div></div>` : ''}
       </div>

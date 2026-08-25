@@ -101,6 +101,17 @@ body{
   background:var(--rose-deep); color:#fff; font-size:9px; padding:3px 9px; border-radius:10px;
   box-shadow:0 4px 10px rgba(168,80,110,0.5); letter-spacing:0.05em;
 }
+.spine .genre-badge{
+  position:absolute; top:10px; right:8px;
+  font-size:8px; padding:2px 7px; border-radius:8px; letter-spacing:0.03em;
+  writing-mode:horizontal-tb; white-space:nowrap; font-weight:600;
+}
+.genre-badge.history{ background:rgba(191,154,94,0.9); color:#3A2A10; }
+.genre-badge.josei{ background:rgba(232,166,188,0.9); color:#5A1E33; }
+.genre-badge.dansei{ background:rgba(141,124,166,0.9); color:#231A33; }
+.tag.genre-tag.history{ background:var(--gold-soft); color:#6B4E1E; font-weight:600; }
+.tag.genre-tag.josei{ background:var(--rose-glow); color:#7A2A45; font-weight:600; }
+.tag.genre-tag.dansei{ background:var(--lilac-soft); color:#3D2E5C; font-weight:600; }
 .spine .title-vert{
   writing-mode:vertical-rl; font-family:'Shippori Mincho', serif; font-weight:600;
   font-size:13px; line-height:1.5; letter-spacing:0.02em; max-height:120px;
@@ -272,8 +283,8 @@ body{
   </div>
 
   <div class="foot-note">
-    データ出典：KASASAGI（なろうグループ アクセス解析）／作品情報：カクヨム・小説を読もう！<br>
-    数値は data.js を手動更新する運用です。急伸・完結などの注記も data.js 側に記述します。
+    データ出典：KASASAGI（なろうグループ アクセス解析）／カクヨム アクセス数ページ<br>
+    30分おきにGitHub Actionsが自動取得・更新しています（scripts/update_data.py）。急伸・完結などの注記も自動判定です。
   </div>
 
 </div>
@@ -300,6 +311,13 @@ function sparkSvg(week, hot){
   </svg>`;
 }
 
+function genreClass(genre){
+  if (genre === '歴史') return 'history';
+  if (genre === '女性向け') return 'josei';
+  if (genre === '男性向け') return 'dansei';
+  return '';
+}
+
 const shelf = document.getElementById('shelf');
 BOOKS.forEach((b)=>{
   const el = document.createElement('button');
@@ -307,6 +325,7 @@ BOOKS.forEach((b)=>{
   el.dataset.book = b.ncode;
   el.innerHTML = `
     ${b.hot ? `<div class="badge hot">急上昇</div>` : `<div class="badge ${b.status==='done'?'done':'ongoing'}">${b.status==='done'?'完結済み':'連載中'}</div>`}
+    ${b.genre ? `<div class="genre-badge ${genreClass(b.genre)}">${b.genre}</div>` : ''}
     <div class="title-vert">${b.shortTitle}</div>
     <div class="pv7">${weekTotal(b).toLocaleString()}<small>PV/7日</small></div>
     <div class="spark">${sparkSvg(b.week, b.hot)}</div>
@@ -581,6 +600,7 @@ function selectBook(ncode){
       <div>
         <h3>${b.title}</h3>
         <div class="detail-tags">
+          ${b.genre ? `<span class="tag genre-tag ${genreClass(b.genre)}">${b.genre}</span>` : ''}
           ${b.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
           <span class="tag">全${b.episodes}話</span>
           <span class="tag">Nコード: ${b.ncode}</span>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>令嬢たちの棚 — PVモニタ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F6EEEF;
+  --bg-2:#EFE1E4;
+  --panel:#FFFBFA;
+  --panel-line:rgba(168,85,112,0.16);
+  --plum:#4A2E3C;
+  --plum-soft:#8A6B79;
+  --rose:#C97B94;
+  --rose-deep:#A8506E;
+  --rose-glow:#E8A6BC;
+  --lilac:#8D7CA6;
+  --lilac-soft:#C9BEDA;
+  --gold:#BF9A5E;
+  --gold-soft:#E4CFA0;
+  --text-dim:#A98D9A;
+  --cream-line:rgba(74,46,60,0.08);
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+body{
+  background:
+    radial-gradient(ellipse at 15% -8%, #F3E3E8 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 10%, #EFE6EE 0%, transparent 50%),
+    var(--bg);
+  color:var(--plum);
+  font-family:'Zen Kaku Gothic New', sans-serif;
+  min-height:100vh;
+  padding:40px 24px 80px;
+}
+
+.wrap{ max-width:1180px; margin:0 auto; }
+
+/* ---------- Header ---------- */
+.header{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  border-bottom:1px solid var(--panel-line);
+  padding-bottom:22px; margin-bottom:34px; gap:20px; flex-wrap:wrap;
+}
+.header-left .eyebrow{
+  font-size:11px; letter-spacing:0.32em; color:var(--rose-deep); font-weight:500;
+  margin-bottom:8px; text-transform:uppercase;
+}
+.header-left h1{
+  font-family:'Shippori Mincho', serif; font-weight:800; font-size:34px;
+  letter-spacing:0.04em; color:var(--plum);
+}
+.header-left .sub{ margin-top:6px; font-size:13px; color:var(--plum-soft); }
+.header-right{ text-align:right; font-size:12px; color:var(--plum-soft); }
+.header-right .date{ font-size:15px; color:var(--rose-deep); font-family:'Shippori Mincho',serif; }
+
+/* ---------- Section titles ---------- */
+.section-title{
+  display:flex; align-items:baseline; gap:12px; margin-bottom:18px;
+}
+.section-title h2{
+  font-family:'Shippori Mincho', serif; font-size:19px; font-weight:600; color:var(--plum);
+}
+.section-title .en{ font-size:10px; letter-spacing:0.25em; color:var(--text-dim); text-transform:uppercase; }
+
+/* ---------- Bookshelf ---------- */
+.shelf{
+  display:flex; gap:14px; margin-bottom:52px; padding:26px 22px 18px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.5), transparent 40%), var(--panel);
+  border-radius:14px; border:1px solid var(--panel-line);
+  position:relative; box-shadow:0 6px 20px -14px rgba(74,46,60,0.3);
+}
+.shelf::after{
+  content:''; position:absolute; left:16px; right:16px; bottom:12px; height:6px;
+  background:linear-gradient(180deg, var(--gold-soft), var(--gold)); border-radius:3px;
+  box-shadow:0 4px 10px rgba(191,154,94,0.35);
+}
+.spine{
+  flex:1; min-width:0; cursor:pointer; border:none; text-align:left;
+  color:#FFF8F9; border-radius:10px 10px 3px 3px;
+  padding:20px 10px 26px; position:relative; z-index:1;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  height:230px; transition:transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow:2px 0 6px rgba(74,46,60,0.15), -1px 0 0 rgba(255,255,255,0.15) inset;
+}
+.spine:hover{ transform:translateY(-8px); }
+.spine.active{ transform:translateY(-14px); box-shadow:0 14px 26px -12px rgba(74,46,60,0.4); }
+.spine .badge{
+  position:absolute; top:10px; left:50%; transform:translateX(-50%);
+  font-size:9px; padding:3px 8px; border-radius:10px; letter-spacing:0.04em;
+  white-space:nowrap;
+}
+.badge.ongoing{ background:rgba(255,255,255,0.25); color:#FFF; border:1px solid rgba(255,255,255,0.5); }
+.badge.done{ background:rgba(255,255,255,0.85); color:var(--gold); border:1px solid rgba(191,154,94,0.5); font-weight:600;}
+.badge.hot{
+  position:absolute; top:-11px; left:50%; transform:translateX(-50%);
+  background:var(--rose-deep); color:#fff; font-size:9px; padding:3px 9px; border-radius:10px;
+  box-shadow:0 4px 10px rgba(168,80,110,0.5); letter-spacing:0.05em;
+}
+.spine .title-vert{
+  writing-mode:vertical-rl; font-family:'Shippori Mincho', serif; font-weight:600;
+  font-size:13px; line-height:1.5; letter-spacing:0.02em; max-height:120px;
+  overflow:hidden; margin-bottom:10px; text-shadow:0 1px 3px rgba(0,0,0,0.15);
+}
+.spine .pv7{ font-family:'Shippori Mincho', serif; font-size:20px; font-weight:800; text-shadow:0 1px 3px rgba(0,0,0,0.15);}
+.spine .pv7 small{ font-size:10px; font-weight:400; opacity:0.85; margin-left:3px;}
+.spine .spark{ width:100%; height:26px; margin-top:6px; }
+
+/* per-book color variants — matched to each story's own atmosphere */
+.spine[data-book="n9971mp"]{ background:linear-gradient(160deg,#9BA57E,#6E7A5A); } /* サラリーマン：乾いた現場感のセージ×カーキ */
+.spine[data-book="n4795mp"]{ background:linear-gradient(160deg,#EAA97E,#C97C55); } /* ヴェルテ：温泉の湯気、珊瑚×テラコッタ */
+.spine[data-book="n5913mo"]{ background:linear-gradient(160deg,#8FA7C4,#4F6A8C); } /* 無能公爵令嬢：氷のような矜持、氷藍×銀 */
+.spine[data-book="n2451mp"]{ background:linear-gradient(160deg,#7EC0CB,#4C8C98); } /* 結界令嬢：魔導灯の銀線、シアン */
+.spine[data-book="n4374mp"]{ background:linear-gradient(160deg,#9C9280,#655D4C); } /* 書かねば、残らぬ：墨と和紙の枯れた色 */
+/* 新しい作品を追加した場合はここに1行足してください（ncode を data-book に合わせる） */
+
+/* ---------- Detail panel ---------- */
+.detail{
+  background:var(--panel); border:1px solid var(--panel-line); border-radius:14px;
+  padding:30px 32px; margin-bottom:52px; box-shadow:0 6px 20px -14px rgba(74,46,60,0.3);
+}
+.detail-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:22px;}
+.detail-head h3{ font-family:'Shippori Mincho', serif; font-size:21px; font-weight:600; color:var(--plum); max-width:640px; line-height:1.5;}
+.detail-tags{ display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;}
+.tag{ font-size:10px; padding:3px 9px; border-radius:10px; background:var(--bg-2); color:var(--plum-soft); }
+.detail-metrics{ display:flex; gap:26px; flex-wrap:wrap; }
+.metric{ text-align:right; }
+.metric .m-val{ font-family:'Shippori Mincho', serif; font-size:22px; color:var(--rose-deep); font-weight:700;}
+.metric .m-lab{ font-size:10px; color:var(--plum-soft); margin-top:2px; }
+
+.chart-area{ display:grid; grid-template-columns: 2fr 1fr; gap:28px; margin-top:10px;}
+.bar-chart{ height:220px; display:flex; align-items:flex-end; gap:10px; padding:0 6px; position:relative; }
+.bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:6px; position:relative;}
+.bar{ width:70%; border-radius:5px 5px 2px 2px; background:linear-gradient(180deg, var(--lilac-soft), var(--lilac)); position:relative; transition:height 0.4s ease; }
+.bar.peak{ background:linear-gradient(180deg, var(--rose-glow), var(--rose-deep)); }
+.bar-val{ font-size:10px; color:var(--plum-soft); }
+.bar-date{ font-size:9px; color:var(--plum-soft); margin-top:4px; }
+
+.donut-wrap{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+.donut-legend{ font-size:11px; color:var(--plum-soft); display:flex; flex-direction:column; gap:6px;}
+.donut-legend span.dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; }
+
+/* ---------- kakuyomu retention curve ---------- */
+.retention{ margin-top:26px; padding-top:24px; border-top:1px dashed var(--cream-line); }
+.retention-head{ display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; margin-bottom:12px;}
+.retention-head .rt-label{ font-size:11px; color:var(--plum-soft); }
+.retention-head .rt-meta{ font-size:11px; color:var(--plum-soft); }
+.retention-head .rt-meta b{ color:var(--rose-deep); font-family:'Shippori Mincho', serif; font-size:14px; }
+.retention svg{ width:100%; height:120px; display:block; }
+
+/* ---------- daily heatmap table ---------- */
+.daily{
+  background:var(--panel); border:1px solid var(--panel-line); border-radius:14px;
+  padding:30px 32px; margin-bottom:52px; overflow-x:auto; box-shadow:0 6px 20px -14px rgba(74,46,60,0.3);
+}
+.daily table{ border-collapse:collapse; width:100%; margin-top:18px; min-width:640px; }
+.daily th, .daily td{ padding:10px 8px; text-align:center; font-size:12px; }
+.daily thead th{
+  color:var(--plum-soft); font-weight:500; font-size:10.5px; letter-spacing:0.03em;
+  border-bottom:1px solid var(--cream-line);
+}
+.daily thead th.dow-sat{ color:#7B93C4; }
+.daily thead th.dow-sun{ color:var(--rose-deep); }
+.daily tbody th{
+  text-align:left; font-size:12px; color:var(--plum); font-weight:500;
+  white-space:nowrap; padding-right:16px; border-bottom:1px dashed var(--cream-line);
+}
+.daily tbody th .st-dot{
+  display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:7px;
+}
+.daily tbody td{ border-bottom:1px dashed var(--cream-line); position:relative; }
+.daily .cell{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:52px; padding:6px 4px; border-radius:6px; font-family:'Shippori Mincho', serif;
+  font-weight:600; color:#3A2530;
+}
+.daily .row-total{ font-weight:700; color:var(--rose-deep); border-bottom:1px dashed var(--cream-line); }
+.daily .legend{ display:flex; align-items:center; gap:10px; margin-top:16px; font-size:10.5px; color:var(--plum-soft);}
+.daily .legend .swatch{ display:inline-block; width:60px; height:8px; border-radius:4px; }
+
+/* ---------- comparison chart ---------- */
+.compare{ background:var(--panel); border:1px solid var(--panel-line); border-radius:14px; padding:30px 32px; box-shadow:0 6px 20px -14px rgba(74,46,60,0.3);}
+.compare-rows{ display:flex; flex-direction:column; gap:16px; margin-top:18px; }
+.compare-row{ display:grid; grid-template-columns: 210px 1fr 90px; align-items:center; gap:16px; }
+.compare-row .name{ font-size:12.5px; color:var(--plum); line-height:1.4; }
+.compare-row .name .st{ font-size:10px; color:var(--plum-soft); display:block; margin-top:2px;}
+.compare-bar-bg{ background:var(--bg-2); border-radius:6px; height:14px; overflow:hidden; }
+.compare-bar-fill{ height:100%; border-radius:6px; background:linear-gradient(90deg, var(--lilac-soft), var(--lilac)); }
+.compare-bar-fill.hot{ background:linear-gradient(90deg, var(--rose-glow), var(--rose-deep)); }
+.compare-row .val{ text-align:right; font-family:'Shippori Mincho', serif; font-size:14px; color:var(--plum); }
+
+.foot-note{ margin-top:40px; font-size:11px; color:var(--plum-soft); text-align:center; line-height:1.8; }
+
+@media (max-width:880px){
+  .shelf{ flex-wrap:wrap; }
+  .spine{ min-width:120px; flex:1 1 40%; }
+  .chart-area{ grid-template-columns:1fr; }
+  .compare-row{ grid-template-columns:1fr; gap:6px; }
+  .compare-row .val{ text-align:left; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="eyebrow">Kazuya's Novels · Access Analytics</div>
+      <h1>令嬢たちの棚 — PVモニタ</h1>
+      <div class="sub">なろう投稿作品のアクセス推移を一望する</div>
+    </div>
+    <div class="header-right">
+      <div class="date" id="lastUpdated"></div>
+      <div>KASASAGIアクセス解析データを反映</div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <h2>本棚</h2>
+    <span class="en">Tap a spine to inspect</span>
+  </div>
+
+  <div class="shelf" id="shelf"></div>
+
+  <div class="detail" id="detail"></div>
+
+  <div class="daily">
+    <div class="section-title">
+      <h2>日別PV一覧</h2>
+      <span class="en">Day-by-day, all works</span>
+    </div>
+    <div id="dailyTableWrap"></div>
+    <div class="legend">
+      <span>低</span><span class="swatch" style="background:linear-gradient(90deg,#C9BEDA,#D89CAE,#E4CFA0,#A8506E)"></span><span>高（行内の相対値）</span>
+    </div>
+  </div>
+
+  <div class="compare">
+    <div class="section-title">
+      <h2>作品比較（直近7日間PV）</h2>
+      <span class="en">Weekly comparison</span>
+    </div>
+    <div class="compare-rows" id="compareRows"></div>
+  </div>
+
+  <div class="foot-note">
+    データ出典：KASASAGI（なろうグループ アクセス解析）／作品情報：カクヨム・小説を読もう！<br>
+    数値は data.js を手動更新する運用です。急伸・完結などの注記も data.js 側に記述します。
+  </div>
+
+</div>
+
+<script src="data.js"></script>
+<script>
+document.getElementById('lastUpdated').textContent = LAST_UPDATED;
+
+function sum(arr){ return arr.reduce((a,b)=>a+b,0); }
+function weekTotal(b){ return sum(b.week.map(x=>x.pv)); }
+
+function sparkSvg(week, hot){
+  const vals = week.map(w=>w.pv);
+  const max = Math.max(...vals, 1);
+  const w = 100, h = 26, n = vals.length;
+  const pts = vals.map((v,i)=>{
+    const x = (i/(n-1))*w;
+    const y = h - (v/max)*h;
+    return `${x},${y}`;
+  }).join(' ');
+  const color = hot ? '#FFE9E0' : 'rgba(255,255,255,0.95)';
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="width:100%;height:100%;overflow:visible">
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  </svg>`;
+}
+
+const shelf = document.getElementById('shelf');
+BOOKS.forEach((b)=>{
+  const el = document.createElement('button');
+  el.className = 'spine';
+  el.dataset.book = b.ncode;
+  el.innerHTML = `
+    ${b.hot ? `<div class="badge hot">急上昇</div>` : `<div class="badge ${b.status==='done'?'done':'ongoing'}">${b.status==='done'?'完結済み':'連載中'}</div>`}
+    <div class="title-vert">${b.shortTitle}</div>
+    <div class="pv7">${weekTotal(b).toLocaleString()}<small>PV/7日</small></div>
+    <div class="spark">${sparkSvg(b.week, b.hot)}</div>
+  `;
+  el.addEventListener('click', ()=> selectBook(b.ncode));
+  shelf.appendChild(el);
+});
+
+function renderBarChart(week, hot){
+  const max = Math.max(...week.map(w=>w.pv));
+  return `<div class="bar-chart">` + week.map(w=>{
+    const hpct = Math.max((w.pv/max)*100, 3);
+    const isPeak = hot && w.pv === max;
+    return `<div class="bar-col">
+      <div class="bar-val">${w.pv}</div>
+      <div class="bar ${isPeak?'peak':''}" style="height:${hpct}%"></div>
+      <div class="bar-date">${w.d}</div>
+    </div>`;
+  }).join('') + `</div>`;
+}
+
+function renderDonut(pc, sp, app){
+  const total = pc+sp+app || 1;
+  const pcPct = Math.round(pc/total*100);
+  const spPct = Math.round(sp/total*100);
+  const appPct = 100 - pcPct - spPct;
+  const r = 42, c = 2*Math.PI*r;
+  let offset = 0;
+  const segs = [
+    {v:pc, color:'#8D7CA6', label:'PC'},
+    {v:sp, color:'#BF9A5E', label:'SP'},
+    {v:app, color:'#A8506E', label:'アプリ'},
+  ];
+  let circles = segs.map(s=>{
+    const len = (s.v/total)*c;
+    const dash = `${len} ${c-len}`;
+    const circle = `<circle cx="50" cy="50" r="${r}" fill="none" stroke="${s.color}" stroke-width="14" stroke-dasharray="${dash}" stroke-dashoffset="${-offset}" transform="rotate(-90 50 50)"/>`;
+    offset += len;
+    return circle;
+  }).join('');
+  return `
+    <svg width="120" height="120" viewBox="0 0 100 100">${circles}</svg>
+    <div class="donut-legend">
+      <div><span class="dot" style="background:#8D7CA6"></span>PC ${pcPct}%</div>
+      <div><span class="dot" style="background:#BF9A5E"></span>SP ${spPct}%</div>
+      <div><span class="dot" style="background:#A8506E"></span>アプリ ${appPct}%</div>
+    </div>
+  `;
+}
+
+function renderRetentionChart(episodes){
+  const max = Math.max(...episodes);
+  const w = 600, h = 110, pad = 4;
+  const n = episodes.length;
+  const pts = episodes.map((v,i)=>{
+    const x = pad + (i/(n-1))*(w-pad*2);
+    const y = h - pad - (v/max)*(h-pad*2);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const areaPts = `${pad},${h-pad} ${pts} ${w-pad},${h-pad}`;
+  return `
+    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      <polygon points="${areaPts}" fill="var(--rose-glow)" opacity="0.18"/>
+      <polyline points="${pts}" fill="none" stroke="var(--rose-deep)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+}
+
+function selectBook(ncode){
+  document.querySelectorAll('.spine').forEach(s=>s.classList.toggle('active', s.dataset.book===ncode));
+  const b = BOOKS.find(x=>x.ncode===ncode);
+  const detail = document.getElementById('detail');
+  detail.innerHTML = `
+    <div class="detail-head">
+      <div>
+        <h3>${b.title}</h3>
+        <div class="detail-tags">
+          ${b.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
+          <span class="tag">全${b.episodes}話</span>
+          <span class="tag">Nコード: ${b.ncode}</span>
+        </div>
+        <div style="font-size:12.5px;color:var(--plum-soft);margin-top:12px;max-width:600px;line-height:1.7;">${b.mood}</div>
+      </div>
+      <div class="detail-metrics">
+        <div class="metric"><div class="m-val">${weekTotal(b).toLocaleString()}</div><div class="m-lab">7日間PV（なろう）</div></div>
+        <div class="metric"><div class="m-val">${b.unique.toLocaleString()}</div><div class="m-lab">ユニークアクセス（なろう）</div></div>
+        ${b.kakuyomu ? `<div class="metric"><div class="m-val">${b.kakuyomu.totalPv.toLocaleString()}</div><div class="m-lab">累計PV（カクヨム）</div></div>` : ''}
+      </div>
+    </div>
+    ${b.note ? `<div style="font-size:12px;color:var(--rose-deep);margin-bottom:18px;">※ ${b.note}</div>` : ''}
+    <div class="chart-area">
+      <div>
+        <div style="font-size:11px;color:var(--plum-soft);margin-bottom:10px;">日別PV推移（なろう）</div>
+        ${renderBarChart(b.week, b.hot)}
+      </div>
+      <div class="donut-wrap">
+        <div style="font-size:11px;color:var(--plum-soft);align-self:flex-start;">流入デバイス構成（なろう）</div>
+        ${renderDonut(b.pc, b.sp, b.app)}
+      </div>
+    </div>
+    ${b.kakuyomu ? `
+    <div class="retention">
+      <div class="retention-head">
+        <div class="rt-label">話数別 累計PV（カクヨム・読了カーブ）全${b.kakuyomu.episodes.length}話</div>
+        <div class="rt-meta">集計開始 ${b.kakuyomu.periodStart} 〜　累計 <b>${b.kakuyomu.totalPv.toLocaleString()}PV</b></div>
+      </div>
+      ${renderRetentionChart(b.kakuyomu.episodes)}
+    </div>` : ''}
+  `;
+}
+
+const DOW_JP = ['日','月','火','水','木','金','土'];
+function buildDateAxis(){
+  const allDates = new Set();
+  BOOKS.forEach(b => b.week.forEach(w => allDates.add(w.d)));
+  return Array.from(allDates).sort().map(d=>{
+    const [mm, dd] = d.split('/').map(Number);
+    const dow = new Date(YEAR, mm-1, dd).getDay();
+    const cls = dow===6 ? 'dow-sat' : dow===0 ? 'dow-sun' : '';
+    return { d, dow: DOW_JP[dow], cls };
+  });
+}
+const DATE_AXIS = buildDateAxis();
+
+function heatColor(ratio){
+  const stops = [
+    {p:0.0, c:[201,190,218]},
+    {p:0.45, c:[216,156,174]},
+    {p:0.75, c:[228,207,160]},
+    {p:1.0, c:[168,80,110]},
+  ];
+  let lo = stops[0], hi = stops[stops.length-1];
+  for(let i=0;i<stops.length-1;i++){
+    if(ratio>=stops[i].p && ratio<=stops[i+1].p){ lo=stops[i]; hi=stops[i+1]; break; }
+  }
+  const span = (hi.p-lo.p)||1;
+  const t = (ratio-lo.p)/span;
+  const rgb = lo.c.map((v,i)=>Math.round(v + (hi.c[i]-v)*t));
+  return `rgb(${rgb.join(',')})`;
+}
+
+function renderDailyTable(){
+  const wrap = document.getElementById('dailyTableWrap');
+  let thead = `<tr><th style="text-align:left;">作品</th>` +
+    DATE_AXIS.map(a=>`<th class="${a.cls||''}">${a.d}<br>(${a.dow})</th>`).join('') +
+    `<th>7日計</th></tr>`;
+
+  let rows = BOOKS.map(b=>{
+    const byDate = {};
+    b.week.forEach(w=> byDate[w.d]=w.pv);
+    const vals = DATE_AXIS.map(a=> byDate[a.d] ?? null);
+    const validVals = vals.filter(v=>v!==null);
+    const max = Math.max(...validVals), min = Math.min(...validVals);
+    const cells = vals.map(v=>{
+      if(v===null) return `<td><span class="cell" style="background:rgba(74,46,60,0.05);color:var(--plum-soft);">–</span></td>`;
+      const ratio = max===min ? 0.5 : (v-min)/(max-min);
+      return `<td><span class="cell" style="background:${heatColor(ratio)}">${v}</span></td>`;
+    }).join('');
+    const dotColor = b.status==='done' ? 'var(--gold)' : 'var(--lilac)';
+    return `<tr>
+      <th><span class="st-dot" style="background:${dotColor}"></span>${b.shortTitle}</th>
+      ${cells}
+      <td class="row-total">${weekTotal(b).toLocaleString()}</td>
+    </tr>`;
+  }).join('');
+
+  wrap.innerHTML = `<table><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
+}
+renderDailyTable();
+
+const compareRows = document.getElementById('compareRows');
+const maxWeek = Math.max(...BOOKS.map(weekTotal));
+BOOKS.slice().sort((a,b)=>weekTotal(b)-weekTotal(a)).forEach(b=>{
+  const pct = (weekTotal(b)/maxWeek*100).toFixed(1);
+  const row = document.createElement('div');
+  row.className = 'compare-row';
+  row.innerHTML = `
+    <div class="name">${b.shortTitle}<span class="st">${b.status==='done'?'完結済み':'連載中'} ・ 全${b.episodes}話</span></div>
+    <div class="compare-bar-bg"><div class="compare-bar-fill ${b.hot?'hot':''}" style="width:${pct}%"></div></div>
+    <div class="val">${weekTotal(b).toLocaleString()} PV</div>
+  `;
+  compareRows.appendChild(row);
+});
+
+selectBook(BOOKS.find(b=>b.hot)?.ncode || BOOKS[0].ncode);
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 # とんこつしょうゆの本棚 — PVモニタ
 
 なろう投稿作品のアクセス推移（KASASAGI解析データ）とカクヨムの累計PVを、作品ごとに見るための自分用ダッシュボード。
-1日3回、GitHub Actionsが自動でデータを取得・更新します。
+30分おきに、GitHub Actionsが自動でデータを取得・更新します。
 
 ## 構成
 
@@ -13,7 +13,7 @@ pv-dashboard/
 ├── scripts/
 │   └── update_data.py  ← KASASAGI・カクヨムを取得してdata.jsを再生成するスクリプト
 └── .github/workflows/
-    └── update-pv.yml   ← 1日3回＋手動実行でupdate_data.pyを走らせるActions
+    └── update-pv.yml   ← 30分おき＋手動実行でupdate_data.pyを走らせるActions
 ```
 
 ## GitHub Pagesで公開する
@@ -36,7 +36,7 @@ git push -u origin main
 
 ## 自動更新の仕組み
 
-`.github/workflows/update-pv.yml` が1日3回（UTC 23:00 / 4:00 / 12:00 ≒ JST 8:00 / 13:00 / 21:00）と、
+`.github/workflows/update-pv.yml` が30分おきと、
 Actionsタブからの手動実行（workflow_dispatch）で `scripts/update_data.py` を実行します。
 
 スクリプトは：
@@ -76,6 +76,6 @@ python scripts/update_data.py
 ## 注意点
 
 - KASASAGI・カクヨムのaccessesページは共にログイン不要で閲覧できることを確認済みですが、サイト側の仕様変更でHTML構造が変わるとパースが壊れる可能性があります。Actionsが失敗した場合はActionsタブのログを確認してください。
-- 自動アクセスは1日3回程度に抑えています。頻度を上げすぎないようにご注意ください。
+- 自動アクセスは30分おき（1日48回）です。KASASAGI/カクヨムへの負荷が気になる場合は間隔を広げてください（cronの`*/30 * * * *`を`0,30 * * * *`のような形で調整可能）。
 - 「急上昇」判定は直近7日平均の2.5倍という簡易な閾値です。厳密な異常検知ではありません。
 

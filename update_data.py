@@ -152,7 +152,7 @@ def parse_kakuyomu_work_stats(work_id):
 
 
 def parse_kakuyomu(work_id):
-    """Returns dict: totalPv, periodStart (YYYY-MM-DD), episodes[]"""
+    """Returns dict: totalPv, periodStart (YYYY-MM-DD), episodes[], episodeCheers[], totalCheers"""
     url = f"https://kakuyomu.jp/works/{work_id}/accesses"
     html = fetch(url)
 
@@ -168,9 +168,12 @@ def parse_kakuyomu(work_id):
 
     episode_list_key = next(k for k in work if k.startswith("publicEpisodeUnions"))
     episodes = []
+    episode_cheers = []
     for ref in work[episode_list_key]["nodes"]:
         ep = apollo[ref["__ref"]]
         episodes.append(ep["readCount"])
+        episode_cheers.append(ep.get("publicCheerCount", 0))
+    total_cheers = sum(episode_cheers)
 
     text = strip_tags(html)
     period_m = re.search(r"(\d{4})年(\d{1,2})月(\d{1,2})日\s*\d{1,2}:\d{2}\s*から", text)
@@ -180,7 +183,13 @@ def parse_kakuyomu(work_id):
     else:
         period_start = None
 
-    return {"totalPv": total_pv, "periodStart": period_start, "episodes": episodes}
+    return {
+        "totalPv": total_pv,
+        "periodStart": period_start,
+        "episodes": episodes,
+        "episodeCheers": episode_cheers,
+        "totalCheers": total_cheers,
+    }
 
 
 def parse_kasasagi_day_page(ncode):
@@ -444,6 +453,7 @@ def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_e
       reviewAvg: {kakuyomu.get("reviewAvg") if kakuyomu.get("reviewAvg") is not None else "null"},
       reviewCount: {kakuyomu.get("reviewCount", 0)},
       comments: {kakuyomu.get("comments", 0)},
+      cheers: {kakuyomu.get("totalCheers", 0)},
     }},
     hourly: {{
       todayDate: {js_string(kasasagi["hourly"]["todayDate"] or "")},

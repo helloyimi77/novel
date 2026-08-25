@@ -167,7 +167,7 @@ body{
 .retention-head .rt-label{ font-size:11px; color:var(--plum-soft); }
 .retention-head .rt-meta{ font-size:11px; color:var(--plum-soft); }
 .retention-head .rt-meta b{ color:var(--rose-deep); font-family:'Shippori Mincho', serif; font-size:14px; }
-.retention svg{ width:100%; height:150px; display:block; }
+.retention svg{ width:100%; height:158px; display:block; }
 
 /* ---------- hourly chart ---------- */
 .hourly-block{ margin-top:26px; padding-top:24px; border-top:1px dashed var(--cream-line); }
@@ -175,7 +175,7 @@ body{
 .hourly-head .rt-label{ font-size:11px; color:var(--plum-soft); }
 .hourly-legend{ display:flex; gap:14px; font-size:10.5px; color:var(--plum-soft); }
 .hourly-legend .line-swatch{ display:inline-block; width:16px; height:2px; margin-right:5px; vertical-align:middle; }
-.hourly-block svg{ width:100%; height:160px; display:block; }
+.hourly-block svg{ width:100%; height:165px; display:block; }
 .hourly-axis{ display:flex; justify-content:space-between; font-size:9px; color:var(--text-dim); margin-top:4px; padding:0 2px; }
 
 /* ---------- narou daily episode chart (single-day snapshot) ---------- */
@@ -184,14 +184,14 @@ body{
 .naro-daily-head .rt-label{ font-size:11px; color:var(--plum-soft); }
 .naro-daily-head .rt-meta{ font-size:11px; color:var(--plum-soft); }
 .naro-daily-note{ font-size:10.5px; color:var(--text-dim); margin-bottom:10px; }
-.naro-daily svg{ width:100%; height:130px; display:block; }
+.naro-daily svg{ width:100%; height:140px; display:block; }
 
 /* ---------- narou full daily history (permanent local db) ---------- */
 .naro-history{ margin-top:26px; padding-top:24px; border-top:1px dashed var(--cream-line); }
 .naro-history-head{ display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; margin-bottom:4px;}
 .naro-history-head .rt-label{ font-size:11px; color:var(--plum-soft); }
 .naro-history-note{ font-size:10.5px; color:var(--text-dim); margin-bottom:10px; }
-.naro-history svg{ width:100%; height:130px; display:block; }
+.naro-history svg{ width:100%; height:140px; display:block; }
 
 /* ---------- daily heatmap table ---------- */
 .daily{
@@ -386,7 +386,7 @@ function renderDonut(pc, sp, app){
 }
 
 function renderHourlyChart(hourly){
-  const w = 600, h = 160, padL = 34, padR = 10, padT = 10, padB = 20;
+  const w = 600, h = 165, padL = 34, padR = 10, padT = 18, padB = 20;
   const plotW = w - padL - padR, plotH = h - padT - padB;
   const all = [...hourly.today, ...hourly.yesterday];
   const max = Math.max(...all, 1);
@@ -428,12 +428,25 @@ function renderHourlyChart(hourly){
   const lastTodayVal = hourly.today[lastTodayIdx];
   const dotX = xOf(lastTodayIdx), dotY = yOf(lastTodayVal);
 
+  // 目盛りのある時間帯（0,3,6...時）に本日/前日それぞれの数値ラベルを添える
+  const valueLabels = hourMarks.map(hIdx => {
+    const tv = hourly.today[hIdx], yv = hourly.yesterday[hIdx];
+    const tx = xOf(hIdx), ty = yOf(tv);
+    const yx = xOf(hIdx), yy = yOf(yv);
+    const skipToday = hIdx === lastTodayIdx; // 最終値ラベルと重複するので省略
+    return `
+      ${!skipToday ? `<text x="${tx.toFixed(1)}" y="${(ty-6).toFixed(1)}" text-anchor="middle" font-size="8" fill="var(--rose-deep)">${tv}</text>` : ''}
+      <text x="${yx.toFixed(1)}" y="${(yy+12).toFixed(1)}" text-anchor="middle" font-size="8" fill="var(--lilac)">${yv}</text>
+    `;
+  }).join('');
+
   return `
     <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
       ${gridlines}
       ${xAxis}
       <polyline points="${yestPts}" fill="none" stroke="var(--lilac)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 3" opacity="0.85"/>
       <polyline points="${todayPts}" fill="none" stroke="var(--rose-deep)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      ${valueLabels}
       <circle cx="${dotX.toFixed(1)}" cy="${dotY.toFixed(1)}" r="3" fill="var(--rose-deep)"/>
       <text x="${dotX.toFixed(1)}" y="${(dotY-8).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="var(--rose-deep)">${lastTodayVal}</text>
     </svg>
@@ -441,7 +454,7 @@ function renderHourlyChart(hourly){
 }
 
 function renderNaroHistoryChart(history){
-  const w = 600, h = 130, padL = 40, padR = 10, padT = 10, padB = 20;
+  const w = 600, h = 140, padL = 40, padR = 10, padT = 18, padB = 20;
   const plotW = w - padL - padR, plotH = h - padT - padB;
   const n = history.length;
   const vals = history.map(h=>h.pv);
@@ -464,12 +477,17 @@ function renderNaroHistoryChart(history){
   }).join('');
 
   const barW = Math.max(plotW / n * 0.65, 1);
+  const labelEvery = barW >= 13 ? 1 : Math.ceil(13 / barW); // 混み過ぎる時は間引く
   const bars = history.map((h,i) => {
     const x = padL + (i/n) * plotW + (plotW/n - barW)/2;
     const bh = (h.pv/niceMax) * plotH;
     const y = padT + plotH - bh;
     const isLast = i === n-1;
-    return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(bh,0).toFixed(1)}" fill="${isLast ? 'var(--rose-deep)' : 'var(--lilac)'}" opacity="0.9"/>`;
+    const rect = `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(bh,0).toFixed(1)}" fill="${isLast ? 'var(--rose-deep)' : 'var(--lilac)'}" opacity="0.9"/>`;
+    if (i % labelEvery !== 0 && !isLast) return rect;
+    const labelY = Math.max(y - 3, 9);
+    const label = `<text x="${(x+barW/2).toFixed(1)}" y="${labelY.toFixed(1)}" text-anchor="middle" font-size="8" fill="${isLast?'var(--rose-deep)':'var(--plum-soft)'}" font-weight="${isLast?'700':'400'}">${h.pv.toLocaleString()}</text>`;
+    return rect + label;
   }).join('');
 
   const step = n <= 10 ? 1 : n <= 20 ? 2 : Math.ceil(n/12);
@@ -491,7 +509,7 @@ function renderNaroHistoryChart(history){
 }
 
 function renderNaroCumulativeChart(episodes){
-  const w = 600, h = 130, padL = 34, padR = 10, padT = 10, padB = 20;
+  const w = 600, h = 140, padL = 34, padR = 10, padT = 18, padB = 20;
   const plotW = w - padL - padR, plotH = h - padT - padB;
   const n = episodes.length;
   const max = Math.max(...episodes, 1);
@@ -530,12 +548,19 @@ function renderNaroCumulativeChart(episodes){
   const firstX = xOf(0), firstY = yOf(episodes[0]);
   const lastX = xOf(n-1), lastY = yOf(episodes[n-1]);
 
+  // 目盛りの立っている話数に数値ラベル（最初/最後は強調ラベルと別で既にあるので除外）
+  const valueLabels = xTicks.filter(i => i!==0 && i!==n-1).map(i => {
+    const x = xOf(i), y = yOf(episodes[i]);
+    return `<text x="${x.toFixed(1)}" y="${(y-7).toFixed(1)}" text-anchor="middle" font-size="8" fill="var(--lilac)">${episodes[i]}</text>`;
+  }).join('');
+
   return `
     <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
       ${gridlines}
       ${xAxis}
       <polygon points="${areaPts}" fill="var(--lilac-soft)" opacity="0.22"/>
       <polyline points="${pts}" fill="none" stroke="var(--lilac)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      ${valueLabels}
       <circle cx="${firstX.toFixed(1)}" cy="${firstY.toFixed(1)}" r="3" fill="var(--lilac)"/>
       <text x="${firstX.toFixed(1)}" y="${(firstY-8).toFixed(1)}" text-anchor="start" font-size="10" font-weight="700" fill="var(--lilac)">${episodes[0]}</text>
       <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3" fill="var(--lilac)"/>
@@ -545,7 +570,7 @@ function renderNaroCumulativeChart(episodes){
 }
 
 function renderRetentionChart(episodes){
-  const w = 600, h = 150, padL = 34, padR = 10, padT = 10, padB = 20;
+  const w = 600, h = 158, padL = 34, padR = 10, padT = 18, padB = 20;
   const plotW = w - padL - padR, plotH = h - padT - padB;
   const n = episodes.length;
   const max = Math.max(...episodes, 1);
@@ -586,12 +611,19 @@ function renderRetentionChart(episodes){
   const firstX = xOf(0), firstY = yOf(episodes[0]);
   const lastX = xOf(n-1), lastY = yOf(episodes[n-1]);
 
+  // 目盛りの立っている話数に数値ラベル（最初/最後は強調ラベルと別で既にあるので除外）
+  const valueLabels = xTicks.filter(i => i!==0 && i!==n-1).map(i => {
+    const x = xOf(i), y = yOf(episodes[i]);
+    return `<text x="${x.toFixed(1)}" y="${(y-7).toFixed(1)}" text-anchor="middle" font-size="8" fill="var(--rose-deep)">${episodes[i]}</text>`;
+  }).join('');
+
   return `
     <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
       ${gridlines}
       ${xAxis}
       <polygon points="${areaPts}" fill="var(--rose-glow)" opacity="0.18"/>
       <polyline points="${pts}" fill="none" stroke="var(--rose-deep)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      ${valueLabels}
       <circle cx="${firstX.toFixed(1)}" cy="${firstY.toFixed(1)}" r="3" fill="var(--rose-deep)"/>
       <text x="${firstX.toFixed(1)}" y="${(firstY-8).toFixed(1)}" text-anchor="start" font-size="10" font-weight="700" fill="var(--rose-deep)">${episodes[0]}</text>
       <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3" fill="var(--rose-deep)"/>

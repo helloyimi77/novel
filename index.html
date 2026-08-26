@@ -344,7 +344,6 @@ BOOKS.forEach((b)=>{
     <div class="title-vert">${b.shortTitle}</div>
     <div class="pv7">${weekTotal(b).toLocaleString()}<small>PV/7日</small></div>
     ${b.hourly ? `<div class="pv-today">本日 ${sum(b.hourly.today).toLocaleString()}PV</div>` : ''}
-    ${b.hourly && b.hourly.todayDate ? `<div class="today-pv">本日 ${sum(b.hourly.today).toLocaleString()}PV</div>` : ''}
     ${b.narouStats ? `<div class="kaku-stats">
       <span>🔖${b.narouStats.bookmarks ?? 0}</span>
       <span>⭐${b.narouStats.globalPoint ?? 0}</span>

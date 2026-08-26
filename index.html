@@ -82,11 +82,16 @@ body{
 .spine{
   flex:1; min-width:0; cursor:pointer; border:none; text-align:left;
   color:#FFF8F9; border-radius:8px; overflow:hidden;
-  padding:0; position:relative; z-index:1;
-  display:block; aspect-ratio:5/7;
+  padding:0; position:relative; z-index:1; display:block;
   transition:transform 0.25s ease, box-shadow 0.25s ease;
   box-shadow:2px 4px 12px rgba(74,46,60,0.25);
-  background:var(--bg-2) center/cover no-repeat;
+  background:var(--bg-2);
+}
+.spine::before{
+  content:''; display:block; width:100%; padding-top:140%; /* 5:7比率を強制（幅の140% = 高さ） */
+}
+.spine .cover-img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
 }
 .spine:hover{ transform:translateY(-8px); }
 .spine.active{ transform:translateY(-14px); box-shadow:0 14px 26px -12px rgba(74,46,60,0.4); }
@@ -341,10 +346,8 @@ BOOKS.forEach((b)=>{
   const el = document.createElement('button');
   el.className = 'spine';
   el.dataset.book = b.ncode;
-  if (b.cover) {
-    el.style.backgroundImage = `url('${b.cover}')`;
-  }
   el.innerHTML = `
+    ${b.cover ? `<img class="cover-img" src="${b.cover}" alt="${b.shortTitle}">` : ''}
     ${b.hot ? `<div class="badge hot">急上昇</div>` : `<div class="badge ${b.status==='done'?'done':'ongoing'}">${b.status==='done'?'完結済み':'連載中'}</div>`}
     ${b.genre ? `<div class="genre-badge ${genreClass(b.genre)}">${b.genre}</div>` : ''}
     ${b.order ? `<div class="order-badge">${b.order}</div>` : ''}

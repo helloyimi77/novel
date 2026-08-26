@@ -447,6 +447,7 @@ def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_e
     status: {js_string(book["status"])},
     genre: {js_string(book.get("genre", ""))},
     order: {book.get("order", 99)},
+    cover: {js_string(book.get("cover", ""))},
     episodes: {len(kakuyomu["episodes"])},
     tags: [{", ".join(js_string(t) for t in tags)}],
     mood: {js_string(book["mood"])},

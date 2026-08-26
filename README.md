@@ -9,11 +9,14 @@
 pv-dashboard/
 ├── index.html          ← 表示ロジック（基本さわらない）
 ├── data.js             ← 作品データ（自動生成・自分では基本編集しない）
-├── config.json         ← 編集用メタ情報（タイトル・タグ・雰囲気・完結状態など）
+├── config.json         ← 編集用メタ情報（タイトル・タグ・雰囲気・完結状態・書影パスなど）
+├── covers/              ← 書影画像（背表紙に表示。手動で追加・入れ替え）
+│   └── {ncode}.jpg
 ├── scripts/
 │   ├── update_data.py            ← KASASAGI・カクヨムを取得してdata.jsを再生成するスクリプト
 │   ├── naro_episode_cache.json   ← なろう「話数別累計PV」の日次キャッシュ（自動生成・自動更新）
-│   └── naro_daily_pv_cache.json  ← なろう「日別PV」の全期間キャッシュ＝簡易DB（自動生成・自動更新）
+│   ├── naro_daily_pv_cache.json  ← なろう「日別PV」の全期間キャッシュ＝簡易DB（自動生成・自動更新）
+│   └── kakuyomu_stats_cache.json ← カクヨムのフォロワー等を1日1回だけ取得するためのキャッシュ
 └── .github/workflows/
     └── update-pv.yml   ← 30分おき＋手動実行でupdate_data.pyを走らせるActions
 ```
@@ -77,9 +80,13 @@ python scripts/update_data.py
 ## 新しい作品を追加するとき
 
 1. `config.json` の `books` 配列に、既存の作品と同じ形式でオブジェクトを追加（`ncode`と`kakuyomuId`は必須）
-2. `index.html` 内の「per-book color variants」セクション（CSS）に、その作品の `ncode` に対応する背表紙の色を1行追加
-   - 作品の雰囲気に合わせて色を選ぶと統一感が出ます（例：ほっこり系→暖色、冷静・技術系→寒色）
+2. 書影画像があれば `covers/{ncode}.jpg` として追加し、`config.json` の `cover` にパスを指定
+   - 書影が無い場合は `cover` を空文字 `""` にすれば、自動でタイトル文字だけの背表紙にフォールバックします
 3. Actionsを手動実行（またはcron待ち）すればPVデータも自動で入ります
+
+## 書影を入れ替えたいとき
+
+`covers/{ncode}.jpg` を新しい画像で上書きするだけです。幅500px程度・JPEG・数百KB以内に圧縮しておくと表示が軽くなります。
 
 ## 注意点
 

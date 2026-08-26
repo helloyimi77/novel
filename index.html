@@ -81,21 +81,31 @@ body{
 }
 .spine{
   flex:1; min-width:0; cursor:pointer; border:none; text-align:left;
-  color:#FFF8F9; border-radius:10px 10px 3px 3px;
-  padding:36px 10px 26px; position:relative; z-index:1;
-  display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
-  height:296px; transition:transform 0.25s ease, box-shadow 0.25s ease;
-  box-shadow:2px 0 6px rgba(74,46,60,0.15), -1px 0 0 rgba(255,255,255,0.15) inset;
+  color:#FFF8F9; border-radius:8px; overflow:hidden;
+  padding:0; position:relative; z-index:1;
+  display:block; aspect-ratio:5/7;
+  transition:transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow:2px 4px 12px rgba(74,46,60,0.25);
+  background:var(--bg-2) center/cover no-repeat;
 }
 .spine:hover{ transform:translateY(-8px); }
 .spine.active{ transform:translateY(-14px); box-shadow:0 14px 26px -12px rgba(74,46,60,0.4); }
+.spine .cover-fallback{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  padding:16px; text-align:center;
+}
+.spine .cover-fallback .title-vert{
+  writing-mode:vertical-rl; font-family:'Shippori Mincho', serif; font-weight:600;
+  font-size:13px; line-height:1.5; letter-spacing:0.02em; max-height:180px;
+  overflow:hidden; text-shadow:0 1px 3px rgba(0,0,0,0.2);
+}
 .spine .badge{
   position:absolute; top:10px; left:50%; transform:translateX(-50%);
   font-size:9px; padding:3px 8px; border-radius:10px; letter-spacing:0.04em;
-  white-space:nowrap;
+  white-space:nowrap; box-shadow:0 2px 6px rgba(0,0,0,0.25);
 }
-.badge.ongoing{ background:rgba(255,255,255,0.25); color:#FFF; border:1px solid rgba(255,255,255,0.5); }
-.badge.done{ background:rgba(255,255,255,0.85); color:var(--gold); border:1px solid rgba(191,154,94,0.5); font-weight:600;}
+.badge.ongoing{ background:rgba(0,0,0,0.45); color:#FFF; border:1px solid rgba(255,255,255,0.5); backdrop-filter:blur(2px); }
+.badge.done{ background:rgba(255,255,255,0.9); color:var(--gold); border:1px solid rgba(191,154,94,0.5); font-weight:600;}
 .badge.hot{
   position:absolute; top:-11px; left:50%; transform:translateX(-50%);
   background:var(--rose-deep); color:#fff; font-size:9px; padding:3px 9px; border-radius:10px;
@@ -105,33 +115,27 @@ body{
   position:absolute; top:10px; right:8px;
   font-size:8px; padding:2px 7px; border-radius:8px; letter-spacing:0.03em;
   writing-mode:horizontal-tb; white-space:nowrap; font-weight:600;
+  box-shadow:0 2px 6px rgba(0,0,0,0.25);
 }
-.genre-badge.history{ background:rgba(191,154,94,0.9); color:#3A2A10; }
-.genre-badge.josei{ background:rgba(232,166,188,0.9); color:#5A1E33; }
-.genre-badge.dansei{ background:rgba(141,124,166,0.9); color:#231A33; }
+.genre-badge.history{ background:rgba(191,154,94,0.92); color:#3A2A10; }
+.genre-badge.josei{ background:rgba(232,166,188,0.92); color:#5A1E33; }
+.genre-badge.dansei{ background:rgba(141,124,166,0.92); color:#231A33; }
 .spine .order-badge{
   position:absolute; top:8px; left:8px; width:20px; height:20px; border-radius:50%;
-  background:rgba(255,255,255,0.9); color:var(--plum); font-family:'Shippori Mincho', serif;
+  background:rgba(255,255,255,0.92); color:var(--plum); font-family:'Shippori Mincho', serif;
   font-weight:700; font-size:11px; display:flex; align-items:center; justify-content:center;
-  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  box-shadow:0 2px 6px rgba(0,0,0,0.25);
 }
 .tag.genre-tag.history{ background:var(--gold-soft); color:#6B4E1E; font-weight:600; }
 .tag.genre-tag.josei{ background:var(--rose-glow); color:#7A2A45; font-weight:600; }
 .tag.genre-tag.dansei{ background:var(--lilac-soft); color:#3D2E5C; font-weight:600; }
-.spine .title-vert{
-  writing-mode:vertical-rl; font-family:'Shippori Mincho', serif; font-weight:600;
-  font-size:13px; line-height:1.5; letter-spacing:0.02em; max-height:96px;
-  overflow:hidden; margin-bottom:10px; text-shadow:0 1px 3px rgba(0,0,0,0.15);
+.spine .cover-caption{
+  position:absolute; left:0; right:0; bottom:0; padding:8px 8px 7px;
+  background:linear-gradient(180deg, transparent, rgba(0,0,0,0.55));
+  font-size:10.5px; font-weight:600; line-height:1.3;
+  text-shadow:0 1px 3px rgba(0,0,0,0.5);
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
 }
-.spine .pv7{ font-family:'Shippori Mincho', serif; font-size:20px; font-weight:800; text-shadow:0 1px 3px rgba(0,0,0,0.15);}
-.spine .pv7 small{ font-size:10px; font-weight:400; opacity:0.85; margin-left:3px;}
-.spine .pv-today{ font-size:10px; opacity:0.85; margin-top:1px; text-shadow:0 1px 2px rgba(0,0,0,0.15); }
-.spine .spark{ width:100%; height:26px; margin-top:6px; }
-.spine .kaku-stats{
-  display:flex; flex-wrap:wrap; gap:4px 7px; margin-top:3px; font-size:9.5px; opacity:0.92;
-  text-shadow:0 1px 2px rgba(0,0,0,0.15); line-height:1.3;
-}
-.spine .kaku-stats span{ display:flex; align-items:center; gap:2px; }
 
 /* per-book color variants — matched to each story's own atmosphere */
 .spine[data-book="n9971mp"]{ background:linear-gradient(160deg,#9BA57E,#6E7A5A); } /* サラリーマン：乾いた現場感のセージ×カーキ */
@@ -337,24 +341,15 @@ BOOKS.forEach((b)=>{
   const el = document.createElement('button');
   el.className = 'spine';
   el.dataset.book = b.ncode;
+  if (b.cover) {
+    el.style.backgroundImage = `url('${b.cover}')`;
+  }
   el.innerHTML = `
     ${b.hot ? `<div class="badge hot">急上昇</div>` : `<div class="badge ${b.status==='done'?'done':'ongoing'}">${b.status==='done'?'完結済み':'連載中'}</div>`}
     ${b.genre ? `<div class="genre-badge ${genreClass(b.genre)}">${b.genre}</div>` : ''}
     ${b.order ? `<div class="order-badge">${b.order}</div>` : ''}
-    <div class="title-vert">${b.shortTitle}</div>
-    <div class="pv7">${weekTotal(b).toLocaleString()}<small>PV/7日</small></div>
-    ${b.hourly ? `<div class="pv-today">本日 ${sum(b.hourly.today).toLocaleString()}PV</div>` : ''}
-    ${b.narouStats ? `<div class="kaku-stats">
-      <span>🔖${b.narouStats.bookmarks ?? 0}</span>
-      <span>⭐${b.narouStats.globalPoint ?? 0}</span>
-    </div>` : ''}
-    ${b.kakuyomu ? `<div class="kaku-stats">
-      <span>📖${b.kakuyomu.followers ?? 0}</span>
-      <span>❤️${b.kakuyomu.cheers ?? 0}</span>
-      ${b.kakuyomu.reviewCount ? `<span>★${b.kakuyomu.reviewAvg}(${b.kakuyomu.reviewCount})</span>` : ''}
-      ${b.kakuyomu.comments ? `<span>💬${b.kakuyomu.comments}</span>` : ''}
-    </div>` : ''}
-    <div class="spark">${sparkSvg(b.week, b.hot)}</div>
+    ${!b.cover ? `<div class="cover-fallback"><div class="title-vert">${b.shortTitle}</div></div>` : ''}
+    ${b.cover ? `<div class="cover-caption">${b.shortTitle}</div>` : ''}
   `;
   el.addEventListener('click', ()=> selectBook(b.ncode));
   shelf.appendChild(el);
@@ -667,6 +662,7 @@ function selectBook(ncode){
         <div style="font-size:12.5px;color:var(--plum-soft);margin-top:12px;max-width:600px;line-height:1.7;">${b.mood}</div>
       </div>
       <div class="detail-metrics">
+        ${b.hourly ? `<div class="metric"><div class="m-val">${sum(b.hourly.today).toLocaleString()}</div><div class="m-lab">本日PV（なろう）</div></div>` : ''}
         <div class="metric"><div class="m-val">${weekTotal(b).toLocaleString()}</div><div class="m-lab">7日間PV（なろう）</div></div>
         <div class="metric"><div class="m-val">${b.unique.toLocaleString()}</div><div class="m-lab">ユニークアクセス（なろう）</div></div>
         ${b.narouStats ? `<div class="metric"><div class="m-val">${(b.narouStats.bookmarks ?? 0).toLocaleString()}</div><div class="m-lab">ブックマーク（なろう）</div></div>` : ''}

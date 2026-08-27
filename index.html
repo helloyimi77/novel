@@ -69,18 +69,27 @@ body{
 
 /* ---------- Bookshelf ---------- */
 .shelf{
-  display:flex; align-items:flex-start; gap:14px; margin-bottom:52px; padding:26px 22px 18px;
+  position:relative; margin-bottom:52px; padding:26px 22px 18px;
   background:linear-gradient(180deg, rgba(255,255,255,0.5), transparent 40%), var(--panel);
   border-radius:14px; border:1px solid var(--panel-line);
-  position:relative; box-shadow:0 6px 20px -14px rgba(74,46,60,0.3);
+  box-shadow:0 6px 20px -14px rgba(74,46,60,0.3);
 }
 .shelf::after{
   content:''; position:absolute; left:16px; right:16px; bottom:12px; height:6px;
   background:linear-gradient(180deg, var(--gold-soft), var(--gold)); border-radius:3px;
-  box-shadow:0 4px 10px rgba(191,154,94,0.35);
+  box-shadow:0 4px 10px rgba(191,154,94,0.35); pointer-events:none;
 }
+.shelf-scroll{
+  display:flex; align-items:flex-start; gap:16px;
+  overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity;
+  padding-bottom:2px; -webkit-overflow-scrolling:touch;
+}
+.shelf-scroll::-webkit-scrollbar{ height:8px; }
+.shelf-scroll::-webkit-scrollbar-thumb{ background:var(--gold); border-radius:4px; }
+.shelf-scroll::-webkit-scrollbar-track{ background:transparent; }
 .spine{
-  flex:1; min-width:0; cursor:pointer; border:none; text-align:left;
+  flex:0 0 200px; width:200px; scroll-snap-align:start;
+  cursor:pointer; border:none; text-align:left;
   color:#FFF8F9; border-radius:8px; overflow:hidden;
   padding:0; position:relative; z-index:1; display:block;
   transition:transform 0.25s ease, box-shadow 0.25s ease;
@@ -268,8 +277,7 @@ body{
 .foot-note{ margin-top:40px; font-size:11px; color:var(--plum-soft); text-align:center; line-height:1.8; }
 
 @media (max-width:880px){
-  .shelf{ flex-wrap:wrap; }
-  .spine{ min-width:120px; flex:1 1 40%; }
+  .spine{ flex-basis:150px; width:150px; }
   .chart-area{ grid-template-columns:1fr; }
   .compare-row{ grid-template-columns:1fr; gap:6px; }
   .compare-row .val{ text-align:left; }
@@ -296,7 +304,7 @@ body{
     <span class="en">Tap a spine to inspect</span>
   </div>
 
-  <div class="shelf" id="shelf"></div>
+  <div class="shelf"><div class="shelf-scroll" id="shelf"></div></div>
 
   <div class="detail" id="detail"></div>
 

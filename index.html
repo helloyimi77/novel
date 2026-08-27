@@ -206,6 +206,21 @@ body{
 .naro-history-head{ display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; margin-bottom:4px;}
 .naro-history-head .rt-label{ font-size:11px; color:var(--plum-soft); }
 .naro-history-note{ font-size:10.5px; color:var(--text-dim); margin-bottom:10px; }
+
+/* ---------- ranking history ---------- */
+.rank-history{ margin-top:26px; padding-top:24px; border-top:1px dashed var(--cream-line); }
+.rank-history-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px;}
+.rank-history-head .rt-label{ font-size:11px; color:var(--plum-soft); }
+.rank-list{ display:flex; flex-direction:column; gap:8px; max-height:280px; overflow-y:auto; }
+.rank-row{
+  display:grid; grid-template-columns: 78px 1fr 56px 22px; align-items:center; gap:10px;
+  font-size:11.5px; padding:6px 8px; border-radius:6px; background:var(--bg-2);
+}
+.rank-row .rk-date{ color:var(--plum-soft); font-size:10.5px; white-space:nowrap; }
+.rank-row .rk-label{ color:var(--plum); }
+.rank-row .rk-label .rk-note{ display:block; font-size:9.5px; color:var(--plum-soft); margin-top:1px; }
+.rank-row .rk-rank{ font-family:'Shippori Mincho', serif; font-weight:700; color:var(--rose-deep); text-align:right; white-space:nowrap; }
+.rank-row .rk-source{ font-size:11px; text-align:center; opacity:0.7; }
 .naro-history svg{ width:100%; height:140px; display:block; }
 
 /* ---------- daily heatmap table ---------- */
@@ -722,6 +737,22 @@ function selectBook(ncode){
         <div class="rt-meta">集計開始 ${b.kakuyomu.periodStart} 〜　累計 <b>${b.kakuyomu.totalPv.toLocaleString()}PV</b></div>
       </div>
       ${renderRetentionChart(b.kakuyomu.episodes)}
+    </div>` : ''}
+    ${b.rankHistory && b.rankHistory.length ? `
+    <div class="rank-history">
+      <div class="rank-history-head">
+        <div class="rt-label">ランクイン履歴（🤖=自動検知・上位300位以内　✍️=手動記録）</div>
+      </div>
+      <div class="rank-list">
+        ${b.rankHistory.map(h => `
+          <div class="rank-row">
+            <div class="rk-date">${h.date}</div>
+            <div class="rk-label">${h.label}${h.note ? `<span class="rk-note">${h.note}</span>` : ''}</div>
+            <div class="rk-rank">${h.rank}位</div>
+            <div class="rk-source">${h.source==='auto' ? '🤖' : '✍️'}</div>
+          </div>
+        `).join('')}
+      </div>
     </div>` : ''}
   `;
 }

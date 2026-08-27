@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年08月28日 00:45 時点（自動取得）";
+const LAST_UPDATED = "2026年08月28日 00:42 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -122,9 +122,9 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051605598995685",
-      totalPv: 3208,
+      totalPv: 3207,
       periodStart: "2026-08-06",
-      episodes: [150, 104, 104, 112, 139, 140, 91, 80, 82, 92, 83, 86, 86, 100, 74, 77, 82, 76, 72, 70, 69, 78, 97, 67, 53, 61, 55, 50, 50, 42, 49, 35, 55, 41, 41, 39, 52, 33, 31, 32, 28, 30, 36, 25, 28, 30, 28, 26, 25, 22],
+      episodes: [150, 104, 104, 112, 139, 140, 91, 80, 82, 92, 83, 86, 86, 100, 74, 77, 82, 76, 72, 70, 69, 78, 97, 67, 53, 61, 55, 50, 50, 42, 49, 35, 55, 41, 41, 39, 52, 33, 31, 32, 28, 30, 36, 25, 28, 30, 28, 26, 25, 21],
       followers: 14,
       reviewAvg: null,
       reviewCount: 0,
@@ -228,5 +228,32 @@ const BOOKS = [
     naroEpisodeCumulative: [24, 20, 20, 20, 17, 17, 18, 14, 17, 16, 16, 25, 23, 17, 22, 15, 17, 14, 15, 17, 20, 20, 19, 16, 18, 21, 19, 15, 18, 18, 17, 18, 22, 19, 15, 19, 17, 18, 18, 20, 24],
     naroDailyHistory: [{ d: "8/13", pv: 101 }, { d: "8/14", pv: 241 }, { d: "8/15", pv: 107 }, { d: "8/16", pv: 46 }, { d: "8/17", pv: 98 }, { d: "8/18", pv: 94 }, { d: "8/19", pv: 11 }, { d: "8/20", pv: 37 }, { d: "8/21", pv: 28 }, { d: "8/22", pv: 23 }, { d: "8/23", pv: 22 }, { d: "8/24", pv: 16 }, { d: "8/25", pv: 34 }, { d: "8/26", pv: 11 }, { d: "8/27", pv: 14 }, { d: "8/28", pv: 0 }],
     rankHistory: [{ date: "2026-08-18", label: "なろう 週間・歴史〔文芸〕(完結済)", rank: 97, note: "8/18 04-07時", source: "manual" }, { date: "2026-08-17", label: "なろう 週間・歴史〔文芸〕(完結済)", rank: 89, note: "8/17 04-07時", source: "manual" }, { date: "2026-08-16", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 39, note: "8/16 04-07時", source: "manual" }, { date: "2026-08-16", label: "なろう 週間・歴史〔文芸〕(完結済)", rank: 95, note: "8/16 04-07時", source: "manual" }, { date: "2026-08-15", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 82, note: "8/15 04-07時", source: "manual" }, { date: "2026-08-15", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 19, note: "8/15 11-12時（最高順位）", source: "manual" }, { date: "2026-08-15", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 21, note: "8/15 18-19時", source: "manual" }],
+  },
+  {
+    ncode: "n9252mq",
+    title: "黒うさぎは聞いている ～地味すぎると婚約を解消された伯爵令嬢ですが、声の違和感を聞き分ける力を王弟殿下に見つけられました～",
+    shortTitle: "黒うさぎは聞いている",
+    status: "ongoing",
+    prerelease: true,
+    releaseDate: "2026-08-29",
+    genre: "女性向け",
+    order: 6,
+    cover: "covers/n9252mq.jpg",
+    episodes: 0,
+    tags: ["異世界ファンタジー", "逆転", "溺愛", "身分差恋愛", "全50話予約済", "配信前"],
+    mood: "誰にも見向きされず「黒うさぎ」と嘲笑われた伯爵令嬢エリーズ。声のわずかな違和感を聞き分ける異能を、婚約者に見限られた日に王弟だけが見出す、逆転ラブストーリー。",
+    week: [],
+    unique: 0, pc: 0, sp: 0, app: 0,
+    narouStats: { bookmarks: 0, globalPoint: 0, weeklyPoint: 0, reviewCnt: 0, impressionCnt: 0, ratingAvg: null, ratingCnt: 0 },
+    hot: false, note: "配信開始予定: 2026-08-29",
+    kakuyomu: {
+      workId: "2912051607094832439",
+      totalPv: 0, periodStart: "", episodes: [],
+      followers: 0, reviewAvg: null, reviewCount: 0, comments: 0, cheers: 0,
+    },
+    hourly: { todayDate: "", yesterdayDate: "", today: [], yesterday: [] },
+    naroEpisodeCumulative: [],
+    naroDailyHistory: [],
+    rankHistory: [],
   },
 ];

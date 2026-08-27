@@ -111,6 +111,7 @@ body{
 }
 .badge.ongoing{ background:rgba(0,0,0,0.45); color:#FFF; border:1px solid rgba(255,255,255,0.5); backdrop-filter:blur(2px); }
 .badge.done{ background:rgba(255,255,255,0.9); color:var(--gold); border:1px solid rgba(191,154,94,0.5); font-weight:600;}
+.badge.prerelease{ background:rgba(74,46,60,0.85); color:#F0E6EA; border:1px solid rgba(240,230,234,0.4); font-weight:600;}
 .badge.hot{
   position:absolute; top:-11px; left:50%; transform:translateX(-50%);
   background:var(--rose-deep); color:#fff; font-size:9px; padding:3px 9px; border-radius:10px;
@@ -363,7 +364,7 @@ BOOKS.forEach((b)=>{
   el.dataset.book = b.ncode;
   el.innerHTML = `
     ${b.cover ? `<img class="cover-img" src="${b.cover}" alt="${b.shortTitle}">` : ''}
-    ${b.hot ? `<div class="badge hot">急上昇</div>` : `<div class="badge ${b.status==='done'?'done':'ongoing'}">${b.status==='done'?'完結済み':'連載中'}</div>`}
+    ${b.prerelease ? `<div class="badge prerelease">配信前</div>` : b.hot ? `<div class="badge hot">急上昇</div>` : `<div class="badge ${b.status==='done'?'done':'ongoing'}">${b.status==='done'?'完結済み':'連載中'}</div>`}
     ${b.genre ? `<div class="genre-badge ${genreClass(b.genre)}">${b.genre}</div>` : ''}
     ${b.order ? `<div class="order-badge">${b.order}</div>` : ''}
     ${!b.cover ? `<div class="cover-fallback"><div class="title-vert">${b.shortTitle}</div></div>` : ''}
@@ -711,7 +712,7 @@ function selectBook(ncode){
       <div class="naro-history-note">※確定済みの日は永続キャッシュに保存し、直近2日だけ毎回ライブ取得しています（直近日=ローズ色）</div>
       ${renderNaroHistoryChart(b.naroDailyHistory)}
     </div>` : ''}
-    ${b.hourly ? `
+    ${b.hourly && b.hourly.today.length ? `
     <div class="hourly-block">
       <div class="hourly-head">
         <div class="rt-label">時間帯別PV（なろう・0〜23時）</div>
@@ -730,7 +731,7 @@ function selectBook(ncode){
       <div class="naro-daily-note">※直近2日は集計未確定のため含まれません。カクヨムの読了カーブとは別サイト・別読者層の累計です</div>
       ${renderNaroCumulativeChart(b.naroEpisodeCumulative)}
     </div>` : ''}
-    ${b.kakuyomu ? `
+    ${b.kakuyomu && b.kakuyomu.episodes.length ? `
     <div class="retention">
       <div class="retention-head">
         <div class="rt-label">話数別 累計PV（カクヨム・読了カーブ）全${b.kakuyomu.episodes.length}話</div>

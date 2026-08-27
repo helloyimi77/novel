@@ -505,6 +505,44 @@ def js_string(s):
     return json.dumps(s, ensure_ascii=False)
 
 
+def render_prerelease_book(book):
+    """
+    配信前の作品用のスタブ。実際のスクレイピングは一切行わず、
+    タイトル・書影・ジャンルだけ表示して、数値は全部0にする。
+    """
+    tags = list(book.get("tags", []))
+    if "配信前" not in tags:
+        tags.append("配信前")
+    release_note = f"配信開始予定: {book.get('releaseDate', '未定')}"
+    return f"""  {{
+    ncode: {js_string(book["ncode"])},
+    title: {js_string(book["title"])},
+    shortTitle: {js_string(book["shortTitle"])},
+    status: {js_string(book.get("status", "ongoing"))},
+    prerelease: true,
+    releaseDate: {js_string(book.get("releaseDate", ""))},
+    genre: {js_string(book.get("genre", ""))},
+    order: {book.get("order", 99)},
+    cover: {js_string(book.get("cover", ""))},
+    episodes: 0,
+    tags: [{", ".join(js_string(t) for t in tags)}],
+    mood: {js_string(book["mood"])},
+    week: [],
+    unique: 0, pc: 0, sp: 0, app: 0,
+    narouStats: {{ bookmarks: 0, globalPoint: 0, weeklyPoint: 0, reviewCnt: 0, impressionCnt: 0, ratingAvg: null, ratingCnt: 0 }},
+    hot: false, note: {js_string(release_note)},
+    kakuyomu: {{
+      workId: {js_string(book["kakuyomuId"])},
+      totalPv: 0, periodStart: "", episodes: [],
+      followers: 0, reviewAvg: null, reviewCount: 0, comments: 0, cheers: 0,
+    }},
+    hourly: {{ todayDate: "", yesterdayDate: "", today: [], yesterday: [] }},
+    naroEpisodeCumulative: [],
+    naroDailyHistory: [],
+    rankHistory: [],
+  }},"""
+
+
 def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_extra, rank_history):
     week_lines = ", ".join(
         f'{{ d: {js_string(w["d"])}, pv: {w["pv"]} }}' for w in kasasagi["week"]
@@ -607,6 +645,10 @@ def main():
 
     for book in config["books"]:
         ncode = book["ncode"]
+        if book.get("prerelease"):
+            rendered_books.append(render_prerelease_book(book))
+            print(f"SKIP (配信前): {ncode}", file=sys.stderr)
+            continue
         try:
             kasasagi = parse_kasasagi(ncode)
             time.sleep(1)

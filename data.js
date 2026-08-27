@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年08月28日 00:42 時点（自動取得）";
+const LAST_UPDATED = "2026年08月28日 00:52 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -122,9 +122,9 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051605598995685",
-      totalPv: 3207,
+      totalPv: 3208,
       periodStart: "2026-08-06",
-      episodes: [150, 104, 104, 112, 139, 140, 91, 80, 82, 92, 83, 86, 86, 100, 74, 77, 82, 76, 72, 70, 69, 78, 97, 67, 53, 61, 55, 50, 50, 42, 49, 35, 55, 41, 41, 39, 52, 33, 31, 32, 28, 30, 36, 25, 28, 30, 28, 26, 25, 21],
+      episodes: [150, 104, 104, 112, 139, 140, 91, 80, 82, 92, 83, 86, 86, 100, 74, 77, 82, 76, 72, 70, 69, 78, 97, 67, 53, 61, 55, 50, 50, 42, 49, 35, 55, 41, 41, 39, 52, 33, 31, 32, 28, 30, 36, 25, 28, 30, 28, 26, 25, 22],
       followers: 14,
       reviewAvg: null,
       reviewCount: 0,
@@ -248,6 +248,33 @@ const BOOKS = [
     hot: false, note: "配信開始予定: 2026-08-29",
     kakuyomu: {
       workId: "2912051607094832439",
+      totalPv: 0, periodStart: "", episodes: [],
+      followers: 0, reviewAvg: null, reviewCount: 0, comments: 0, cheers: 0,
+    },
+    hourly: { todayDate: "", yesterdayDate: "", today: [], yesterday: [] },
+    naroEpisodeCumulative: [],
+    naroDailyHistory: [],
+    rankHistory: [],
+  },
+  {
+    ncode: "pending-idol5",
+    title: "売れない5人組アイドルで人気4位の私ですが、芝居になった瞬間だけ別人になるらしいです ～ドラマに出たら女優への道が開けました。でも、この5人でも売れたいんです～",
+    shortTitle: "売れない5人組アイドルで人気4位の私ですが",
+    status: "ongoing",
+    prerelease: true,
+    releaseDate: "",
+    genre: "女性向け",
+    order: 7,
+    cover: "covers/idol5-pending.jpg",
+    episodes: 0,
+    tags: ["現代", "アイドル", "芸能界", "女優", "お仕事", "成長", "青春", "配信前"],
+    mood: "人気4位の私、芝居になると別人らしい。女優も、この5人も絶対諦めない。5人組アイドル「Lumière cinq」の桜井陽葵が、演技の才能をきっかけに女優への道を見出していく、お仕事×青春×芸能界ストーリー。",
+    week: [],
+    unique: 0, pc: 0, sp: 0, app: 0,
+    narouStats: { bookmarks: 0, globalPoint: 0, weeklyPoint: 0, reviewCnt: 0, impressionCnt: 0, ratingAvg: null, ratingCnt: 0 },
+    hot: false, note: "配信開始予定: ",
+    kakuyomu: {
+      workId: "2912051607177270165",
       totalPv: 0, periodStart: "", episodes: [],
       followers: 0, reviewAvg: null, reviewCount: 0, comments: 0, cheers: 0,
     },

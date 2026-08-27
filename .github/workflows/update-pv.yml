@@ -31,8 +31,8 @@ jobs:
         run: |
           git config user.name "pv-dashboard-bot"
           git config user.email "actions@users.noreply.github.com"
-          if ! git diff --quiet -- data.js scripts/naro_episode_cache.json scripts/naro_daily_pv_cache.json scripts/kakuyomu_stats_cache.json; then
-            git add data.js scripts/naro_episode_cache.json scripts/naro_daily_pv_cache.json scripts/kakuyomu_stats_cache.json
+          if ! git diff --quiet -- data.js scripts/naro_episode_cache.json scripts/naro_daily_pv_cache.json scripts/kakuyomu_stats_cache.json scripts/rankings_auto.json; then
+            git add data.js scripts/naro_episode_cache.json scripts/naro_daily_pv_cache.json scripts/kakuyomu_stats_cache.json scripts/rankings_auto.json
             git commit -m "chore: auto-update PV data ($(date -u +'%Y-%m-%d %H:%M UTC'))"
             # 手動pushとの競合を避けるため、pushする前に最新を取り込んでリベース。
             # 最大3回まで再試行する（うまくいかない時は次回の実行に任せる）。

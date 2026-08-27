@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年08月28日 01:01 時点（自動取得）";
+const LAST_UPDATED = "2026年08月28日 00:59 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -257,22 +257,22 @@ const BOOKS = [
     rankHistory: [],
   },
   {
-    ncode: "pending-idol5",
+    ncode: "n0539mr",
     title: "売れない5人組アイドルで人気4位の私ですが、芝居になった瞬間だけ別人になるらしいです ～ドラマに出たら女優への道が開けました。でも、この5人でも売れたいんです～",
     shortTitle: "売れない5人組アイドルで人気4位の私ですが",
     status: "ongoing",
     prerelease: true,
-    releaseDate: "",
+    releaseDate: "2026-09-12",
     genre: "女性向け",
     order: 7,
-    cover: "covers/idol5-pending.jpg",
+    cover: "covers/n0539mr.jpg",
     episodes: 0,
     tags: ["現代", "アイドル", "芸能界", "女優", "お仕事", "成長", "青春", "配信前"],
     mood: "人気4位の私、芝居になると別人らしい。女優も、この5人も絶対諦めない。5人組アイドル「Lumière cinq」の桜井陽葵が、演技の才能をきっかけに女優への道を見出していく、お仕事×青春×芸能界ストーリー。",
     week: [],
     unique: 0, pc: 0, sp: 0, app: 0,
     narouStats: { bookmarks: 0, globalPoint: 0, weeklyPoint: 0, reviewCnt: 0, impressionCnt: 0, ratingAvg: null, ratingCnt: 0 },
-    hot: false, note: "配信開始予定: ",
+    hot: false, note: "配信開始予定: 2026-09-12",
     kakuyomu: {
       workId: "2912051607177270165",
       totalPv: 0, periodStart: "", episodes: [],

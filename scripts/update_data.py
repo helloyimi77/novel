@@ -124,6 +124,98 @@ def fetch_narou_api_stats(ncodes):
     return result
 
 
+RANKINGS_AUTO_PATH = "scripts/rankings_auto.json"
+RANKINGS_MANUAL_PATH = "rankings_manual.json"
+
+
+def fetch_narou_top300(rtype):
+    """
+    なろう公式ランキングAPIから、指定rtype（例: '20260826-d'）の上位300位を取得。
+    戻り値: {ncode(小文字): {rank, pt}}
+    上位300位以内に入っていない作品は含まれない（このAPIの仕様上の上限）。
+    """
+    url = f"https://api.syosetu.com/rank/rankget/?rtype={rtype}&out=json"
+    r = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
+    r.raise_for_status()
+    rows = r.json()
+    return {row["ncode"].lower(): {"rank": row["rank"], "pt": row["pt"]} for row in rows}
+
+
+def check_and_record_rankings(ncodes, auto_cache):
+    """
+    なろうの日間・週間・月間ランキング（上位300位以内のみ検知可能）をチェックし、
+    ランクインしていた作品があれば auto_cache に記録する（同日同種別の重複は追加しない）。
+    週間・月間は集計日が決まっているため、直近の妥当な集計日で試す。
+    """
+    today = datetime.now(JST).date()
+    candidates = []
+    # 日間: 前日分（当日分はまだ確定していない）
+    candidates.append((today - timedelta(days=1), "d", "日間"))
+    # 週間: 直近の火曜日（なろうの週間ランキングAPIは火曜日付のみ受け付ける）
+    days_since_tue = (today.weekday() - 1) % 7
+    last_tuesday = today - timedelta(days=days_since_tue)
+    candidates.append((last_tuesday, "w", "週間"))
+    # 月間: 今月1日
+    candidates.append((today.replace(day=1), "m", "月間"))
+
+    for date_obj, code, label in candidates:
+        date_str = date_obj.strftime("%Y%m%d")
+        rtype = f"{date_str}-{code}"
+        try:
+            top300 = fetch_narou_top300(rtype)
+        except Exception as e:
+            print(f"  ranking fetch failed ({rtype}): {e}", file=sys.stderr)
+            continue
+        for ncode in ncodes:
+            entry = top300.get(ncode.lower())
+            if not entry:
+                continue
+            book_history = auto_cache.setdefault(ncode.lower(), [])
+            dup = any(
+                h["date"] == date_obj.isoformat() and h["type"] == label
+                for h in book_history
+            )
+            if not dup:
+                book_history.append({
+                    "date": date_obj.isoformat(),
+                    "type": label,
+                    "rank": entry["rank"],
+                    "pt": entry["pt"],
+                    "source": "auto",
+                })
+                print(f"  ランクイン検知: {ncode} {label} {entry['rank']}位", file=sys.stderr)
+
+
+def load_manual_rankings():
+    """
+    rankings_manual.json（手動で追記していくランキング履歴）を読み込む。
+    形式: { "ncode": [ {date, label, rank, note}, ... ], ... }
+    ファイルが無ければ空辞書。
+    """
+    try:
+        with open(RANKINGS_MANUAL_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+
+def build_rank_history(ncode, auto_cache, manual_rankings):
+    """自動記録＋手動記録をまとめて日付降順にした配列を返す"""
+    history = []
+    for h in auto_cache.get(ncode.lower(), []):
+        history.append({
+            "date": h["date"], "label": h["type"], "rank": h["rank"],
+            "note": f"{h['pt']}pt", "source": "auto",
+        })
+    for h in manual_rankings.get(ncode, []):
+        history.append({
+            "date": h["date"], "label": h["label"], "rank": h["rank"],
+            "note": h.get("note", ""), "source": "manual",
+        })
+    history.sort(key=lambda h: h["date"], reverse=True)
+    return history
+
+
 KAKUYOMU_STATS_CACHE_PATH = "scripts/kakuyomu_stats_cache.json"
 
 
@@ -413,7 +505,7 @@ def js_string(s):
     return json.dumps(s, ensure_ascii=False)
 
 
-def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_extra):
+def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_extra, rank_history):
     week_lines = ", ".join(
         f'{{ d: {js_string(w["d"])}, pv: {w["pv"]} }}' for w in kasasagi["week"]
     )
@@ -482,6 +574,10 @@ def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_e
     }},
     naroEpisodeCumulative: [{naro_ep_line}],
     naroDailyHistory: [{naro_hist_line}],
+    rankHistory: [{", ".join(
+        f'{{ date: {js_string(h["date"])}, label: {js_string(h["label"])}, rank: {h["rank"]}, note: {js_string(h["note"])}, source: {js_string(h["source"])} }}'
+        for h in rank_history
+    )}],
   }},"""
 
 
@@ -501,6 +597,13 @@ def main():
     except Exception as e:
         print(f"WARNING: narou API stats fetch failed entirely: {e}", file=sys.stderr)
         narou_api_stats = {}
+
+    rankings_auto = load_json_cache(RANKINGS_AUTO_PATH)
+    try:
+        check_and_record_rankings(all_ncodes, rankings_auto)
+    except Exception as e:
+        print(f"WARNING: ranking check failed entirely: {e}", file=sys.stderr)
+    manual_rankings = load_manual_rankings()
 
     for book in config["books"]:
         ncode = book["ncode"]
@@ -523,7 +626,8 @@ def main():
                 }
             kakuyomu.update(kakuyomu_stats)
             narou_extra = narou_api_stats.get(ncode.lower(), {})
-            rendered_books.append(render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_extra))
+            rank_history = build_rank_history(ncode, rankings_auto, manual_rankings)
+            rendered_books.append(render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_extra, rank_history))
             print(f"OK: {ncode}", file=sys.stderr)
         except Exception as e:
             had_error = True
@@ -533,6 +637,7 @@ def main():
     save_cache(cache)
     save_json_cache(DAILY_CACHE_PATH, daily_cache)
     save_json_cache(KAKUYOMU_STATS_CACHE_PATH, kakuyomu_stats_cache)
+    save_json_cache(RANKINGS_AUTO_PATH, rankings_auto)
 
     now = datetime.now(JST)
     last_updated = now.strftime("%Y年%m月%d日 %H:%M 時点（自動取得）")

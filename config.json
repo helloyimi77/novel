@@ -82,7 +82,7 @@
       "status": "ongoing",
       "genre": "女性向け",
       "order": 7,
-      "prerelease": true,
+      "prerelease": false,
       "releaseDate": "2026-08-28",
       "cover": "covers/n0539mr.jpg",
       "tags": ["現代", "アイドル", "芸能界", "女優", "お仕事", "成長", "青春"],

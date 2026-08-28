@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年08月28日 17:30 時点（自動取得）";
+const LAST_UPDATED = "2026年08月28日 17:36 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -78,9 +78,9 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051606200900458",
-      totalPv: 577,
+      totalPv: 578,
       periodStart: "2026-08-14",
-      episodes: [51, 41, 38, 27, 27, 29, 24, 19, 15, 15, 16, 10, 14, 24, 14, 14, 13, 12, 10, 9, 9, 9, 9, 8, 8, 6, 9, 7, 7, 12, 7, 8, 8, 6, 5, 6, 5, 4, 2, 1, 3, 4, 3, 1, 1, 4, 3, 0],
+      episodes: [51, 41, 38, 27, 27, 29, 24, 19, 15, 15, 16, 10, 14, 24, 14, 14, 13, 12, 10, 9, 9, 9, 9, 8, 8, 6, 9, 7, 7, 12, 7, 8, 8, 6, 5, 6, 5, 5, 2, 1, 3, 4, 3, 1, 1, 4, 3, 0],
       followers: 6,
       reviewAvg: 3.0,
       reviewCount: 1,
@@ -122,9 +122,9 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051605598995685",
-      totalPv: 3255,
+      totalPv: 3256,
       periodStart: "2026-08-06",
-      episodes: [153, 107, 107, 115, 142, 143, 93, 82, 84, 94, 84, 87, 87, 101, 75, 78, 83, 77, 73, 71, 70, 79, 98, 68, 54, 62, 56, 51, 51, 43, 49, 35, 55, 41, 41, 39, 52, 33, 31, 32, 28, 30, 36, 25, 28, 30, 28, 26, 25, 23],
+      episodes: [153, 107, 107, 115, 142, 143, 93, 82, 84, 94, 84, 87, 87, 101, 75, 78, 83, 77, 73, 71, 70, 79, 98, 68, 54, 62, 56, 51, 51, 43, 50, 35, 55, 41, 41, 39, 52, 33, 31, 32, 28, 30, 36, 25, 28, 30, 28, 26, 25, 23],
       followers: 14,
       reviewAvg: null,
       reviewCount: 0,
@@ -261,26 +261,43 @@ const BOOKS = [
     title: "売れない5人組アイドルで人気4位の私ですが、芝居になった瞬間だけ別人になるらしいです ～ドラマに出たら女優への道が開けました。でも、この5人でも売れたいんです～",
     shortTitle: "売れない5人組アイドルで人気4位の私ですが",
     status: "ongoing",
-    prerelease: true,
-    releaseDate: "2026-08-28",
     genre: "女性向け",
     order: 7,
     cover: "covers/n0539mr.jpg",
-    episodes: 0,
-    tags: ["現代", "アイドル", "芸能界", "女優", "お仕事", "成長", "青春", "配信前"],
+    episodes: 1,
+    tags: ["現代", "アイドル", "芸能界", "女優", "お仕事", "成長", "青春", "急上昇"],
     mood: "人気4位の私、芝居になると別人らしい。女優も、この5人も絶対諦めない。5人組アイドル「Lumière cinq」の桜井陽葵が、演技の才能をきっかけに女優への道を見出していく、お仕事×青春×芸能界ストーリー。",
-    week: [],
-    unique: 0, pc: 0, sp: 0, app: 0,
-    narouStats: { bookmarks: 0, globalPoint: 0, weeklyPoint: 0, reviewCnt: 0, impressionCnt: 0, ratingAvg: null, ratingCnt: 0 },
-    hot: false, note: "配信開始予定: 2026-08-28",
+    week: [{ d: "8/22", pv: 0 }, { d: "8/23", pv: 0 }, { d: "8/24", pv: 0 }, { d: "8/25", pv: 0 }, { d: "8/26", pv: 0 }, { d: "8/27", pv: 0 }, { d: "8/28", pv: 17 }],
+    unique: 0, pc: 17, sp: 0, app: 0,
+    narouStats: {
+      bookmarks: 0,
+      globalPoint: 0,
+      weeklyPoint: 0,
+      reviewCnt: 0,
+      impressionCnt: 0,
+      ratingAvg: null,
+      ratingCnt: 0,
+    },
+    hot: true, note: "直近平均の2.5倍を超えるPVを検出（自動判定。要因は個別に確認してください）",
     kakuyomu: {
       workId: "2912051607177270165",
-      totalPv: 0, periodStart: "", episodes: [],
-      followers: 0, reviewAvg: null, reviewCount: 0, comments: 0, cheers: 0,
+      totalPv: 1,
+      periodStart: "2026-08-28",
+      episodes: [1],
+      followers: 1,
+      reviewAvg: null,
+      reviewCount: 0,
+      comments: 0,
+      cheers: 0,
     },
-    hourly: { todayDate: "", yesterdayDate: "", today: [], yesterday: [] },
+    hourly: {
+      todayDate: "08/28",
+      yesterdayDate: "08/27",
+      today:     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 2, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0],
+      yesterday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    },
     naroEpisodeCumulative: [],
-    naroDailyHistory: [],
+    naroDailyHistory: [{ d: "8/27", pv: 0 }, { d: "8/28", pv: 17 }],
     rankHistory: [],
   },
 ];

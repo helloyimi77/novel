@@ -691,7 +691,8 @@ function selectBook(ncode){
       <div class="detail-metrics">
         ${b.hourly ? `<div class="metric"><div class="m-val">${sum(b.hourly.today).toLocaleString()}</div><div class="m-lab">本日PV（なろう）</div></div>` : ''}
         <div class="metric"><div class="m-val">${weekTotal(b).toLocaleString()}</div><div class="m-lab">7日間PV（なろう）</div></div>
-        <div class="metric"><div class="m-val">${b.unique.toLocaleString()}</div><div class="m-lab">ユニークアクセス（なろう）</div></div>
+        ${b.naroDailyHistory && b.naroDailyHistory.length ? `<div class="metric"><div class="m-val">${sum(b.naroDailyHistory.map(h=>h.pv)).toLocaleString()}</div><div class="m-lab">累計PV（なろう・連載開始〜）</div></div>` : ''}
+        <div class="metric"><div class="m-val">${b.unique.toLocaleString()}</div><div class="m-lab">累計ユニークアクセス（なろう）</div></div>
         ${b.narouStats ? `<div class="metric"><div class="m-val">${(b.narouStats.bookmarks ?? 0).toLocaleString()}</div><div class="m-lab">ブックマーク（なろう）</div></div>` : ''}
         ${b.narouStats ? `<div class="metric"><div class="m-val">${(b.narouStats.globalPoint ?? 0).toLocaleString()}</div><div class="m-lab">総合ポイント（なろう）</div></div>` : ''}
         ${b.kakuyomu ? `<div class="metric"><div class="m-val">${b.kakuyomu.totalPv.toLocaleString()}</div><div class="m-lab">累計PV（カクヨム）</div></div>` : ''}

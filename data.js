@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年08月28日 11:31 時点（自動取得）";
+const LAST_UPDATED = "2026年08月28日 11:34 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -262,7 +262,7 @@ const BOOKS = [
     shortTitle: "売れない5人組アイドルで人気4位の私ですが",
     status: "ongoing",
     prerelease: true,
-    releaseDate: "2026-09-12",
+    releaseDate: "2026-08-28",
     genre: "女性向け",
     order: 7,
     cover: "covers/n0539mr.jpg",
@@ -272,7 +272,7 @@ const BOOKS = [
     week: [],
     unique: 0, pc: 0, sp: 0, app: 0,
     narouStats: { bookmarks: 0, globalPoint: 0, weeklyPoint: 0, reviewCnt: 0, impressionCnt: 0, ratingAvg: null, ratingCnt: 0 },
-    hot: false, note: "配信開始予定: 2026-09-12",
+    hot: false, note: "配信開始予定: 2026-08-28",
     kakuyomu: {
       workId: "2912051607177270165",
       totalPv: 0, periodStart: "", episodes: [],

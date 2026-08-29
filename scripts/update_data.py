@@ -645,7 +645,18 @@ def main():
 
     for book in config["books"]:
         ncode = book["ncode"]
-        if book.get("prerelease"):
+        # releaseDateが今日以前なら、config.jsonのprereleaseフラグを手で直さなくても
+        # 自動でスクレイピングを試みる（配信日を過ぎても取得できなければ従来通りFAILEDでスキップされる）
+        is_still_prerelease = book.get("prerelease")
+        release_date_str = book.get("releaseDate")
+        if is_still_prerelease and release_date_str:
+            try:
+                release_date = datetime.strptime(release_date_str, "%Y-%m-%d").date()
+                if release_date <= datetime.now(JST).date():
+                    is_still_prerelease = False
+            except ValueError:
+                pass
+        if is_still_prerelease:
             rendered_books.append(render_prerelease_book(book))
             print(f"SKIP (配信前): {ncode}", file=sys.stderr)
             continue

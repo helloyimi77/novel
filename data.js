@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年08月29日 15:31 時点（自動取得）";
+const LAST_UPDATED = "2026年08月29日 15:33 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -166,9 +166,9 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051605714849927",
-      totalPv: 1504,
+      totalPv: 1505,
       periodStart: "2026-08-07",
-      episodes: [77, 55, 54, 52, 44, 28, 31, 31, 81, 29, 50, 17, 17, 16, 15, 13, 14, 12, 12, 75, 13, 13, 11, 13, 36, 104, 94, 30, 31, 30, 68, 37, 19, 13, 11, 39, 18, 26, 45, 20, 16, 8, 7, 13, 42, 8, 6, 5, 2, 3],
+      episodes: [77, 55, 54, 52, 44, 28, 31, 31, 81, 29, 50, 17, 17, 16, 15, 13, 15, 12, 12, 75, 13, 13, 11, 13, 36, 104, 94, 30, 31, 30, 68, 37, 19, 13, 11, 39, 18, 26, 45, 20, 16, 8, 7, 13, 42, 8, 6, 5, 2, 3],
       followers: 9,
       reviewAvg: 3.0,
       reviewCount: 2,
@@ -234,26 +234,43 @@ const BOOKS = [
     title: "黒うさぎは聞いている ～地味すぎると婚約を解消された伯爵令嬢ですが、声の違和感を聞き分ける力を王弟殿下に見つけられました～",
     shortTitle: "黒うさぎは聞いている",
     status: "ongoing",
-    prerelease: true,
-    releaseDate: "2026-08-29",
     genre: "女性向け",
     order: 6,
     cover: "covers/n9265mq.jpg",
-    episodes: 0,
-    tags: ["異世界ファンタジー", "逆転", "溺愛", "身分差恋愛", "全50話予約済", "配信前"],
+    episodes: 1,
+    tags: ["異世界ファンタジー", "逆転", "溺愛", "身分差恋愛", "全50話予約済", "急上昇"],
     mood: "誰にも見向きされず「黒うさぎ」と嘲笑われた伯爵令嬢エリーズ。声のわずかな違和感を聞き分ける異能を、婚約者に見限られた日に王弟だけが見出す、逆転ラブストーリー。",
-    week: [],
-    unique: 0, pc: 0, sp: 0, app: 0,
-    narouStats: { bookmarks: 0, globalPoint: 0, weeklyPoint: 0, reviewCnt: 0, impressionCnt: 0, ratingAvg: null, ratingCnt: 0 },
-    hot: false, note: "配信開始予定: 2026-08-29",
+    week: [{ d: "8/23", pv: 0 }, { d: "8/24", pv: 0 }, { d: "8/25", pv: 0 }, { d: "8/26", pv: 0 }, { d: "8/27", pv: 0 }, { d: "8/28", pv: 0 }, { d: "8/29", pv: 27 }],
+    unique: 0, pc: 18, sp: 9, app: 0,
+    narouStats: {
+      bookmarks: 0,
+      globalPoint: 0,
+      weeklyPoint: 0,
+      reviewCnt: 0,
+      impressionCnt: 0,
+      ratingAvg: null,
+      ratingCnt: 0,
+    },
+    hot: true, note: "直近平均の2.5倍を超えるPVを検出（自動判定。要因は個別に確認してください）",
     kakuyomu: {
       workId: "2912051607094832439",
-      totalPv: 0, periodStart: "", episodes: [],
-      followers: 0, reviewAvg: null, reviewCount: 0, comments: 0, cheers: 0,
+      totalPv: 4,
+      periodStart: "2026-08-29",
+      episodes: [4],
+      followers: 2,
+      reviewAvg: null,
+      reviewCount: 0,
+      comments: 0,
+      cheers: 4,
     },
-    hourly: { todayDate: "", yesterdayDate: "", today: [], yesterday: [] },
+    hourly: {
+      todayDate: "08/29",
+      yesterdayDate: "08/28",
+      today:     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 13, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+      yesterday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    },
     naroEpisodeCumulative: [],
-    naroDailyHistory: [],
+    naroDailyHistory: [{ d: "8/28", pv: 0 }, { d: "8/29", pv: 27 }],
     rankHistory: [],
   },
   {

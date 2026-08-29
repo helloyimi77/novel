@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年08月29日 16:01 時点（自動取得）";
+const LAST_UPDATED = "2026年08月29日 15:59 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -57,7 +57,7 @@ const BOOKS = [
     ncode: "n4795mp",
     title: "毒の泉しかない土地に追放されましたが、あれ温泉なので大歓迎です ～前世が温泉オタクの令嬢、辺境で湯屋を作ります～",
     shortTitle: "毒の泉…あれ温泉なので大歓迎です",
-    status: "ongoing",
+    status: "done",
     genre: "女性向け",
     order: 4,
     cover: "covers/n4795mp.jpg",
@@ -95,7 +95,7 @@ const BOOKS = [
     },
     naroEpisodeCumulative: [149, 151, 156, 142, 124, 125, 109, 104, 86, 84, 93, 77, 81, 111, 85, 66, 76, 67, 73, 55, 55, 64, 50, 45, 47, 43, 40, 35, 36, 36, 27, 27, 36, 33, 34, 29, 27, 32, 29, 20, 29, 25, 22, 21, 17, 14, 7, 0, 0, 0],
     naroDailyHistory: [{ d: "8/14", pv: 170 }, { d: "8/15", pv: 175 }, { d: "8/16", pv: 248 }, { d: "8/17", pv: 303 }, { d: "8/18", pv: 248 }, { d: "8/19", pv: 276 }, { d: "8/20", pv: 251 }, { d: "8/21", pv: 268 }, { d: "8/22", pv: 252 }, { d: "8/23", pv: 253 }, { d: "8/24", pv: 295 }, { d: "8/25", pv: 371 }, { d: "8/26", pv: 418 }, { d: "8/27", pv: 366 }, { d: "8/28", pv: 1222 }, { d: "8/29", pv: 3001 }],
-    rankHistory: [{ date: "2026-08-28", label: "カクヨム 恋愛・週間", rank: 1728, note: "1744→1728", source: "manual" }, { date: "2026-08-26", label: "カクヨム 恋愛・週間", rank: 1746, note: "1924→1746、3時間で+160位の急伸", source: "manual" }, { date: "2026-08-23", label: "なろう 日間・異世界転生/転移〔恋愛〕(連載中)", rank: 225, note: "8/23 18-19時", source: "manual" }, { date: "2026-08-23", label: "カクヨム 恋愛・週間", rank: 1928, note: "ランクイン", source: "manual" }, { date: "2026-08-23", label: "カクヨム 恋愛・週間", rank: 1909, note: "1928→1909", source: "manual" }],
+    rankHistory: [{ date: "2026-08-29", label: "なろう 日間・総合(完結済)", rank: 171, note: "8/29 11-12時", source: "manual" }, { date: "2026-08-29", label: "なろう 日間・異世界転生/転移〔恋愛〕(すべて)", rank: 107, note: "8/29 11-12時", source: "manual" }, { date: "2026-08-29", label: "なろう 日間・異世界転生/転移〔恋愛〕(完結済)", rank: 38, note: "8/29 11-12時（最高順位）", source: "manual" }, { date: "2026-08-29", label: "なろう 日間・異世界転生/転移〔恋愛〕(すべて)", rank: 195, note: "8/29 04-07時", source: "manual" }, { date: "2026-08-29", label: "なろう 日間・異世界転生/転移〔恋愛〕(完結済)", rank: 79, note: "8/29 04-07時", source: "manual" }, { date: "2026-08-28", label: "カクヨム 恋愛・週間", rank: 1728, note: "1744→1728", source: "manual" }, { date: "2026-08-26", label: "カクヨム 恋愛・週間", rank: 1746, note: "1924→1746、3時間で+160位の急伸", source: "manual" }, { date: "2026-08-23", label: "なろう 日間・異世界転生/転移〔恋愛〕(連載中)", rank: 225, note: "8/23 18-19時", source: "manual" }, { date: "2026-08-23", label: "カクヨム 恋愛・週間", rank: 1928, note: "ランクイン", source: "manual" }, { date: "2026-08-23", label: "カクヨム 恋愛・週間", rank: 1909, note: "1928→1909", source: "manual" }],
   },
   {
     ncode: "n5913mo",
@@ -145,7 +145,7 @@ const BOOKS = [
     ncode: "n2451mp",
     title: "婚約破棄された結界令嬢が王都を去ったら、結界網が回らなくなりました ～もう誰かの穴埋めはしません。辺境伯と国を守る仕組みを作り直します～",
     shortTitle: "婚約破棄された結界令嬢が王都を去ったら",
-    status: "ongoing",
+    status: "done",
     genre: "女性向け",
     order: 3,
     cover: "covers/n2451mp.jpg",
@@ -257,7 +257,7 @@ const BOOKS = [
       totalPv: 4,
       periodStart: "2026-08-29",
       episodes: [4],
-      followers: 2,
+      followers: 1,
       reviewAvg: null,
       reviewCount: 0,
       comments: 0,

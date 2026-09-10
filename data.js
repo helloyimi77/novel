@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年09月10日 09:01 時点（自動取得）";
+const LAST_UPDATED = "2026年09月10日 09:16 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -254,14 +254,14 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051607094832439",
-      totalPv: 188,
+      totalPv: 192,
       periodStart: "2026-08-29",
-      episodes: [16, 8, 9, 7, 9, 12, 9, 7, 7, 6, 9, 7, 8, 8, 7, 3, 5, 5, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 5, 2, 1, 0],
+      episodes: [17, 9, 10, 8, 9, 12, 9, 7, 7, 6, 9, 7, 8, 8, 7, 3, 5, 5, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 5, 2, 1, 0],
       followers: 3,
       reviewAvg: null,
       reviewCount: 0,
       comments: 0,
-      cheers: 7,
+      cheers: 10,
     },
     hourly: {
       todayDate: "09/10",

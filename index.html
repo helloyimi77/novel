@@ -771,7 +771,12 @@ const DOW_JP = ['日','月','火','水','木','金','土'];
 function buildDateAxis(){
   const allDates = new Set();
   BOOKS.forEach(b => b.week.forEach(w => allDates.add(w.d)));
-  return Array.from(allDates).sort().map(d=>{
+  const sorted = Array.from(allDates).sort((a, b) => {
+    const [am, ad] = a.split('/').map(Number);
+    const [bm, bd] = b.split('/').map(Number);
+    return am - bm || ad - bd;
+  });
+  return sorted.map(d=>{
     const [mm, dd] = d.split('/').map(Number);
     const dow = new Date(YEAR, mm-1, dd).getDay();
     const cls = dow===6 ? 'dow-sat' : dow===0 ? 'dow-sun' : '';

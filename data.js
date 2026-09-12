@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年09月13日 06:16 時点（自動取得）";
+const LAST_UPDATED = "2026年09月13日 06:25 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -20,8 +20,8 @@ const BOOKS = [
     episodes: 24,
     tags: ["異世界", "ハイファンタジー", "新連載"],
     mood: "乗っ取った体で覚え直す文官の目線。乾いた現場感と静かな采配のお仕事もの。",
-    week: [{ d: "9/7", pv: 34 }, { d: "9/8", pv: 57 }, { d: "9/9", pv: 7 }, { d: "9/10", pv: 4 }, { d: "9/11", pv: 15 }, { d: "9/12", pv: 42 }, { d: "9/13", pv: 2 }],
-    unique: 450, pc: 108, sp: 53, app: 0,
+    week: [{ d: "9/7", pv: 34 }, { d: "9/8", pv: 57 }, { d: "9/9", pv: 7 }, { d: "9/10", pv: 4 }, { d: "9/11", pv: 15 }, { d: "9/12", pv: 42 }, { d: "9/13", pv: 3 }],
+    unique: 450, pc: 109, sp: 53, app: 0,
     narouStats: {
       bookmarks: 1,
       globalPoint: 12,
@@ -46,11 +46,11 @@ const BOOKS = [
     hourly: {
       todayDate: "09/13",
       yesterdayDate: "09/12",
-      today:     [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      today:     [0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       yesterday: [0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 0, 2, 1, 2, 1, 1, 1, 1, 3, 2, 2, 22, 0, 0],
     },
     naroEpisodeCumulative: [64, 53, 50, 42, 45, 39, 32, 38, 25, 30, 29, 20, 18, 16, 20, 17, 23, 12, 18, 14, 22, 10, 10, 9],
-    naroDailyHistory: [{ d: "8/20", pv: 24 }, { d: "8/21", pv: 29 }, { d: "8/22", pv: 40 }, { d: "8/23", pv: 17 }, { d: "8/24", pv: 34 }, { d: "8/25", pv: 45 }, { d: "8/26", pv: 52 }, { d: "8/27", pv: 54 }, { d: "8/28", pv: 29 }, { d: "8/29", pv: 33 }, { d: "8/30", pv: 42 }, { d: "9/1", pv: 24 }, { d: "9/2", pv: 60 }, { d: "9/3", pv: 40 }, { d: "9/4", pv: 33 }, { d: "9/5", pv: 55 }, { d: "9/6", pv: 79 }, { d: "9/7", pv: 34 }, { d: "9/8", pv: 57 }, { d: "9/9", pv: 7 }, { d: "9/10", pv: 4 }, { d: "9/11", pv: 15 }, { d: "9/12", pv: 42 }, { d: "9/13", pv: 2 }],
+    naroDailyHistory: [{ d: "8/20", pv: 24 }, { d: "8/21", pv: 29 }, { d: "8/22", pv: 40 }, { d: "8/23", pv: 17 }, { d: "8/24", pv: 34 }, { d: "8/25", pv: 45 }, { d: "8/26", pv: 52 }, { d: "8/27", pv: 54 }, { d: "8/28", pv: 29 }, { d: "8/29", pv: 33 }, { d: "8/30", pv: 42 }, { d: "9/1", pv: 24 }, { d: "9/2", pv: 60 }, { d: "9/3", pv: 40 }, { d: "9/4", pv: 33 }, { d: "9/5", pv: 55 }, { d: "9/6", pv: 79 }, { d: "9/7", pv: 34 }, { d: "9/8", pv: 57 }, { d: "9/9", pv: 7 }, { d: "9/10", pv: 4 }, { d: "9/11", pv: 15 }, { d: "9/12", pv: 42 }, { d: "9/13", pv: 3 }],
     rankHistory: [],
   },
   {
@@ -69,7 +69,7 @@ const BOOKS = [
     narouStats: {
       bookmarks: 27,
       globalPoint: 172,
-      weeklyPoint: 46,
+      weeklyPoint: 36,
       reviewCnt: 0,
       impressionCnt: 1,
       ratingAvg: 7.9,
@@ -245,7 +245,7 @@ const BOOKS = [
     narouStats: {
       bookmarks: 7,
       globalPoint: 34,
-      weeklyPoint: 18,
+      weeklyPoint: 4,
       reviewCnt: 0,
       impressionCnt: 0,
       ratingAvg: 10.0,
@@ -333,7 +333,7 @@ const BOOKS = [
     narouStats: {
       bookmarks: 3,
       globalPoint: 16,
-      weeklyPoint: 12,
+      weeklyPoint: 10,
       reviewCnt: 0,
       impressionCnt: 0,
       ratingAvg: 10.0,

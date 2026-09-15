@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年09月16日 05:16 時点（自動取得）";
+const LAST_UPDATED = "2026年09月16日 05:31 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -111,8 +111,8 @@ const BOOKS = [
     week: [{ d: "9/10", pv: 190 }, { d: "9/11", pv: 282 }, { d: "9/12", pv: 133 }, { d: "9/13", pv: 275 }, { d: "9/14", pv: 405 }, { d: "9/15", pv: 359 }, { d: "9/16", pv: 54 }],
     unique: 5955, pc: 556, sp: 1118, app: 24,
     narouStats: {
-      bookmarks: 38,
-      globalPoint: 196,
+      bookmarks: 37,
+      globalPoint: 194,
       weeklyPoint: 2,
       reviewCnt: 0,
       impressionCnt: 2,
@@ -287,8 +287,8 @@ const BOOKS = [
     week: [{ d: "9/10", pv: 68 }, { d: "9/11", pv: 81 }, { d: "9/12", pv: 111 }, { d: "9/13", pv: 77 }, { d: "9/14", pv: 36 }, { d: "9/15", pv: 51 }, { d: "9/16", pv: 19 }],
     unique: 590, pc: 306, sp: 137, app: 0,
     narouStats: {
-      bookmarks: 4,
-      globalPoint: 18,
+      bookmarks: 5,
+      globalPoint: 20,
       weeklyPoint: 4,
       reviewCnt: 0,
       impressionCnt: 0,

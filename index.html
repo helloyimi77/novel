@@ -263,24 +263,11 @@ body{
 .daily .legend{ display:flex; align-items:center; gap:10px; margin-top:16px; font-size:10.5px; color:var(--plum-soft);}
 .daily .legend .swatch{ display:inline-block; width:60px; height:8px; border-radius:4px; }
 
-/* ---------- comparison chart ---------- */
-.compare{ background:var(--panel); border:1px solid var(--panel-line); border-radius:14px; padding:30px 32px; box-shadow:0 6px 20px -14px rgba(74,46,60,0.3);}
-.compare-rows{ display:flex; flex-direction:column; gap:16px; margin-top:18px; }
-.compare-row{ display:grid; grid-template-columns: 210px 1fr 90px; align-items:center; gap:16px; }
-.compare-row .name{ font-size:12.5px; color:var(--plum); line-height:1.4; }
-.compare-row .name .st{ font-size:10px; color:var(--plum-soft); display:block; margin-top:2px;}
-.compare-bar-bg{ background:var(--bg-2); border-radius:6px; height:14px; overflow:hidden; }
-.compare-bar-fill{ height:100%; border-radius:6px; background:linear-gradient(90deg, var(--lilac-soft), var(--lilac)); }
-.compare-bar-fill.hot{ background:linear-gradient(90deg, var(--rose-glow), var(--rose-deep)); }
-.compare-row .val{ text-align:right; font-family:'Shippori Mincho', serif; font-size:14px; color:var(--plum); }
-
 .foot-note{ margin-top:40px; font-size:11px; color:var(--plum-soft); text-align:center; line-height:1.8; }
 
 @media (max-width:880px){
   .spine{ flex-basis:150px; width:150px; }
   .chart-area{ grid-template-columns:1fr; }
-  .compare-row{ grid-template-columns:1fr; gap:6px; }
-  .compare-row .val{ text-align:left; }
 }
 </style>
 </head>
@@ -310,25 +297,6 @@ body{
 
   <div class="daily">
     <div class="section-title">
-      <h2>日別PV一覧</h2>
-      <span class="en">Day-by-day, all works</span>
-    </div>
-    <div id="dailyTableWrap"></div>
-    <div class="legend">
-      <span>低</span><span class="swatch" style="background:linear-gradient(90deg,#C9BEDA,#D89CAE,#E4CFA0,#A8506E)"></span><span>高（行内の相対値）</span>
-    </div>
-  </div>
-
-  <div class="compare">
-    <div class="section-title">
-      <h2>作品比較（直近7日間PV）</h2>
-      <span class="en">Weekly comparison</span>
-    </div>
-    <div class="compare-rows" id="compareRows"></div>
-  </div>
-
-  <div class="daily">
-    <div class="section-title">
       <h2>累計PV一覧</h2>
       <span class="en">Cumulative PV, all works</span>
     </div>
@@ -337,6 +305,17 @@ body{
       <span>低</span><span class="swatch" style="background:linear-gradient(90deg,#C9BEDA,#D89CAE,#E4CFA0,#A8506E)"></span><span>高（列内の相対値）</span>
     </div>
     <div style="font-size:10.5px;color:var(--text-dim);margin-top:10px;">※なろう・カクヨムは別サイト・別読者層の集計です。「合計」は参考値としての単純合算で、集計開始日も作品ごとに異なります</div>
+  </div>
+
+  <div class="daily">
+    <div class="section-title">
+      <h2>日別PV一覧</h2>
+      <span class="en">Day-by-day, all works</span>
+    </div>
+    <div id="dailyTableWrap"></div>
+    <div class="legend">
+      <span>低</span><span class="swatch" style="background:linear-gradient(90deg,#C9BEDA,#D89CAE,#E4CFA0,#A8506E)"></span><span>高（行内の相対値）</span>
+    </div>
   </div>
 
   <div class="foot-note">
@@ -879,20 +858,6 @@ function renderCumulativeTable(){
   wrap.innerHTML = `<table><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
 }
 renderCumulativeTable();
-
-const compareRows = document.getElementById('compareRows');
-const maxWeek = Math.max(...BOOKS.map(weekTotal));
-BOOKS.slice().sort((a,b)=>weekTotal(b)-weekTotal(a)).forEach(b=>{
-  const pct = (weekTotal(b)/maxWeek*100).toFixed(1);
-  const row = document.createElement('div');
-  row.className = 'compare-row';
-  row.innerHTML = `
-    <div class="name">${b.shortTitle}<span class="st">${b.status==='done'?'完結済み':'連載中'} ・ 全${b.episodes}話</span></div>
-    <div class="compare-bar-bg"><div class="compare-bar-fill ${b.hot?'hot':''}" style="width:${pct}%"></div></div>
-    <div class="val">${weekTotal(b).toLocaleString()} PV</div>
-  `;
-  compareRows.appendChild(row);
-});
 
 selectBook(BOOKS.find(b=>b.hot)?.ncode || BOOKS[0].ncode);
 </script>

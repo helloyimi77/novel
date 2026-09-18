@@ -327,6 +327,18 @@ body{
     <div class="compare-rows" id="compareRows"></div>
   </div>
 
+  <div class="daily">
+    <div class="section-title">
+      <h2>累計PV一覧</h2>
+      <span class="en">Cumulative PV, all works</span>
+    </div>
+    <div id="cumulativeTableWrap"></div>
+    <div class="legend">
+      <span>低</span><span class="swatch" style="background:linear-gradient(90deg,#C9BEDA,#D89CAE,#E4CFA0,#A8506E)"></span><span>高（列内の相対値）</span>
+    </div>
+    <div style="font-size:10.5px;color:var(--text-dim);margin-top:10px;">※なろう・カクヨムは別サイト・別読者層の集計です。「合計」は参考値としての単純合算で、集計開始日も作品ごとに異なります</div>
+  </div>
+
   <div class="foot-note">
     データ出典：KASASAGI（なろうグループ アクセス解析）／カクヨム アクセス数ページ<br>
     30分おきにGitHub Actionsが自動取得・更新しています（scripts/update_data.py）。急伸・完結などの注記も自動判定です。
@@ -830,6 +842,43 @@ function renderDailyTable(){
   wrap.innerHTML = `<table><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
 }
 renderDailyTable();
+
+function naroCumulativePv(b){
+  return (b.naroDailyHistory && b.naroDailyHistory.length) ? sum(b.naroDailyHistory.map(h=>h.pv)) : 0;
+}
+function kakuyomuCumulativePv(b){
+  return b.kakuyomu ? b.kakuyomu.totalPv : 0;
+}
+
+function renderCumulativeTable(){
+  const wrap = document.getElementById('cumulativeTableWrap');
+  const rowsData = BOOKS.map(b => {
+    const naro = naroCumulativePv(b);
+    const kaku = kakuyomuCumulativePv(b);
+    return { b, naro, kaku, total: naro + kaku };
+  }).sort((a,b)=> b.total - a.total);
+
+  const naroVals = rowsData.map(r=>r.naro);
+  const kakuVals = rowsData.map(r=>r.kaku);
+  const naroMax = Math.max(...naroVals), naroMin = Math.min(...naroVals);
+  const kakuMax = Math.max(...kakuVals), kakuMin = Math.min(...kakuVals);
+
+  const thead = `<tr><th style="text-align:left;">作品</th><th>なろう累計PV</th><th>カクヨム累計PV</th><th>合計</th></tr>`;
+  const rows = rowsData.map(r=>{
+    const dotColor = r.b.status==='done' ? 'var(--gold)' : 'var(--lilac)';
+    const naroRatio = naroMax===naroMin ? 0.5 : (r.naro-naroMin)/(naroMax-naroMin);
+    const kakuRatio = kakuMax===kakuMin ? 0.5 : (r.kaku-kakuMin)/(kakuMax-kakuMin);
+    return `<tr>
+      <th><span class="st-dot" style="background:${dotColor}"></span>${r.b.shortTitle}</th>
+      <td><span class="cell" style="background:${heatColor(naroRatio)}">${r.naro.toLocaleString()}</span></td>
+      <td><span class="cell" style="background:${heatColor(kakuRatio)}">${r.kaku.toLocaleString()}</span></td>
+      <td class="row-total">${r.total.toLocaleString()}</td>
+    </tr>`;
+  }).join('');
+
+  wrap.innerHTML = `<table><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
+}
+renderCumulativeTable();
 
 const compareRows = document.getElementById('compareRows');
 const maxWeek = Math.max(...BOOKS.map(weekTotal));

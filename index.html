@@ -170,6 +170,12 @@ body{
 .detail-tags{ display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;}
 .tag{ font-size:10px; padding:3px 9px; border-radius:10px; background:var(--bg-2); color:var(--plum-soft); }
 .detail-metrics{ display:flex; gap:26px; flex-wrap:wrap; }
+.milestones{ display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+.milestone-badge{
+  display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600;
+  padding:5px 11px; border-radius:12px; background:linear-gradient(135deg, var(--gold-soft), var(--gold));
+  color:#4A3410; box-shadow:0 2px 6px rgba(191,154,94,0.35);
+}
 .metric{ text-align:right; }
 .metric .m-val{ font-family:'Shippori Mincho', serif; font-size:22px; color:var(--rose-deep); font-weight:700;}
 .metric .m-lab{ font-size:10px; color:var(--plum-soft); margin-top:2px; }
@@ -221,6 +227,7 @@ body{
 .rank-history{ margin-top:26px; padding-top:24px; border-top:1px dashed var(--cream-line); }
 .rank-history-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px;}
 .rank-history-head .rt-label{ font-size:11px; color:var(--plum-soft); }
+.rank-history svg{ width:100%; height:180px; display:block; }
 .rank-list{ display:flex; flex-direction:column; gap:8px; max-height:280px; overflow-y:auto; }
 .rank-row{
   display:grid; grid-template-columns: 78px 1fr 56px 22px; align-items:center; gap:10px;
@@ -662,6 +669,96 @@ function renderRetentionChart(episodes){
   `;
 }
 
+const RANK_COLORS = ['#A8506E', '#8D7CA6', '#BF9A5E', '#4C8C98', '#C97C55', '#6E7A5A', '#7A5C7A', '#B0553D'];
+
+function renderRankTrendChart(rankHistory){
+  if (!rankHistory.length) return '';
+  const w = 600, h = 180, padL = 38, padR = 10, padT = 14, padB = 20;
+  const plotW = w - padL - padR, plotH = h - padT - padB;
+
+  // ラベルごとにシリーズを分ける
+  const byLabel = {};
+  rankHistory.forEach(pt => {
+    (byLabel[pt.label] = byLabel[pt.label] || []).push(pt);
+  });
+  const labels = Object.keys(byLabel);
+
+  // 日付を実カレンダー日数でx軸に配置（古い→新しい）
+  const toDays = (d) => { const dt = new Date(d); return dt.getTime() / 86400000; };
+  const allDays = rankHistory.map(pt => toDays(pt.date));
+  const minDay = Math.min(...allDays), maxDay = Math.max(...allDays);
+  const dayRange = Math.max(maxDay - minDay, 1);
+  const xOf = (d) => padL + ((toDays(d) - minDay) / dayRange) * plotW;
+
+  // 順位は対数軸（1位を上端、最大値を下端に）。1位を下回らないようクランプ
+  const maxRank = Math.max(...rankHistory.map(pt => pt.rank), 10);
+  const yOf = (rank) => {
+    const r = Math.max(rank, 1);
+    return padT + (Math.log10(r) / Math.log10(maxRank)) * plotH;
+  };
+
+  // 対数軸の目盛り（1 / 10 / 100 / ... / maxRankの桁）
+  const yTickVals = [1];
+  for (let v = 10; v < maxRank; v *= 10) yTickVals.push(v);
+  yTickVals.push(Math.round(maxRank));
+  const gridlines = yTickVals.map(v => {
+    const y = yOf(v).toFixed(1);
+    return `
+      <line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="var(--cream-line)" stroke-width="1"/>
+      <text x="${padL-6}" y="${Number(y)+3}" text-anchor="end" font-size="9" fill="var(--plum-soft)">${v.toLocaleString()}位</text>
+    `;
+  }).join('');
+
+  const series = labels.map((label, i) => {
+    const color = RANK_COLORS[i % RANK_COLORS.length];
+    const pts = byLabel[label].slice().sort((a,b)=> toDays(a.date)-toDays(b.date));
+    const lineStr = pts.map(pt => `${xOf(pt.date).toFixed(1)},${yOf(pt.rank).toFixed(1)}`).join(' ');
+    const dots = pts.map(pt => `<circle cx="${xOf(pt.date).toFixed(1)}" cy="${yOf(pt.rank).toFixed(1)}" r="2.6" fill="${color}"/>`).join('');
+    const polyline = pts.length > 1
+      ? `<polyline points="${lineStr}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>`
+      : '';
+    return { label, color, svg: polyline + dots };
+  });
+
+  const legend = series.map(s =>
+    `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:12px;"><span style="width:9px;height:9px;border-radius:50%;background:${s.color};display:inline-block;"></span>${s.label}</span>`
+  ).join('');
+
+  return `
+    <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      ${gridlines}
+      ${series.map(s=>s.svg).join('')}
+    </svg>
+    <div style="font-size:9.5px;color:var(--plum-soft);margin-top:6px;line-height:1.8;">${legend}</div>
+  `;
+}
+
+const MILESTONE_DEFS = [
+  { key: 'totalPv', icon: '📈', suffix: '累計PV達成', thresholds: [1000, 5000, 10000, 25000, 50000, 100000],
+    value: (b) => naroCumulativePv(b) + kakuyomuCumulativePv(b) },
+  { key: 'bookmarks', icon: '🔖', suffix: 'ブックマーク達成（なろう）', thresholds: [5, 10, 20, 50, 100, 200],
+    value: (b) => b.narouStats ? (b.narouStats.bookmarks ?? 0) : 0 },
+  { key: 'globalPoint', icon: '⭐', suffix: '総合ポイント達成（なろう）', thresholds: [10, 50, 100, 300, 500, 1000],
+    value: (b) => b.narouStats ? (b.narouStats.globalPoint ?? 0) : 0 },
+  { key: 'followers', icon: '📖', suffix: 'フォロワー達成（カクヨム）', thresholds: [5, 10, 20, 50, 100],
+    value: (b) => b.kakuyomu ? (b.kakuyomu.followers ?? 0) : 0 },
+  { key: 'cheers', icon: '❤️', suffix: '応援達成（カクヨム）', thresholds: [10, 20, 50, 100, 200],
+    value: (b) => b.kakuyomu ? (b.kakuyomu.cheers ?? 0) : 0 },
+];
+
+function computeMilestones(b){
+  const badges = [];
+  MILESTONE_DEFS.forEach(def => {
+    const v = def.value(b);
+    let achieved = null;
+    def.thresholds.forEach(t => { if (v >= t) achieved = t; });
+    if (achieved !== null) {
+      badges.push(`${def.icon} ${achieved.toLocaleString()}${def.suffix}`);
+    }
+  });
+  return badges;
+}
+
 function selectBook(ncode){
   document.querySelectorAll('.spine').forEach(s=>s.classList.toggle('active', s.dataset.book===ncode));
   const b = BOOKS.find(x=>x.ncode===ncode);
@@ -678,6 +775,7 @@ function selectBook(ncode){
           <span class="tag">Nコード: ${b.ncode}</span>
         </div>
         <div style="font-size:12.5px;color:var(--plum-soft);margin-top:12px;max-width:600px;line-height:1.7;">${b.mood}</div>
+        ${computeMilestones(b).length ? `<div class="milestones">${computeMilestones(b).map(m=>`<span class="milestone-badge">${m}</span>`).join('')}</div>` : ''}
       </div>
       <div class="detail-metrics">
         ${b.hourly ? `<div class="metric"><div class="m-val">${sum(b.hourly.today).toLocaleString()}</div><div class="m-lab">本日PV（なろう）</div></div>` : ''}
@@ -744,7 +842,8 @@ function selectBook(ncode){
       <div class="rank-history-head">
         <div class="rt-label">ランクイン履歴（🤖=自動検知・上位300位以内　✍️=手動記録）</div>
       </div>
-      <div class="rank-list">
+      ${renderRankTrendChart(b.rankHistory)}
+      <div class="rank-list" style="margin-top:14px;">
         ${b.rankHistory.map(h => `
           <div class="rank-row">
             <div class="rk-date">${h.date}</div>

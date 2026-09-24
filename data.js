@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年09月25日 06:31 時点（自動取得）";
+const LAST_UPDATED = "2026年09月25日 06:46 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -69,7 +69,7 @@ const BOOKS = [
     narouStats: {
       bookmarks: 28,
       globalPoint: 178,
-      weeklyPoint: 2,
+      weeklyPoint: 0,
       reviewCnt: 0,
       impressionCnt: 1,
       ratingAvg: 7.6,
@@ -157,7 +157,7 @@ const BOOKS = [
     narouStats: {
       bookmarks: 21,
       globalPoint: 138,
-      weeklyPoint: 4,
+      weeklyPoint: 2,
       reviewCnt: 0,
       impressionCnt: 1,
       ratingAvg: 8.7,
@@ -245,7 +245,7 @@ const BOOKS = [
     narouStats: {
       bookmarks: 26,
       globalPoint: 116,
-      weeklyPoint: 70,
+      weeklyPoint: 80,
       reviewCnt: 0,
       impressionCnt: 0,
       ratingAvg: 8.0,
@@ -289,7 +289,7 @@ const BOOKS = [
     narouStats: {
       bookmarks: 6,
       globalPoint: 22,
-      weeklyPoint: 2,
+      weeklyPoint: 0,
       reviewCnt: 0,
       impressionCnt: 0,
       ratingAvg: 10.0,

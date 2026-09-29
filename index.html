@@ -554,7 +554,7 @@ function growthRatio(b, iso){
 function platformRatio(naro,kaku){
   const total=naro+kaku;
   if(!total) return '–';
-  return `N ${Math.round(naro/total*100)}% / K ${Math.round(kaku/total*100)}%`;
+  return `なろう ${Math.round(naro/total*100)}% / カクヨム ${Math.round(kaku/total*100)}%`;
 }
 function bestRank(b){
   if(!b.rankHistory?.length) return null;
@@ -681,7 +681,7 @@ function renderOverview(iso){
 
   document.getElementById('snapshotTable').innerHTML=`
     <table>
-      <thead><tr><th>作品</th><th>PV</th><th>前日比</th><th>7日平均比</th><th>成長率</th><th>N/K</th><th>ブクマ</th><th>総合pt</th><th>週間pt</th><th>最高位</th></tr></thead>
+      <thead><tr><th>作品</th><th>PV</th><th>前日比</th><th>7日平均比</th><th>成長率</th><th>なろう/カクヨム比</th><th>ブクマ</th><th>総合pt</th><th>週間pt</th><th>最高位</th></tr></thead>
       <tbody>${body}</tbody>
     </table>`;
 

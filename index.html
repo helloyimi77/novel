@@ -636,11 +636,10 @@ function renderOverview(iso){
     const prevPct=pctChange(total,prev);
     const avg7=sevenDayAverageBefore(b,iso);
     const avgPct=pctChange(total,avg7);
-    const growth=growthRatio(b,iso);
     const delta=statsDelta(b,iso);
     const best=bestRank(b);
     const signals=smartSignals(b,iso);
-    return {b,naro,kaku,total,prevPct,avgPct,growth,delta,best,signals};
+    return {b,naro,kaku,total,prevPct,avgPct,delta,best,signals};
   }).sort((a,b)=>b.total-a.total);
 
   const dayNaro=sum(rows.map(r=>r.naro));
@@ -670,7 +669,6 @@ function renderOverview(iso){
       <td class="pv-total">${r.total.toLocaleString()}</td>
       <td><span class="${trendClass(r.prevPct)}">${formatPct(r.prevPct)}</span></td>
       <td><span class="${trendClass(r.avgPct)}">${formatPct(r.avgPct)}</span></td>
-      <td>${r.growth===null?'–':r.growth.toFixed(2)+'x'}</td>
       <td><span class="platform-mini">${platformRatio(r.naro,r.kaku)}</span></td>
       <td>${bm.toLocaleString()}${bmDelta? ` <span class="${bmDelta>0?'trend-up':'trend-down'}">(${signed(bmDelta)})</span>`:''}</td>
       <td>${gp.toLocaleString()}${gpDelta? ` <span class="${gpDelta>0?'trend-up':'trend-down'}">(${signed(gpDelta)})</span>`:''}</td>
@@ -681,7 +679,7 @@ function renderOverview(iso){
 
   document.getElementById('snapshotTable').innerHTML=`
     <table>
-      <thead><tr><th>作品</th><th>PV</th><th>前日比</th><th>7日平均比</th><th>成長率</th><th>なろう/カクヨム比</th><th>ブクマ</th><th>総合pt</th><th>週間pt</th><th>最高位</th></tr></thead>
+      <thead><tr><th>作品</th><th>PV</th><th>前日比</th><th>7日平均比</th><th>なろう/カクヨム比</th><th>ブクマ</th><th>総合pt</th><th>週間pt</th><th>最高位</th></tr></thead>
       <tbody>${body}</tbody>
     </table>`;
 
@@ -1152,7 +1150,6 @@ function selectBook(ncode){
       const today=currentIso();
       const prevPct=pctChange(combinedPvForDate(b,today),combinedPvForDate(b,addDays(today,-1)));
       const avgPct=pctChange(combinedPvForDate(b,today),sevenDayAverageBefore(b,today));
-      const growth=growthRatio(b,today);
       const best=bestRank(b);
       const age=publicationAgeDays(b);
       const naro=naroCumulativePv(b), kaku=kakuyomuCumulativePv(b);
@@ -1161,7 +1158,6 @@ function selectBook(ncode){
         <div class="analysis-card"><div class="a-lab">公開後</div><div class="a-val">${age?age+'日':'–'}</div></div>
         <div class="analysis-card"><div class="a-lab">本日 前日比</div><div class="a-val ${trendClass(prevPct)}">${formatPct(prevPct)}</div></div>
         <div class="analysis-card"><div class="a-lab">7日平均比</div><div class="a-val ${trendClass(avgPct)}">${formatPct(avgPct)}</div></div>
-        <div class="analysis-card"><div class="a-lab">直近7日 / 前7日</div><div class="a-val">${growth===null?'–':growth.toFixed(2)+'x'}</div></div>
         <div class="analysis-card"><div class="a-lab">最高順位</div><div class="a-val">${best?best.rank+'位':'–'}</div></div>
       </div>
       <div class="pub-milestones">

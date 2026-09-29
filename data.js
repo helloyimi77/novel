@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年09月29日 10:46 時点（自動取得）";
+const LAST_UPDATED = "2026年09月29日 10:51 時点（自動取得）";
 const YEAR = 2026;
 
 const BOOKS = [
@@ -173,7 +173,7 @@ const BOOKS = [
       reviewAvg: 3.0,
       reviewCount: 3,
       comments: 1,
-      cheers: 108,
+      cheers: 109,
     },
     hourly: {
       todayDate: "09/29",

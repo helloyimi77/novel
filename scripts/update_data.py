@@ -217,6 +217,40 @@ def build_rank_history(ncode, auto_cache, manual_rankings):
 
 
 KAKUYOMU_STATS_CACHE_PATH = "scripts/kakuyomu_stats_cache.json"
+KAKUYOMU_DAILY_CACHE_PATH = "scripts/kakuyomu_daily_cache.json"
+
+
+def update_kakuyomu_daily_history(work_id, total_pv, daily_cache):
+    """
+    カクヨム公開ページで取得できる累計PVの差分を、巡回ごとに当日PVへ加算する。
+    初回観測より前の過去日PVは復元できないため、導入日以降のみ蓄積する。
+    """
+    now = datetime.now(JST)
+    today_str = now.strftime("%Y-%m-%d")
+    entry = daily_cache.setdefault(work_id, {"lastTotalPv": None, "lastDate": None, "days": {}})
+    days = entry.setdefault("days", {})
+
+    last_total = entry.get("lastTotalPv")
+    if last_total is not None:
+        delta = max(int(total_pv) - int(last_total), 0)
+        if delta:
+            days[today_str] = int(days.get(today_str, 0)) + delta
+    else:
+        # 初回は累計値を当日PVとして扱わず、ここを観測開始点にする
+        days.setdefault(today_str, 0)
+
+    entry["lastTotalPv"] = int(total_pv)
+    entry["lastDate"] = today_str
+
+    history = []
+    for date_str in sorted(days.keys()):
+        y, m, d = date_str.split("-")
+        history.append({
+            "d": f"{int(m)}/{int(d)}",
+            "date": date_str,
+            "pv": int(days[date_str]),
+        })
+    return history
 
 
 def get_kakuyomu_work_stats_cached(work_id, stats_cache):
@@ -533,7 +567,7 @@ def render_prerelease_book(book):
     hot: false, note: {js_string(release_note)},
     kakuyomu: {{
       workId: {js_string(book["kakuyomuId"])},
-      totalPv: 0, periodStart: "", episodes: [],
+      totalPv: 0, todayPv: 0, periodStart: "", dailyHistory: [], episodes: [],
       followers: 0, reviewAvg: null, reviewCount: 0, comments: 0, cheers: 0,
     }},
     hourly: {{ todayDate: "", yesterdayDate: "", today: [], yesterday: [] }},
@@ -543,7 +577,7 @@ def render_prerelease_book(book):
   }},"""
 
 
-def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_extra, rank_history):
+def render_book(book, kasasagi, kakuyomu, kakuyomu_daily_history, naro_cumulative, naro_history, narou_extra, rank_history):
     week_lines = ", ".join(
         f'{{ d: {js_string(w["d"])}, pv: {w["pv"]} }}' for w in kasasagi["week"]
     )
@@ -569,6 +603,11 @@ def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_e
     naro_hist_line = ", ".join(
         f'{{ d: {js_string(h["d"])}, pv: {h["pv"]} }}' for h in naro_history
     )
+    kakuyomu_hist_line = ", ".join(
+        f'{{ d: {js_string(h["d"])}, date: {js_string(h["date"])}, pv: {h["pv"]} }}'
+        for h in kakuyomu_daily_history
+    )
+    kakuyomu_today_pv = kakuyomu_daily_history[-1]["pv"] if kakuyomu_daily_history else 0
 
     return f"""  {{
     ncode: {js_string(book["ncode"])},
@@ -596,7 +635,9 @@ def render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_e
     kakuyomu: {{
       workId: {js_string(book["kakuyomuId"])},
       totalPv: {kakuyomu["totalPv"]},
+      todayPv: {kakuyomu_today_pv},
       periodStart: {js_string(kakuyomu["periodStart"] or "")},
+      dailyHistory: [{kakuyomu_hist_line}],
       episodes: [{ep_line}],
       followers: {kakuyomu.get("followers", 0)},
       reviewAvg: {kakuyomu.get("reviewAvg") if kakuyomu.get("reviewAvg") is not None else "null"},
@@ -628,6 +669,7 @@ def main():
     cache = load_cache()
     daily_cache = load_json_cache(DAILY_CACHE_PATH)
     kakuyomu_stats_cache = load_json_cache(KAKUYOMU_STATS_CACHE_PATH)
+    kakuyomu_daily_cache = load_json_cache(KAKUYOMU_DAILY_CACHE_PATH)
 
     all_ncodes = [b["ncode"] for b in config["books"]]
     try:
@@ -667,6 +709,9 @@ def main():
             naro_history = build_naro_daily_history(ncode, kasasagi, daily_cache)
             time.sleep(1)
             kakuyomu = parse_kakuyomu(book["kakuyomuId"])
+            kakuyomu_daily_history = update_kakuyomu_daily_history(
+                book["kakuyomuId"], kakuyomu["totalPv"], kakuyomu_daily_cache
+            )
             time.sleep(1)
             try:
                 kakuyomu_stats = get_kakuyomu_work_stats_cached(book["kakuyomuId"], kakuyomu_stats_cache)
@@ -680,7 +725,7 @@ def main():
             kakuyomu.update(kakuyomu_stats)
             narou_extra = narou_api_stats.get(ncode.lower(), {})
             rank_history = build_rank_history(ncode, rankings_auto, manual_rankings)
-            rendered_books.append(render_book(book, kasasagi, kakuyomu, naro_cumulative, naro_history, narou_extra, rank_history))
+            rendered_books.append(render_book(book, kasasagi, kakuyomu, kakuyomu_daily_history, naro_cumulative, naro_history, narou_extra, rank_history))
             print(f"OK: {ncode}", file=sys.stderr)
         except Exception as e:
             had_error = True
@@ -690,6 +735,7 @@ def main():
     save_cache(cache)
     save_json_cache(DAILY_CACHE_PATH, daily_cache)
     save_json_cache(KAKUYOMU_STATS_CACHE_PATH, kakuyomu_stats_cache)
+    save_json_cache(KAKUYOMU_DAILY_CACHE_PATH, kakuyomu_daily_cache)
     save_json_cache(RANKINGS_AUTO_PATH, rankings_auto)
 
     now = datetime.now(JST)
@@ -704,6 +750,7 @@ def main():
 // ============================================================
 
 const LAST_UPDATED = {js_string(last_updated)};
+const TODAY_ISO = {js_string(now.strftime("%Y-%m-%d"))};
 const YEAR = {now.year};
 
 const BOOKS = [

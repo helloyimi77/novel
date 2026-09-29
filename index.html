@@ -335,6 +335,31 @@ body{
 .snapshot tbody tr:hover{ background:var(--bg-2); }
 .pv-total{ font-family:'Shippori Mincho',serif; font-weight:700; color:var(--rose-deep); }
 .platform-mini{ font-size:10px; color:var(--plum-soft); }
+.changes-panel{
+  margin-top:14px; background:var(--panel); border:1px solid var(--panel-line); border-radius:12px;
+  padding:16px 18px; box-shadow:0 6px 18px -15px rgba(74,46,60,.35);
+}
+.changes-title{ display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px; }
+.changes-list{ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 16px; }
+.change-item{ font-size:11.5px;line-height:1.55;color:var(--plum-soft); }
+.change-item b{ color:var(--plum); }
+.trend-up{ color:#B94F72; font-weight:700; }
+.trend-down{ color:#657FA8; font-weight:700; }
+.trend-flat{ color:var(--text-dim); }
+.hot-chip,.signal-chip{
+  display:inline-flex;align-items:center;gap:3px;border-radius:999px;padding:2px 7px;font-size:9px;font-weight:700;white-space:nowrap;
+}
+.hot-chip{ background:var(--rose-deep);color:#fff; }
+.signal-chip{ background:var(--bg-2);color:var(--plum-soft);border:1px solid var(--panel-line); }
+.analysis-strip{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:16px 0 4px;
+}
+.analysis-card{ background:var(--bg-2);border:1px solid var(--panel-line);border-radius:9px;padding:9px 10px; }
+.analysis-card .a-lab{ font-size:9px;color:var(--text-dim);margin-bottom:3px; }
+.analysis-card .a-val{ font-family:'Shippori Mincho',serif;font-size:14px;font-weight:700;color:var(--plum); }
+.pub-milestones{ display:flex;gap:6px;flex-wrap:wrap;margin-top:9px; }
+.pub-chip{ font-size:9.5px;padding:4px 8px;border-radius:999px;background:var(--bg-2);color:var(--plum-soft);border:1px solid var(--panel-line); }
+
 .range-switch{ display:flex; gap:5px; flex-wrap:wrap; }
 .range-btn{
   border:1px solid var(--panel-line); background:var(--bg-2); color:var(--plum-soft);
@@ -347,6 +372,8 @@ body{
   .kpi-grid{ grid-template-columns:repeat(2,1fr); }
   .spine{ flex-basis:150px; width:150px; }
   .chart-area{ grid-template-columns:1fr; }
+  .analysis-strip{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .changes-list{ grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -391,6 +418,13 @@ body{
     <div class="snapshot">
       <div style="font-size:11px;color:var(--plum-soft);margin-bottom:8px;">指定日の作品別PV — 行をクリックすると詳細へ</div>
       <div id="snapshotTable"></div>
+    </div>
+    <div class="changes-panel">
+      <div class="changes-title">
+        <div style="font-family:'Shippori Mincho',serif;font-weight:600;">今日の変化</div>
+        <div style="font-size:10px;color:var(--text-dim);">PV・ポイント・ランキングから自動抽出</div>
+      </div>
+      <div class="changes-list" id="todayChanges"></div>
     </div>
   </section>
 
@@ -488,47 +522,176 @@ function addDays(iso, delta){
   d.setDate(d.getDate()+delta);
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
+function combinedPvForDate(b, iso){
+  return naroPvForDate(b, iso) + kakuPvForDate(b, iso);
+}
+function pctChange(now, base){
+  if (!base) return null;
+  return ((now-base)/base)*100;
+}
+function formatPct(v){
+  if (v===null || !Number.isFinite(v)) return '–';
+  const sign=v>0?'+':'';
+  return sign + Math.round(v) + '%';
+}
+function trendClass(v){
+  if (v===null || Math.abs(v)<1) return 'trend-flat';
+  return v>0?'trend-up':'trend-down';
+}
+function sumDateRange(b, endIso, days, offset=0){
+  let total=0;
+  for(let i=offset;i<offset+days;i++) total += combinedPvForDate(b, addDays(endIso,-i));
+  return total;
+}
+function sevenDayAverageBefore(b, iso){
+  return sumDateRange(b, addDays(iso,-1), 7, 0)/7;
+}
+function growthRatio(b, iso){
+  const recent=sumDateRange(b,iso,7,0);
+  const previous=sumDateRange(b,iso,7,7);
+  return previous ? recent/previous : null;
+}
+function platformRatio(naro,kaku){
+  const total=naro+kaku;
+  if(!total) return '–';
+  return `N ${Math.round(naro/total*100)}% / K ${Math.round(kaku/total*100)}%`;
+}
+function bestRank(b){
+  if(!b.rankHistory?.length) return null;
+  return b.rankHistory.reduce((best,h)=>!best||h.rank<best.rank?h:best,null);
+}
+function statsSnapshot(b,date){
+  return (b.statsHistory||[]).find(x=>x.date===date) || null;
+}
+function statsDelta(b, iso){
+  const cur=statsSnapshot(b,iso);
+  if(!cur) return null;
+  const prevs=(b.statsHistory||[]).filter(x=>x.date<iso).sort((a,b)=>b.date.localeCompare(a.date));
+  const prev=prevs[0];
+  if(!prev) return null;
+  return {
+    bookmarks:(cur.bookmarks||0)-(prev.bookmarks||0),
+    globalPoint:(cur.globalPoint||0)-(prev.globalPoint||0),
+    weeklyPoint:(cur.weeklyPoint||0)-(prev.weeklyPoint||0),
+    followers:(cur.followers||0)-(prev.followers||0),
+    cheers:(cur.cheers||0)-(prev.cheers||0)
+  };
+}
+function signed(v){
+  if(v===null || v===undefined) return '';
+  return v>0?`+${v}`:`${v}`;
+}
+function smartSignals(b, iso){
+  const now=combinedPvForDate(b,iso);
+  const prev=combinedPvForDate(b,addDays(iso,-1));
+  const avg=sevenDayAverageBefore(b,iso);
+  const d=statsDelta(b,iso);
+  const ranks=(b.rankHistory||[]).filter(h=>h.date===iso);
+  const signals=[];
+  if(prev>0 && now>=30 && now/prev>=1.5) signals.push('PV急伸');
+  if(avg>0 && now>=30 && now/avg>=1.7) signals.push('7日平均超');
+  if(d?.bookmarks>0) signals.push(`ブクマ+${d.bookmarks}`);
+  if(d?.globalPoint>=10) signals.push(`pt+${d.globalPoint}`);
+  if(d?.followers>0) signals.push(`フォロワー+${d.followers}`);
+  if(ranks.length) signals.push('ランクイン');
+  return signals;
+}
+function publicationAgeDays(b){
+  if(!b.startDate) return null;
+  return Math.max(1, Math.floor((new Date(currentIso()+'T12:00:00')-new Date(b.startDate+'T12:00:00'))/86400000)+1);
+}
+function naroMilestonePv(b,days){
+  const hist=b.naroDailyHistory||[];
+  if(hist.length<days) return null;
+  return sum(hist.slice(0,days).map(x=>x.pv));
+}
+function renderTodayChanges(iso){
+  const box=document.getElementById('todayChanges');
+  if(!box) return;
+  const items=[];
+  BOOKS.forEach(b=>{
+    const now=combinedPvForDate(b,iso);
+    const prev=combinedPvForDate(b,addDays(iso,-1));
+    const p=pctChange(now,prev);
+    const avg=sevenDayAverageBefore(b,iso);
+    const avp=pctChange(now,avg);
+    const d=statsDelta(b,iso);
+    if(p!==null && now>=20 && Math.abs(p)>=30) items.push({score:Math.abs(p),html:`<b>${b.shortTitle}</b>：PV前日比 <span class="${trendClass(p)}">${formatPct(p)}</span>`});
+    if(avp!==null && now>=20 && avp>=50) items.push({score:Math.abs(avp)+10,html:`<b>${b.shortTitle}</b>：7日平均比 <span class="trend-up">${formatPct(avp)}</span>`});
+    if(d?.bookmarks) items.push({score:120+Math.abs(d.bookmarks),html:`<b>${b.shortTitle}</b>：ブクマ <span class="${d.bookmarks>0?'trend-up':'trend-down'}">${signed(d.bookmarks)}</span>`});
+    if(d?.globalPoint) items.push({score:110+Math.abs(d.globalPoint),html:`<b>${b.shortTitle}</b>：総合pt <span class="${d.globalPoint>0?'trend-up':'trend-down'}">${signed(d.globalPoint)}</span>`});
+    if(d?.followers) items.push({score:105+Math.abs(d.followers),html:`<b>${b.shortTitle}</b>：カクヨムフォロワー <span class="${d.followers>0?'trend-up':'trend-down'}">${signed(d.followers)}</span>`});
+    (b.rankHistory||[]).filter(h=>h.date===iso).forEach(h=>items.push({score:150,html:`<b>${b.shortTitle}</b>：${h.label} <span class="trend-up">${h.rank}位</span>`}));
+  });
+  items.sort((a,b)=>b.score-a.score);
+  box.innerHTML=items.length
+    ? items.slice(0,8).map(x=>`<div class="change-item">${x.html}</div>`).join('')
+    : `<div class="change-item">まだ大きな変化は検出されていません。日次スナップショットは今日から蓄積中です。</div>`;
+}
+
 function renderOverview(iso){
   const rows = BOOKS.map(b=>{
-    const naro = naroPvForDate(b, iso);
-    const kaku = kakuPvForDate(b, iso);
-    return {b,naro,kaku,total:naro+kaku};
+    const naro=naroPvForDate(b,iso), kaku=kakuPvForDate(b,iso), total=naro+kaku;
+    const prev=combinedPvForDate(b,addDays(iso,-1));
+    const prevPct=pctChange(total,prev);
+    const avg7=sevenDayAverageBefore(b,iso);
+    const avgPct=pctChange(total,avg7);
+    const growth=growthRatio(b,iso);
+    const delta=statsDelta(b,iso);
+    const best=bestRank(b);
+    const signals=smartSignals(b,iso);
+    return {b,naro,kaku,total,prevPct,avgPct,growth,delta,best,signals};
   }).sort((a,b)=>b.total-a.total);
-  const dayNaro = sum(rows.map(r=>r.naro));
-  const dayKaku = sum(rows.map(r=>r.kaku));
-  const allPv = sum(BOOKS.map(b=>naroCumulativePv(b)+kakuyomuCumulativePv(b)));
-  const bookmarks = sum(BOOKS.map(b=>b.narouStats?.bookmarks || 0));
-  const top = rows[0];
 
-  document.getElementById('selectedDayLabel').textContent = iso + ' の総PV';
-  document.getElementById('kpiDayPv').textContent = (dayNaro+dayKaku).toLocaleString();
-  document.getElementById('kpiDayBreakdown').textContent = `なろう ${dayNaro.toLocaleString()} / カクヨム ${dayKaku.toLocaleString()}`;
-  document.getElementById('kpiAllPv').textContent = allPv.toLocaleString();
-  document.getElementById('kpiBookmarks').textContent = bookmarks.toLocaleString();
-  document.getElementById('kpiTopPv').textContent = top ? top.total.toLocaleString() : '0';
-  document.getElementById('kpiTopTitle').textContent = top && top.total ? top.b.shortTitle : '-';
+  const dayNaro=sum(rows.map(r=>r.naro));
+  const dayKaku=sum(rows.map(r=>r.kaku));
+  const allPv=sum(BOOKS.map(b=>naroCumulativePv(b)+kakuyomuCumulativePv(b)));
+  const bookmarks=sum(BOOKS.map(b=>b.narouStats?.bookmarks||0));
+  const top=rows[0];
 
-  const body = rows.map(r=>`
+  document.getElementById('selectedDayLabel').textContent=iso+' の総PV';
+  document.getElementById('kpiDayPv').textContent=(dayNaro+dayKaku).toLocaleString();
+  document.getElementById('kpiDayBreakdown').textContent=`なろう ${dayNaro.toLocaleString()} / カクヨム ${dayKaku.toLocaleString()}`;
+  document.getElementById('kpiAllPv').textContent=allPv.toLocaleString();
+  document.getElementById('kpiBookmarks').textContent=bookmarks.toLocaleString();
+  document.getElementById('kpiTopPv').textContent=top?top.total.toLocaleString():'0';
+  document.getElementById('kpiTopTitle').textContent=top&&top.total?top.b.shortTitle:'-';
+
+  const body=rows.map(r=>{
+    const bm=r.b.narouStats?.bookmarks||0;
+    const gp=r.b.narouStats?.globalPoint||0;
+    const bmDelta=r.delta?.bookmarks;
+    const gpDelta=r.delta?.globalPoint;
+    const bestText=r.best?`${r.best.rank}位`:'–';
+    const signals=r.signals.length?`<span class="hot-chip">🔥 ${r.signals[0]}</span>`:'';
+    return `
     <tr data-ncode="${r.b.ncode}">
-      <td>${r.b.shortTitle}</td>
+      <td>${r.b.shortTitle}<div style="margin-top:3px;">${signals}</div></td>
       <td class="pv-total">${r.total.toLocaleString()}</td>
-      <td>${r.naro.toLocaleString()}</td>
-      <td>${r.kaku.toLocaleString()}</td>
-      <td>${(r.b.narouStats?.bookmarks || 0).toLocaleString()}</td>
-      <td>${(r.b.narouStats?.globalPoint || 0).toLocaleString()}</td>
-      <td>${(r.b.narouStats?.weeklyPoint || 0).toLocaleString()}</td>
-    </tr>`).join('');
-  document.getElementById('snapshotTable').innerHTML = `
+      <td><span class="${trendClass(r.prevPct)}">${formatPct(r.prevPct)}</span></td>
+      <td><span class="${trendClass(r.avgPct)}">${formatPct(r.avgPct)}</span></td>
+      <td>${r.growth===null?'–':r.growth.toFixed(2)+'x'}</td>
+      <td><span class="platform-mini">${platformRatio(r.naro,r.kaku)}</span></td>
+      <td>${bm.toLocaleString()}${bmDelta? ` <span class="${bmDelta>0?'trend-up':'trend-down'}">(${signed(bmDelta)})</span>`:''}</td>
+      <td>${gp.toLocaleString()}${gpDelta? ` <span class="${gpDelta>0?'trend-up':'trend-down'}">(${signed(gpDelta)})</span>`:''}</td>
+      <td>${(r.b.narouStats?.weeklyPoint||0).toLocaleString()}</td>
+      <td>${bestText}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('snapshotTable').innerHTML=`
     <table>
-      <thead><tr><th>作品</th><th>合計PV</th><th>なろう</th><th>カクヨム</th><th>ブクマ</th><th>総合pt</th><th>週間pt</th></tr></thead>
+      <thead><tr><th>作品</th><th>PV</th><th>前日比</th><th>7日平均比</th><th>成長率</th><th>N/K</th><th>ブクマ</th><th>総合pt</th><th>週間pt</th><th>最高位</th></tr></thead>
       <tbody>${body}</tbody>
     </table>`;
+
   document.querySelectorAll('#snapshotTable tbody tr').forEach(tr=>{
-    tr.addEventListener('click', ()=>{
+    tr.addEventListener('click',()=>{
       selectBook(tr.dataset.ncode);
       document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'start'});
     });
   });
+  renderTodayChanges(iso);
 }
 
 function sparkSvg(week, hot){
@@ -985,6 +1148,29 @@ function selectBook(ncode){
         ${b.kakuyomu && b.kakuyomu.comments ? `<div class="metric"><div class="m-val">${b.kakuyomu.comments.toLocaleString()}</div><div class="m-lab">コメント（カクヨム）</div></div>` : ''}
       </div>
     </div>
+    ${(()=>{
+      const today=currentIso();
+      const prevPct=pctChange(combinedPvForDate(b,today),combinedPvForDate(b,addDays(today,-1)));
+      const avgPct=pctChange(combinedPvForDate(b,today),sevenDayAverageBefore(b,today));
+      const growth=growthRatio(b,today);
+      const best=bestRank(b);
+      const age=publicationAgeDays(b);
+      const naro=naroCumulativePv(b), kaku=kakuyomuCumulativePv(b);
+      return `
+      <div class="analysis-strip">
+        <div class="analysis-card"><div class="a-lab">公開後</div><div class="a-val">${age?age+'日':'–'}</div></div>
+        <div class="analysis-card"><div class="a-lab">本日 前日比</div><div class="a-val ${trendClass(prevPct)}">${formatPct(prevPct)}</div></div>
+        <div class="analysis-card"><div class="a-lab">7日平均比</div><div class="a-val ${trendClass(avgPct)}">${formatPct(avgPct)}</div></div>
+        <div class="analysis-card"><div class="a-lab">直近7日 / 前7日</div><div class="a-val">${growth===null?'–':growth.toFixed(2)+'x'}</div></div>
+        <div class="analysis-card"><div class="a-lab">最高順位</div><div class="a-val">${best?best.rank+'位':'–'}</div></div>
+      </div>
+      <div class="pub-milestones">
+        <span class="pub-chip">なろう/カクヨム累計比：${platformRatio(naro,kaku)}</span>
+        ${naroMilestonePv(b,7)!==null?`<span class="pub-chip">公開7日 なろう累計 ${naroMilestonePv(b,7).toLocaleString()}PV</span>`:''}
+        ${naroMilestonePv(b,14)!==null?`<span class="pub-chip">公開14日 なろう累計 ${naroMilestonePv(b,14).toLocaleString()}PV</span>`:''}
+        ${naroMilestonePv(b,30)!==null?`<span class="pub-chip">公開30日 なろう累計 ${naroMilestonePv(b,30).toLocaleString()}PV</span>`:''}
+      </div>`;
+    })()}
     ${b.note ? `<div style="font-size:12px;color:var(--rose-deep);margin-bottom:18px;">※ ${b.note}</div>` : ''}
     <div class="chart-area">
       <div>

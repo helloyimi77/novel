@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>とんこつしょうゆの本棚 — PVモニタ</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
@@ -272,7 +275,39 @@ body{
 
 .foot-note{ margin-top:40px; font-size:11px; color:var(--plum-soft); text-align:center; line-height:1.8; }
 
+/* ---------- overview dashboard ---------- */
+.overview{ margin-bottom:42px; }
+.overview-head{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+.overview-controls{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.ov-btn,.ov-date{
+  border:1px solid var(--panel-line); background:var(--panel); color:var(--plum);
+  border-radius:9px; padding:8px 11px; font:inherit; font-size:12px; cursor:pointer;
+}
+.ov-btn:hover{ border-color:var(--rose); }
+.ov-btn.primary{ background:var(--rose-deep); color:white; border-color:var(--rose-deep); }
+.kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:14px; }
+.kpi-card{
+  background:var(--panel); border:1px solid var(--panel-line); border-radius:12px;
+  padding:16px 18px; box-shadow:0 6px 18px -15px rgba(74,46,60,.35);
+}
+.kpi-label{ font-size:10.5px; color:var(--plum-soft); margin-bottom:5px; }
+.kpi-value{ font-family:'Shippori Mincho',serif; font-size:26px; font-weight:700; color:var(--rose-deep); }
+.kpi-sub{ font-size:10px; color:var(--text-dim); margin-top:4px; }
+.snapshot{
+  background:var(--panel); border:1px solid var(--panel-line); border-radius:12px;
+  padding:18px; overflow-x:auto; box-shadow:0 6px 18px -15px rgba(74,46,60,.35);
+}
+.snapshot table{ width:100%; border-collapse:collapse; min-width:760px; }
+.snapshot th,.snapshot td{ padding:9px 8px; border-bottom:1px dashed var(--cream-line); font-size:11.5px; text-align:right; }
+.snapshot th:first-child,.snapshot td:first-child{ text-align:left; }
+.snapshot thead th{ color:var(--plum-soft); font-size:10.5px; font-weight:500; }
+.snapshot tbody tr{ cursor:pointer; }
+.snapshot tbody tr:hover{ background:var(--bg-2); }
+.pv-total{ font-family:'Shippori Mincho',serif; font-weight:700; color:var(--rose-deep); }
+.platform-mini{ font-size:10px; color:var(--plum-soft); }
+
 @media (max-width:880px){
+  .kpi-grid{ grid-template-columns:repeat(2,1fr); }
   .spine{ flex-basis:150px; width:150px; }
   .chart-area{ grid-template-columns:1fr; }
 }
@@ -292,6 +327,32 @@ body{
       <div>KASASAGIアクセス解析データを反映</div>
     </div>
   </div>
+
+  <section class="overview">
+    <div class="overview-head">
+      <div class="section-title" style="margin-bottom:0;">
+        <h2>ダッシュボード</h2>
+        <span class="en">Daily snapshot</span>
+      </div>
+      <div class="overview-controls">
+        <button class="ov-btn" id="prevDateBtn">← 前日</button>
+        <button class="ov-btn" id="todayDateBtn">今日</button>
+        <button class="ov-btn" id="nextDateBtn">翌日 →</button>
+        <input type="date" class="ov-date" id="overviewDate">
+        <button class="ov-btn primary" id="refreshBtn">↻ 最新データ</button>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label" id="selectedDayLabel">指定日の総PV</div><div class="kpi-value" id="kpiDayPv">0</div><div class="kpi-sub" id="kpiDayBreakdown">なろう 0 / カクヨム 0</div></div>
+      <div class="kpi-card"><div class="kpi-label">全作品 累計PV</div><div class="kpi-value" id="kpiAllPv">0</div><div class="kpi-sub">なろう＋カクヨム</div></div>
+      <div class="kpi-card"><div class="kpi-label">なろう ブックマーク合計</div><div class="kpi-value" id="kpiBookmarks">0</div><div class="kpi-sub">全作品合計</div></div>
+      <div class="kpi-card"><div class="kpi-label">指定日トップ作品</div><div class="kpi-value" id="kpiTopPv">0</div><div class="kpi-sub" id="kpiTopTitle">-</div></div>
+    </div>
+    <div class="snapshot">
+      <div style="font-size:11px;color:var(--plum-soft);margin-bottom:8px;">指定日の作品別PV — 行をクリックすると詳細へ</div>
+      <div id="snapshotTable"></div>
+    </div>
+  </section>
 
   <div class="section-title">
     <h2>本棚</h2>
@@ -332,12 +393,79 @@ body{
 
 </div>
 
-<script src="data.js"></script>
+<script>
+document.write('<script src="data.js?t=' + Date.now() + '"><\\/script>');
+</script>
 <script>
 document.getElementById('lastUpdated').textContent = LAST_UPDATED;
 
 function sum(arr){ return arr.reduce((a,b)=>a+b,0); }
 function weekTotal(b){ return sum(b.week.map(x=>x.pv)); }
+
+function isoFromMmDd(mmdd){
+  const [m,d] = mmdd.split('/').map(Number);
+  return `${YEAR}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+function naroPvForDate(b, iso){
+  const h = (b.naroDailyHistory || []).find(x => isoFromMmDd(x.d) === iso);
+  return h ? h.pv : 0;
+}
+function kakuPvForDate(b, iso){
+  const h = (b.kakuyomu?.dailyHistory || []).find(x => x.date === iso);
+  return h ? h.pv : 0;
+}
+function currentIso(){
+  if (typeof TODAY_ISO !== 'undefined' && TODAY_ISO) return TODAY_ISO;
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function addDays(iso, delta){
+  const d = new Date(iso + 'T12:00:00');
+  d.setDate(d.getDate()+delta);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function renderOverview(iso){
+  const rows = BOOKS.map(b=>{
+    const naro = naroPvForDate(b, iso);
+    const kaku = kakuPvForDate(b, iso);
+    return {b,naro,kaku,total:naro+kaku};
+  }).sort((a,b)=>b.total-a.total);
+  const dayNaro = sum(rows.map(r=>r.naro));
+  const dayKaku = sum(rows.map(r=>r.kaku));
+  const allPv = sum(BOOKS.map(b=>naroCumulativePv(b)+kakuyomuCumulativePv(b)));
+  const bookmarks = sum(BOOKS.map(b=>b.narouStats?.bookmarks || 0));
+  const top = rows[0];
+
+  document.getElementById('selectedDayLabel').textContent = iso + ' の総PV';
+  document.getElementById('kpiDayPv').textContent = (dayNaro+dayKaku).toLocaleString();
+  document.getElementById('kpiDayBreakdown').textContent = `なろう ${dayNaro.toLocaleString()} / カクヨム ${dayKaku.toLocaleString()}`;
+  document.getElementById('kpiAllPv').textContent = allPv.toLocaleString();
+  document.getElementById('kpiBookmarks').textContent = bookmarks.toLocaleString();
+  document.getElementById('kpiTopPv').textContent = top ? top.total.toLocaleString() : '0';
+  document.getElementById('kpiTopTitle').textContent = top && top.total ? top.b.shortTitle : '-';
+
+  const body = rows.map(r=>`
+    <tr data-ncode="${r.b.ncode}">
+      <td>${r.b.shortTitle}</td>
+      <td class="pv-total">${r.total.toLocaleString()}</td>
+      <td>${r.naro.toLocaleString()}</td>
+      <td>${r.kaku.toLocaleString()}</td>
+      <td>${(r.b.narouStats?.bookmarks || 0).toLocaleString()}</td>
+      <td>${(r.b.narouStats?.globalPoint || 0).toLocaleString()}</td>
+      <td>${(r.b.narouStats?.weeklyPoint || 0).toLocaleString()}</td>
+    </tr>`).join('');
+  document.getElementById('snapshotTable').innerHTML = `
+    <table>
+      <thead><tr><th>作品</th><th>合計PV</th><th>なろう</th><th>カクヨム</th><th>ブクマ</th><th>総合pt</th><th>週間pt</th></tr></thead>
+      <tbody>${body}</tbody>
+    </table>`;
+  document.querySelectorAll('#snapshotTable tbody tr').forEach(tr=>{
+    tr.addEventListener('click', ()=>{
+      selectBook(tr.dataset.ncode);
+      document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+}
 
 function sparkSvg(week, hot){
   const vals = week.map(w=>w.pv);
@@ -784,6 +912,7 @@ function selectBook(ncode){
         <div class="metric"><div class="m-val">${b.unique.toLocaleString()}</div><div class="m-lab">累計ユニークアクセス（なろう）</div></div>
         ${b.narouStats ? `<div class="metric"><div class="m-val">${(b.narouStats.bookmarks ?? 0).toLocaleString()}</div><div class="m-lab">ブックマーク（なろう）</div></div>` : ''}
         ${b.narouStats ? `<div class="metric"><div class="m-val">${(b.narouStats.globalPoint ?? 0).toLocaleString()}</div><div class="m-lab">総合ポイント（なろう）</div></div>` : ''}
+        ${b.kakuyomu ? `<div class="metric"><div class="m-val">${(b.kakuyomu.todayPv ?? 0).toLocaleString()}</div><div class="m-lab">本日PV（カクヨム）</div></div>` : ''}
         ${b.kakuyomu ? `<div class="metric"><div class="m-val">${b.kakuyomu.totalPv.toLocaleString()}</div><div class="m-lab">累計PV（カクヨム）</div></div>` : ''}
         ${b.kakuyomu ? `<div class="metric"><div class="m-val">${(b.kakuyomu.followers ?? 0).toLocaleString()}</div><div class="m-lab">フォロワー（カクヨム）</div></div>` : ''}
         ${b.kakuyomu ? `<div class="metric"><div class="m-val">${(b.kakuyomu.cheers ?? 0).toLocaleString()}</div><div class="m-lab">応援（カクヨム）</div></div>` : ''}
@@ -957,6 +1086,17 @@ function renderCumulativeTable(){
   wrap.innerHTML = `<table><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
 }
 renderCumulativeTable();
+
+const overviewDate = document.getElementById('overviewDate');
+overviewDate.value = currentIso();
+renderOverview(overviewDate.value);
+overviewDate.addEventListener('change', ()=>renderOverview(overviewDate.value));
+document.getElementById('todayDateBtn').addEventListener('click', ()=>{ overviewDate.value=currentIso(); renderOverview(overviewDate.value); });
+document.getElementById('prevDateBtn').addEventListener('click', ()=>{ overviewDate.value=addDays(overviewDate.value,-1); renderOverview(overviewDate.value); });
+document.getElementById('nextDateBtn').addEventListener('click', ()=>{ overviewDate.value=addDays(overviewDate.value,1); renderOverview(overviewDate.value); });
+document.getElementById('refreshBtn').addEventListener('click', ()=>{
+  const u = new URL(location.href); u.searchParams.set('refresh', Date.now()); location.href = u.toString();
+});
 
 selectBook(BOOKS.find(b=>b.hot)?.ncode || BOOKS[0].ncode);
 </script>

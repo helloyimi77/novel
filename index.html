@@ -28,6 +28,36 @@
   --cream-line:rgba(74,46,60,0.08);
 }
 
+body[data-theme="dark"]{
+  --bg:#171317;
+  --bg-2:#241D22;
+  --panel:#211A1F;
+  --panel-line:rgba(232,166,188,0.18);
+  --plum:#F2E7EC;
+  --plum-soft:#C5ADB8;
+  --rose:#D28AA2;
+  --rose-deep:#E39AB2;
+  --rose-glow:#7D4358;
+  --lilac:#A99AC1;
+  --lilac-soft:#4A405A;
+  --gold:#D0AD70;
+  --gold-soft:#5E4C2E;
+  --text-dim:#927E88;
+  --cream-line:rgba(255,255,255,0.08);
+}
+body, .detail, .daily, .shelf, .kpi-card, .snapshot, .ov-btn, .ov-date{
+  transition:background-color .2s ease,color .2s ease,border-color .2s ease;
+}
+body[data-theme="dark"]{
+  background:
+    radial-gradient(ellipse at 15% -8%, #2B2026 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 10%, #25202A 0%, transparent 50%),
+    var(--bg);
+}
+body[data-theme="dark"] .daily .cell{ color:#F4E9EE; }
+body[data-theme="dark"] .badge.done{ background:rgba(33,26,31,.92); }
+body[data-theme="dark"] input[type="date"]{ color-scheme:dark; }
+
 *{box-sizing:border-box; margin:0; padding:0;}
 
 body{
@@ -305,6 +335,13 @@ body{
 .snapshot tbody tr:hover{ background:var(--bg-2); }
 .pv-total{ font-family:'Shippori Mincho',serif; font-weight:700; color:var(--rose-deep); }
 .platform-mini{ font-size:10px; color:var(--plum-soft); }
+.range-switch{ display:flex; gap:5px; flex-wrap:wrap; }
+.range-btn{
+  border:1px solid var(--panel-line); background:var(--bg-2); color:var(--plum-soft);
+  border-radius:999px; padding:4px 9px; font:inherit; font-size:10px; cursor:pointer;
+}
+.range-btn.active{ background:var(--rose-deep); color:#fff; border-color:var(--rose-deep); }
+.history-title-row{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
 
 @media (max-width:880px){
   .kpi-grid{ grid-template-columns:repeat(2,1fr); }
@@ -323,6 +360,9 @@ body{
       <div class="sub">なろう投稿作品のアクセス推移を一望する</div>
     </div>
     <div class="header-right">
+      <div style="display:flex;justify-content:flex-end;gap:8px;align-items:center;margin-bottom:8px;">
+        <button class="ov-btn" id="themeToggleBtn">🌙 墨色モード</button>
+      </div>
       <div class="date" id="lastUpdated"></div>
       <div>KASASAGIアクセス解析データを反映</div>
     </div>
@@ -401,6 +441,32 @@ document.getElementById('lastUpdated').textContent = LAST_UPDATED;
 
 function sum(arr){ return arr.reduce((a,b)=>a+b,0); }
 function weekTotal(b){ return sum(b.week.map(x=>x.pv)); }
+
+let DETAIL_RANGE = localStorage.getItem('novelPvRange') || 'all';
+let CURRENT_BOOK = null;
+
+function filterHistoryByRange(history, range){
+  if (!history || !history.length || range === 'all') return history || [];
+  const days = Number(range);
+  return history.slice(-days);
+}
+function rangeButtons(){
+  return `
+    <div class="range-switch">
+      <button class="range-btn ${DETAIL_RANGE==='30'?'active':''}" data-range="30">30日</button>
+      <button class="range-btn ${DETAIL_RANGE==='90'?'active':''}" data-range="90">90日</button>
+      <button class="range-btn ${DETAIL_RANGE==='all'?'active':''}" data-range="all">全期間</button>
+    </div>`;
+}
+function bindRangeButtons(){
+  document.querySelectorAll('.range-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      DETAIL_RANGE = btn.dataset.range;
+      localStorage.setItem('novelPvRange', DETAIL_RANGE);
+      if (CURRENT_BOOK) selectBook(CURRENT_BOOK);
+    });
+  });
+}
 
 function isoFromMmDd(mmdd){
   const [m,d] = mmdd.split('/').map(Number);
@@ -888,6 +954,7 @@ function computeMilestones(b){
 }
 
 function selectBook(ncode){
+  CURRENT_BOOK = ncode;
   document.querySelectorAll('.spine').forEach(s=>s.classList.toggle('active', s.dataset.book===ncode));
   const b = BOOKS.find(x=>x.ncode===ncode);
   const detail = document.getElementById('detail');
@@ -933,11 +1000,21 @@ function selectBook(ncode){
     </div>
     ${b.naroDailyHistory && b.naroDailyHistory.length ? `
     <div class="naro-history">
-      <div class="naro-history-head">
-        <div class="rt-label">なろう 日別PV推移（連載開始日〜今日・全期間）</div>
+      <div class="history-title-row">
+        <div class="rt-label">なろう 日別PV推移</div>
+        ${rangeButtons()}
       </div>
-      <div class="naro-history-note">※確定済みの日は永続キャッシュに保存し、直近2日だけ毎回ライブ取得しています（直近日=ローズ色）</div>
-      ${renderNaroHistoryChart(b.naroDailyHistory)}
+      <div class="naro-history-note">表示期間：${DETAIL_RANGE==='all'?'全期間':DETAIL_RANGE+'日'} ／ 確定済みの日は永続保存、直近2日はライブ値</div>
+      ${renderNaroHistoryChart(filterHistoryByRange(b.naroDailyHistory, DETAIL_RANGE))}
+    </div>` : ''}
+    ${b.kakuyomu && b.kakuyomu.dailyHistory && b.kakuyomu.dailyHistory.length ? `
+    <div class="naro-history">
+      <div class="history-title-row">
+        <div class="rt-label">カクヨム 日別PV推移</div>
+        ${rangeButtons()}
+      </div>
+      <div class="naro-history-note">表示期間：${DETAIL_RANGE==='all'?'全期間':DETAIL_RANGE+'日'} ／ 日別値は累計PV差分を定期観測して蓄積</div>
+      ${renderNaroHistoryChart(filterHistoryByRange(b.kakuyomu.dailyHistory, DETAIL_RANGE))}
     </div>` : ''}
     ${b.hourly && b.hourly.today.length ? `
     <div class="hourly-block">
@@ -984,6 +1061,7 @@ function selectBook(ncode){
       </div>
     </div>` : ''}
   `;
+  bindRangeButtons();
 }
 
 const DOW_JP = ['日','月','火','水','木','金','土'];
@@ -1086,6 +1164,18 @@ function renderCumulativeTable(){
   wrap.innerHTML = `<table><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
 }
 renderCumulativeTable();
+
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+function applyTheme(theme){
+  document.body.dataset.theme = theme;
+  themeToggleBtn.textContent = theme === 'dark' ? '☀️ 明色モード' : '🌙 墨色モード';
+}
+applyTheme(localStorage.getItem('novelPvTheme') || 'light');
+themeToggleBtn.addEventListener('click', ()=>{
+  const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('novelPvTheme', next);
+  applyTheme(next);
+});
 
 const overviewDate = document.getElementById('overviewDate');
 overviewDate.value = currentIso();

@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年09月30日 16:46 時点（自動取得）";
+const LAST_UPDATED = "2026年09月30日 17:01 時点（自動取得）";
 const TODAY_ISO = "2026-09-30";
 const YEAR = 2026;
 
@@ -276,11 +276,11 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051607094832439",
-      totalPv: 592,
-      todayPv: 47,
+      totalPv: 594,
+      todayPv: 49,
       periodStart: "2026-08-29",
-      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 1 }, { d: "9/30", date: "2026-09-30", pv: 47 }],
-      episodes: [31, 19, 20, 15, 21, 23, 16, 13, 13, 12, 15, 14, 14, 15, 14, 18, 11, 11, 11, 10, 12, 11, 12, 10, 10, 9, 11, 13, 13, 15, 13, 9, 8, 9, 11, 15, 6, 8, 9, 7, 7, 8, 6, 5, 5, 5, 6, 9, 7, 7],
+      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 1 }, { d: "9/30", date: "2026-09-30", pv: 49 }],
+      episodes: [31, 19, 20, 15, 21, 23, 16, 13, 13, 12, 15, 14, 14, 15, 14, 18, 11, 11, 11, 10, 12, 11, 12, 10, 10, 9, 11, 13, 13, 15, 13, 9, 8, 9, 11, 15, 6, 8, 9, 7, 7, 8, 6, 5, 5, 6, 7, 9, 7, 7],
       followers: 7,
       reviewAvg: 3.0,
       reviewCount: 1,
@@ -296,7 +296,7 @@ const BOOKS = [
     naroEpisodeCumulative: [535, 427, 418, 415, 418, 398, 376, 367, 353, 336, 323, 315, 295, 312, 299, 303, 278, 277, 283, 269, 297, 272, 256, 262, 235, 270, 238, 251, 250, 237, 238, 227, 223, 223, 231, 397, 218, 213, 241, 214, 213, 250, 264, 239, 207, 215, 228, 359, 354, 386],
     naroDailyHistory: [{ d: "8/29", pv: 88 }, { d: "9/1", pv: 189 }, { d: "9/2", pv: 185 }, { d: "9/3", pv: 159 }, { d: "9/4", pv: 184 }, { d: "9/5", pv: 217 }, { d: "9/6", pv: 182 }, { d: "9/7", pv: 108 }, { d: "9/8", pv: 116 }, { d: "9/9", pv: 161 }, { d: "9/10", pv: 162 }, { d: "9/11", pv: 156 }, { d: "9/12", pv: 336 }, { d: "9/13", pv: 173 }, { d: "9/14", pv: 113 }, { d: "9/15", pv: 144 }, { d: "9/16", pv: 135 }, { d: "9/17", pv: 123 }, { d: "9/18", pv: 211 }, { d: "9/19", pv: 707 }, { d: "9/20", pv: 3297 }, { d: "9/21", pv: 1070 }, { d: "9/22", pv: 1991 }, { d: "9/23", pv: 1542 }, { d: "9/24", pv: 418 }, { d: "9/25", pv: 321 }, { d: "9/26", pv: 411 }, { d: "9/27", pv: 2512 }, { d: "9/28", pv: 1357 }, { d: "9/29", pv: 465 }, { d: "9/30", pv: 46 }],
     rankHistory: [{ date: "2026-09-28", label: "なろう 日間・総合(完結済)", rank: 282, note: "9/28 04-07時", source: "manual" }, { date: "2026-09-28", label: "なろう 日間・総合(完結済)", rank: 226, note: "9/28 11-12時", source: "manual" }, { date: "2026-09-27", label: "カクヨム 異世界ファンタジー・週間", rank: 3189, note: "3669→3189", source: "manual" }, { date: "2026-09-27", label: "なろう 注目度(すべて)", rank: 18, note: "9/27 04-07時（最高順位）", source: "manual" }, { date: "2026-09-27", label: "なろう 注目度(完結済)", rank: 10, note: "9/27 04-07時（最高順位）", source: "manual" }, { date: "2026-09-26", label: "カクヨム 異世界ファンタジー・週間", rank: 3673, note: "新規ランクイン", source: "manual" }, { date: "2026-09-26", label: "なろう 注目度(完結済)", rank: 90, note: "9/26 04-07時", source: "manual" }, { date: "2026-09-25", label: "なろう 注目度(完結済)", rank: 82, note: "9/25 04-07時", source: "manual" }, { date: "2026-09-24", label: "なろう 注目度(完結済)", rank: 95, note: "9/24 04-07時", source: "manual" }, { date: "2026-09-22", label: "なろう 注目度(すべて)", rank: 33, note: "9/22 04-07時", source: "manual" }, { date: "2026-09-22", label: "なろう 注目度(完結済)", rank: 14, note: "9/22 04-07時", source: "manual" }],
-    statsHistory: [{date: "2026-09-29", bookmarks: 41, globalPoint: 180, weeklyPoint: 136, followers: 7, cheers: 90, kakuyomuTotalPv: 545}, {date: "2026-09-30", bookmarks: 41, globalPoint: 180, weeklyPoint: 112, followers: 7, cheers: 90, kakuyomuTotalPv: 592}],
+    statsHistory: [{date: "2026-09-29", bookmarks: 41, globalPoint: 180, weeklyPoint: 136, followers: 7, cheers: 90, kakuyomuTotalPv: 545}, {date: "2026-09-30", bookmarks: 41, globalPoint: 180, weeklyPoint: 112, followers: 7, cheers: 90, kakuyomuTotalPv: 594}],
   },
   {
     ncode: "n0539mr",
@@ -324,11 +324,11 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051607177270165",
-      totalPv: 1071,
-      todayPv: 18,
+      totalPv: 1073,
+      todayPv: 20,
       periodStart: "2026-08-28",
-      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 6 }, { d: "9/30", date: "2026-09-30", pv: 18 }],
-      episodes: [81, 70, 58, 61, 37, 40, 42, 35, 32, 28, 29, 22, 30, 27, 24, 26, 25, 22, 29, 23, 22, 18, 19, 17, 16, 18, 18, 17, 16, 15, 17, 14, 13, 12, 18, 19, 11, 11, 9, 6, 6, 5, 6, 5, 2],
+      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 6 }, { d: "9/30", date: "2026-09-30", pv: 20 }],
+      episodes: [81, 71, 59, 61, 37, 40, 42, 35, 32, 28, 29, 22, 30, 27, 24, 26, 25, 22, 29, 23, 22, 18, 19, 17, 16, 18, 18, 17, 16, 15, 17, 14, 13, 12, 18, 19, 11, 11, 9, 6, 6, 5, 6, 5, 2],
       followers: 8,
       reviewAvg: 3.0,
       reviewCount: 1,
@@ -344,7 +344,7 @@ const BOOKS = [
     naroEpisodeCumulative: [114, 99, 82, 74, 79, 63, 77, 68, 57, 53, 48, 53, 53, 52, 48, 57, 48, 40, 45, 38, 45, 35, 33, 26, 31, 31, 29, 32, 21, 26, 25, 21, 24, 17, 19, 25, 19, 23, 17, 17, 13, 15, 7, 0, 0],
     naroDailyHistory: [{ d: "8/28", pv: 47 }, { d: "8/29", pv: 65 }, { d: "9/1", pv: 35 }, { d: "9/2", pv: 110 }, { d: "9/3", pv: 37 }, { d: "9/4", pv: 71 }, { d: "9/5", pv: 89 }, { d: "9/6", pv: 43 }, { d: "9/7", pv: 109 }, { d: "9/8", pv: 60 }, { d: "9/9", pv: 108 }, { d: "9/10", pv: 68 }, { d: "9/11", pv: 81 }, { d: "9/12", pv: 111 }, { d: "9/13", pv: 77 }, { d: "9/14", pv: 36 }, { d: "9/15", pv: 51 }, { d: "9/16", pv: 80 }, { d: "9/17", pv: 70 }, { d: "9/18", pv: 98 }, { d: "9/19", pv: 82 }, { d: "9/20", pv: 75 }, { d: "9/21", pv: 68 }, { d: "9/22", pv: 141 }, { d: "9/23", pv: 72 }, { d: "9/24", pv: 76 }, { d: "9/25", pv: 38 }, { d: "9/26", pv: 37 }, { d: "9/27", pv: 104 }, { d: "9/28", pv: 195 }, { d: "9/29", pv: 122 }, { d: "9/30", pv: 89 }],
     rankHistory: [{ date: "2026-09-28", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 83, note: "9/28 04-07時", source: "manual" }, { date: "2026-09-28", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 82, note: "9/28 11-12時", source: "manual" }, { date: "2026-09-28", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 77, note: "9/28 18-19時", source: "manual" }, { date: "2026-09-08", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 64, note: "9/8 04-07時（初のなろうランクイン）", source: "manual" }, { date: "2026-09-08", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 68, note: "9/8 11-12時", source: "manual" }, { date: "2026-09-08", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 63, note: "9/8 18-19時（最高順位）", source: "manual" }, { date: "2026-09-05", label: "カクヨム 恋愛・週間", rank: 600, note: "658→600", source: "manual" }, { date: "2026-09-02", label: "カクヨム 恋愛・週間", rank: 630, note: "801→630", source: "manual" }, { date: "2026-09-01", label: "カクヨム 恋愛・週間", rank: 801, note: "1252→801", source: "manual" }, { date: "2026-08-31", label: "カクヨム 恋愛・週間", rank: 1252, note: "ランクイン", source: "manual" }],
-    statsHistory: [{date: "2026-09-29", bookmarks: 7, globalPoint: 30, weeklyPoint: 6, followers: 8, cheers: 14, kakuyomuTotalPv: 1053}, {date: "2026-09-30", bookmarks: 8, globalPoint: 32, weeklyPoint: 10, followers: 8, cheers: 14, kakuyomuTotalPv: 1071}],
+    statsHistory: [{date: "2026-09-29", bookmarks: 7, globalPoint: 30, weeklyPoint: 6, followers: 8, cheers: 14, kakuyomuTotalPv: 1053}, {date: "2026-09-30", bookmarks: 8, globalPoint: 32, weeklyPoint: 10, followers: 8, cheers: 14, kakuyomuTotalPv: 1073}],
   },
   {
     ncode: "n6206mr",

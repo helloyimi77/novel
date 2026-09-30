@@ -5,59 +5,11 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年09月30日 20:16 時点（自動取得）";
+const LAST_UPDATED = "2026年09月30日 20:20 時点（自動取得）";
 const TODAY_ISO = "2026-09-30";
 const YEAR = 2026;
 
 const BOOKS = [
-  {
-    ncode: "n9971mp",
-    title: "剣を持たない救国のサラリーマン ～隊も砦も領地も押し付けられて国まで至る～",
-    shortTitle: "剣を持たない救国のサラリーマン",
-    status: "ongoing",
-    startDate: "2026-08-20",
-    genre: "男性向け",
-    order: 5,
-    cover: "covers/n9971mp.jpg",
-    episodes: 24,
-    tags: ["異世界", "ハイファンタジー", "新連載"],
-    mood: "乗っ取った体で覚え直す文官の目線。乾いた現場感と静かな采配のお仕事もの。",
-    week: [{ d: "9/24", pv: 9 }, { d: "9/25", pv: 10 }, { d: "9/26", pv: 9 }, { d: "9/27", pv: 10 }, { d: "9/28", pv: 31 }, { d: "9/29", pv: 9 }, { d: "9/30", pv: 4 }],
-    unique: 650, pc: 82, sp: 0, app: 0,
-    narouStats: {
-      bookmarks: 1,
-      globalPoint: 12,
-      weeklyPoint: 0,
-      reviewCnt: 0,
-      impressionCnt: 0,
-      ratingAvg: 10.0,
-      ratingCnt: 1,
-    },
-    hot: false, note: "",
-    kakuyomu: {
-      workId: "2912051606527100332",
-      totalPv: 349,
-      todayPv: 0,
-      periodStart: "2026-08-20",
-      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 0 }],
-      episodes: [54, 29, 28, 28, 24, 22, 17, 13, 14, 13, 13, 8, 8, 10, 10, 6, 5, 5, 6, 7, 8, 6, 7, 8],
-      followers: 6,
-      reviewAvg: null,
-      reviewCount: 0,
-      comments: 0,
-      cheers: 20,
-    },
-    hourly: {
-      todayDate: "09/30",
-      yesterdayDate: "09/29",
-      today:     [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-      yesterday: [1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 1, 0],
-    },
-    naroEpisodeCumulative: [79, 60, 61, 55, 56, 46, 40, 48, 31, 35, 37, 31, 28, 24, 29, 30, 36, 23, 28, 20, 46, 20, 17, 17],
-    naroDailyHistory: [{ d: "8/20", pv: 24 }, { d: "8/21", pv: 29 }, { d: "8/22", pv: 40 }, { d: "8/23", pv: 17 }, { d: "8/24", pv: 34 }, { d: "8/25", pv: 45 }, { d: "8/26", pv: 52 }, { d: "8/27", pv: 54 }, { d: "8/28", pv: 29 }, { d: "8/29", pv: 33 }, { d: "8/30", pv: 42 }, { d: "9/1", pv: 24 }, { d: "9/2", pv: 60 }, { d: "9/3", pv: 40 }, { d: "9/4", pv: 33 }, { d: "9/5", pv: 55 }, { d: "9/6", pv: 79 }, { d: "9/7", pv: 34 }, { d: "9/8", pv: 57 }, { d: "9/9", pv: 7 }, { d: "9/10", pv: 4 }, { d: "9/11", pv: 15 }, { d: "9/12", pv: 42 }, { d: "9/13", pv: 28 }, { d: "9/14", pv: 5 }, { d: "9/15", pv: 10 }, { d: "9/16", pv: 4 }, { d: "9/17", pv: 5 }, { d: "9/18", pv: 77 }, { d: "9/19", pv: 7 }, { d: "9/20", pv: 4 }, { d: "9/21", pv: 13 }, { d: "9/22", pv: 3 }, { d: "9/23", pv: 17 }, { d: "9/24", pv: 9 }, { d: "9/25", pv: 10 }, { d: "9/26", pv: 9 }, { d: "9/27", pv: 10 }, { d: "9/28", pv: 31 }, { d: "9/29", pv: 9 }, { d: "9/30", pv: 4 }],
-    rankHistory: [],
-    statsHistory: [{date: "2026-09-29", bookmarks: 1, globalPoint: 12, weeklyPoint: 0, followers: 6, cheers: 20, kakuyomuTotalPv: 349}, {date: "2026-09-30", bookmarks: 1, globalPoint: 12, weeklyPoint: 0, followers: 6, cheers: 20, kakuyomuTotalPv: 349}],
-  },
   {
     ncode: "n4795mp",
     title: "毒の泉しかない土地に追放されましたが、あれ温泉なので大歓迎です ～前世が温泉オタクの令嬢、辺境で湯屋を作ります～",

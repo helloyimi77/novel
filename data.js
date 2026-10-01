@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年10月01日 17:46 時点（自動取得）";
+const LAST_UPDATED = "2026年10月01日 18:01 時点（自動取得）";
 const TODAY_ISO = "2026-10-01";
 const YEAR = 2026;
 
@@ -180,11 +180,11 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051605714849927",
-      totalPv: 2576,
-      todayPv: 36,
+      totalPv: 2577,
+      todayPv: 37,
       periodStart: "2026-08-07",
-      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 4 }, { d: "9/30", date: "2026-09-30", pv: 49 }, { d: "10/1", date: "2026-10-01", pv: 36 }],
-      episodes: [110, 81, 78, 75, 68, 49, 52, 49, 114, 51, 72, 35, 42, 37, 31, 32, 30, 30, 30, 105, 30, 27, 23, 28, 53, 133, 123, 46, 49, 49, 92, 54, 34, 31, 24, 61, 34, 45, 71, 37, 35, 28, 25, 31, 94, 36, 24, 32, 30, 26],
+      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 4 }, { d: "9/30", date: "2026-09-30", pv: 49 }, { d: "10/1", date: "2026-10-01", pv: 37 }],
+      episodes: [110, 81, 78, 75, 68, 49, 53, 49, 114, 51, 72, 35, 42, 37, 31, 32, 30, 30, 30, 105, 30, 27, 23, 28, 53, 133, 123, 46, 49, 49, 92, 54, 34, 31, 24, 61, 34, 45, 71, 37, 35, 28, 25, 31, 94, 36, 24, 32, 30, 26],
       followers: 14,
       reviewAvg: 2.8,
       reviewCount: 4,
@@ -200,7 +200,7 @@ const BOOKS = [
     naroEpisodeCumulative: [670, 555, 528, 498, 456, 442, 409, 391, 616, 407, 444, 336, 316, 293, 284, 300, 274, 252, 284, 543, 289, 252, 266, 264, 326, 594, 549, 324, 312, 305, 407, 323, 244, 250, 236, 394, 246, 276, 479, 284, 252, 256, 246, 278, 545, 255, 232, 239, 252, 244],
     naroDailyHistory: [{ d: "8/12", pv: 137 }, { d: "8/13", pv: 102 }, { d: "8/14", pv: 131 }, { d: "8/15", pv: 187 }, { d: "8/16", pv: 232 }, { d: "8/17", pv: 252 }, { d: "8/18", pv: 201 }, { d: "8/19", pv: 331 }, { d: "8/20", pv: 416 }, { d: "8/21", pv: 531 }, { d: "8/22", pv: 444 }, { d: "8/23", pv: 505 }, { d: "8/24", pv: 347 }, { d: "8/25", pv: 511 }, { d: "8/26", pv: 619 }, { d: "8/27", pv: 889 }, { d: "8/28", pv: 1934 }, { d: "8/29", pv: 2416 }, { d: "9/1", pv: 901 }, { d: "9/2", pv: 965 }, { d: "9/3", pv: 808 }, { d: "9/4", pv: 681 }, { d: "9/5", pv: 567 }, { d: "9/6", pv: 419 }, { d: "9/7", pv: 483 }, { d: "9/8", pv: 234 }, { d: "9/9", pv: 201 }, { d: "9/10", pv: 244 }, { d: "9/11", pv: 163 }, { d: "9/12", pv: 134 }, { d: "9/13", pv: 140 }, { d: "9/14", pv: 204 }, { d: "9/15", pv: 183 }, { d: "9/16", pv: 262 }, { d: "9/17", pv: 62 }, { d: "9/18", pv: 33 }, { d: "9/19", pv: 107 }, { d: "9/20", pv: 83 }, { d: "9/21", pv: 168 }, { d: "9/22", pv: 217 }, { d: "9/23", pv: 201 }, { d: "9/24", pv: 60 }, { d: "9/25", pv: 167 }, { d: "9/26", pv: 53 }, { d: "9/27", pv: 79 }, { d: "9/28", pv: 116 }, { d: "9/30", pv: 76 }, { d: "10/1", pv: 76 }],
     rankHistory: [{ date: "2026-09-08", label: "カクヨム 異世界ファンタジー・週間", rank: 4337, note: "5052→4337", source: "manual" }, { date: "2026-09-07", label: "カクヨム 異世界ファンタジー・週間", rank: 5055, note: "5137→5055", source: "manual" }, { date: "2026-09-06", label: "カクヨム 異世界ファンタジー・週間", rank: 5153, note: "5176→5153", source: "manual" }, { date: "2026-09-06", label: "カクヨム 異世界ファンタジー・週間", rank: 5138, note: "5153→5138", source: "manual" }, { date: "2026-09-04", label: "なろう 注目度(完結済)", rank: 49, note: "9/4 04-07時（最高順位）", source: "manual" }, { date: "2026-09-03", label: "なろう 注目度(完結済)", rank: 77, note: "9/3 04-07時", source: "manual" }, { date: "2026-09-02", label: "なろう 注目度(完結済)", rank: 90, note: "9/2 04-07時", source: "manual" }, { date: "2026-09-02", label: "カクヨム 異世界ファンタジー・週間", rank: 4590, note: "新規ランクイン（完結後、新しい週での再ランクイン）", source: "manual" }, { date: "2026-09-02", label: "なろう 日間・総合(完結済)", rank: 292, note: "9/2 18-19時", source: "manual" }, { date: "2026-08-31", label: "なろう 注目度(完結済)", rank: 100, note: "8/31 04-07時", source: "manual" }, { date: "2026-08-29", label: "なろう 日間・総合(完結済)", rank: 223, note: "8/29 18-19時", source: "manual" }, { date: "2026-08-28", label: "カクヨム 異世界ファンタジー・週間", rank: 5061, note: "新規ランクイン", source: "manual" }, { date: "2026-08-24", label: "カクヨム 異世界ファンタジー・週間", rank: 2410, note: "2412→2410、足踏み", source: "manual" }, { date: "2026-08-22", label: "カクヨム 異世界ファンタジー・週間", rank: 2404, note: "2465→2404", source: "manual" }, { date: "2026-08-21", label: "カクヨム 異世界ファンタジー・週間", rank: 2466, note: "2801→2466", source: "manual" }, { date: "2026-08-20", label: "カクヨム 異世界ファンタジー・週間", rank: 3086, note: "3980→3086", source: "manual" }, { date: "2026-08-20", label: "カクヨム 異世界ファンタジー・週間", rank: 2804, note: "3079→2804", source: "manual" }],
-    statsHistory: [{date: "2026-09-29", bookmarks: 22, globalPoint: 140, weeklyPoint: 4, followers: 14, cheers: 113, kakuyomuTotalPv: 2491}, {date: "2026-09-30", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 14, cheers: 113, kakuyomuTotalPv: 2540}, {date: "2026-10-01", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 14, cheers: 113, kakuyomuTotalPv: 2576}],
+    statsHistory: [{date: "2026-09-29", bookmarks: 22, globalPoint: 140, weeklyPoint: 4, followers: 14, cheers: 113, kakuyomuTotalPv: 2491}, {date: "2026-09-30", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 14, cheers: 113, kakuyomuTotalPv: 2540}, {date: "2026-10-01", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 14, cheers: 113, kakuyomuTotalPv: 2577}],
   },
   {
     ncode: "n4374mp",

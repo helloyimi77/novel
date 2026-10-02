@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年10月03日 02:01 時点（自動取得）";
+const LAST_UPDATED = "2026年10月03日 02:16 時点（自動取得）";
 const TODAY_ISO = "2026-10-03";
 const YEAR = 2026;
 
@@ -166,8 +166,8 @@ const BOOKS = [
     episodes: 50,
     tags: ["異世界", "安定成長", "SP優位"],
     mood: "魔導灯と防火結界の干渉を即座に直す技術系令嬢。冷静沈着な現場対応のお仕事もの。",
-    week: [{ d: "9/27", pv: 79 }, { d: "9/28", pv: 116 }, { d: "9/29", pv: 72 }, { d: "9/30", pv: 76 }, { d: "10/1", pv: 78 }, { d: "10/2", pv: 157 }, { d: "10/3", pv: 12 }],
-    unique: 4036, pc: 214, sp: 376, app: 0,
+    week: [{ d: "9/27", pv: 79 }, { d: "9/28", pv: 116 }, { d: "9/29", pv: 72 }, { d: "9/30", pv: 76 }, { d: "10/1", pv: 78 }, { d: "10/2", pv: 157 }, { d: "10/3", pv: 13 }],
+    unique: 4036, pc: 215, sp: 376, app: 0,
     narouStats: {
       bookmarks: 22,
       globalPoint: 140,
@@ -180,11 +180,11 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051605714849927",
-      totalPv: 2612,
-      todayPv: 7,
+      totalPv: 2613,
+      todayPv: 8,
       periodStart: "2026-08-07",
-      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 4 }, { d: "9/30", date: "2026-09-30", pv: 49 }, { d: "10/1", date: "2026-10-01", pv: 48 }, { d: "10/2", date: "2026-10-02", pv: 17 }, { d: "10/3", date: "2026-10-03", pv: 7 }],
-      episodes: [110, 81, 78, 75, 68, 49, 53, 50, 115, 52, 73, 35, 42, 37, 31, 32, 30, 30, 30, 106, 30, 27, 23, 28, 53, 134, 124, 47, 50, 51, 93, 55, 35, 34, 25, 62, 35, 46, 72, 38, 36, 30, 26, 34, 97, 37, 24, 32, 31, 26],
+      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 4 }, { d: "9/30", date: "2026-09-30", pv: 49 }, { d: "10/1", date: "2026-10-01", pv: 48 }, { d: "10/2", date: "2026-10-02", pv: 17 }, { d: "10/3", date: "2026-10-03", pv: 8 }],
+      episodes: [111, 81, 78, 75, 68, 49, 53, 50, 115, 52, 73, 35, 42, 37, 31, 32, 30, 30, 30, 106, 30, 27, 23, 28, 53, 134, 124, 47, 50, 51, 93, 55, 35, 34, 25, 62, 35, 46, 72, 38, 36, 30, 26, 34, 97, 37, 24, 32, 31, 26],
       followers: 15,
       reviewAvg: 2.8,
       reviewCount: 4,
@@ -194,13 +194,13 @@ const BOOKS = [
     hourly: {
       todayDate: "10/03",
       yesterdayDate: "10/02",
-      today:     [11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      today:     [11, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       yesterday: [0, 0, 1, 0, 7, 0, 0, 0, 0, 2, 0, 0, 0, 9, 19, 44, 1, 8, 11, 10, 13, 13, 6, 13],
     },
     naroEpisodeCumulative: [675, 558, 533, 502, 460, 446, 411, 395, 618, 409, 448, 338, 317, 294, 285, 303, 276, 255, 287, 545, 291, 254, 268, 265, 329, 598, 551, 326, 315, 308, 410, 325, 246, 251, 238, 396, 250, 280, 483, 287, 253, 260, 248, 282, 548, 256, 233, 242, 255, 245],
-    naroDailyHistory: [{ d: "8/12", pv: 137 }, { d: "8/13", pv: 102 }, { d: "8/14", pv: 131 }, { d: "8/15", pv: 187 }, { d: "8/16", pv: 232 }, { d: "8/17", pv: 252 }, { d: "8/18", pv: 201 }, { d: "8/19", pv: 331 }, { d: "8/20", pv: 416 }, { d: "8/21", pv: 531 }, { d: "8/22", pv: 444 }, { d: "8/23", pv: 505 }, { d: "8/24", pv: 347 }, { d: "8/25", pv: 511 }, { d: "8/26", pv: 619 }, { d: "8/27", pv: 889 }, { d: "8/28", pv: 1934 }, { d: "8/29", pv: 2416 }, { d: "9/1", pv: 901 }, { d: "9/2", pv: 965 }, { d: "9/3", pv: 808 }, { d: "9/4", pv: 681 }, { d: "9/5", pv: 567 }, { d: "9/6", pv: 419 }, { d: "9/7", pv: 483 }, { d: "9/8", pv: 234 }, { d: "9/9", pv: 201 }, { d: "9/10", pv: 244 }, { d: "9/11", pv: 163 }, { d: "9/12", pv: 134 }, { d: "9/13", pv: 140 }, { d: "9/14", pv: 204 }, { d: "9/15", pv: 183 }, { d: "9/16", pv: 262 }, { d: "9/17", pv: 62 }, { d: "9/18", pv: 33 }, { d: "9/19", pv: 107 }, { d: "9/20", pv: 83 }, { d: "9/21", pv: 168 }, { d: "9/22", pv: 217 }, { d: "9/23", pv: 201 }, { d: "9/24", pv: 60 }, { d: "9/25", pv: 167 }, { d: "9/26", pv: 53 }, { d: "9/27", pv: 79 }, { d: "9/28", pv: 116 }, { d: "10/1", pv: 78 }, { d: "10/2", pv: 157 }, { d: "10/3", pv: 12 }],
+    naroDailyHistory: [{ d: "8/12", pv: 137 }, { d: "8/13", pv: 102 }, { d: "8/14", pv: 131 }, { d: "8/15", pv: 187 }, { d: "8/16", pv: 232 }, { d: "8/17", pv: 252 }, { d: "8/18", pv: 201 }, { d: "8/19", pv: 331 }, { d: "8/20", pv: 416 }, { d: "8/21", pv: 531 }, { d: "8/22", pv: 444 }, { d: "8/23", pv: 505 }, { d: "8/24", pv: 347 }, { d: "8/25", pv: 511 }, { d: "8/26", pv: 619 }, { d: "8/27", pv: 889 }, { d: "8/28", pv: 1934 }, { d: "8/29", pv: 2416 }, { d: "9/1", pv: 901 }, { d: "9/2", pv: 965 }, { d: "9/3", pv: 808 }, { d: "9/4", pv: 681 }, { d: "9/5", pv: 567 }, { d: "9/6", pv: 419 }, { d: "9/7", pv: 483 }, { d: "9/8", pv: 234 }, { d: "9/9", pv: 201 }, { d: "9/10", pv: 244 }, { d: "9/11", pv: 163 }, { d: "9/12", pv: 134 }, { d: "9/13", pv: 140 }, { d: "9/14", pv: 204 }, { d: "9/15", pv: 183 }, { d: "9/16", pv: 262 }, { d: "9/17", pv: 62 }, { d: "9/18", pv: 33 }, { d: "9/19", pv: 107 }, { d: "9/20", pv: 83 }, { d: "9/21", pv: 168 }, { d: "9/22", pv: 217 }, { d: "9/23", pv: 201 }, { d: "9/24", pv: 60 }, { d: "9/25", pv: 167 }, { d: "9/26", pv: 53 }, { d: "9/27", pv: 79 }, { d: "9/28", pv: 116 }, { d: "10/1", pv: 78 }, { d: "10/2", pv: 157 }, { d: "10/3", pv: 13 }],
     rankHistory: [{ date: "2026-09-08", label: "カクヨム 異世界ファンタジー・週間", rank: 4337, note: "5052→4337", source: "manual" }, { date: "2026-09-07", label: "カクヨム 異世界ファンタジー・週間", rank: 5055, note: "5137→5055", source: "manual" }, { date: "2026-09-06", label: "カクヨム 異世界ファンタジー・週間", rank: 5153, note: "5176→5153", source: "manual" }, { date: "2026-09-06", label: "カクヨム 異世界ファンタジー・週間", rank: 5138, note: "5153→5138", source: "manual" }, { date: "2026-09-04", label: "なろう 注目度(完結済)", rank: 49, note: "9/4 04-07時（最高順位）", source: "manual" }, { date: "2026-09-03", label: "なろう 注目度(完結済)", rank: 77, note: "9/3 04-07時", source: "manual" }, { date: "2026-09-02", label: "なろう 注目度(完結済)", rank: 90, note: "9/2 04-07時", source: "manual" }, { date: "2026-09-02", label: "カクヨム 異世界ファンタジー・週間", rank: 4590, note: "新規ランクイン（完結後、新しい週での再ランクイン）", source: "manual" }, { date: "2026-09-02", label: "なろう 日間・総合(完結済)", rank: 292, note: "9/2 18-19時", source: "manual" }, { date: "2026-08-31", label: "なろう 注目度(完結済)", rank: 100, note: "8/31 04-07時", source: "manual" }, { date: "2026-08-29", label: "なろう 日間・総合(完結済)", rank: 223, note: "8/29 18-19時", source: "manual" }, { date: "2026-08-28", label: "カクヨム 異世界ファンタジー・週間", rank: 5061, note: "新規ランクイン", source: "manual" }, { date: "2026-08-24", label: "カクヨム 異世界ファンタジー・週間", rank: 2410, note: "2412→2410、足踏み", source: "manual" }, { date: "2026-08-22", label: "カクヨム 異世界ファンタジー・週間", rank: 2404, note: "2465→2404", source: "manual" }, { date: "2026-08-21", label: "カクヨム 異世界ファンタジー・週間", rank: 2466, note: "2801→2466", source: "manual" }, { date: "2026-08-20", label: "カクヨム 異世界ファンタジー・週間", rank: 3086, note: "3980→3086", source: "manual" }, { date: "2026-08-20", label: "カクヨム 異世界ファンタジー・週間", rank: 2804, note: "3079→2804", source: "manual" }],
-    statsHistory: [{date: "2026-09-29", bookmarks: 22, globalPoint: 140, weeklyPoint: 4, followers: 14, cheers: 113, kakuyomuTotalPv: 2491}, {date: "2026-09-30", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 14, cheers: 113, kakuyomuTotalPv: 2540}, {date: "2026-10-01", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 14, cheers: 113, kakuyomuTotalPv: 2588}, {date: "2026-10-02", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 14, cheers: 113, kakuyomuTotalPv: 2605}, {date: "2026-10-03", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 15, cheers: 113, kakuyomuTotalPv: 2612}],
+    statsHistory: [{date: "2026-09-29", bookmarks: 22, globalPoint: 140, weeklyPoint: 4, followers: 14, cheers: 113, kakuyomuTotalPv: 2491}, {date: "2026-09-30", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 14, cheers: 113, kakuyomuTotalPv: 2540}, {date: "2026-10-01", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 14, cheers: 113, kakuyomuTotalPv: 2588}, {date: "2026-10-02", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 14, cheers: 113, kakuyomuTotalPv: 2605}, {date: "2026-10-03", bookmarks: 22, globalPoint: 140, weeklyPoint: 2, followers: 15, cheers: 113, kakuyomuTotalPv: 2613}],
   },
   {
     ncode: "n4374mp",

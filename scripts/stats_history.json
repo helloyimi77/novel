@@ -42,10 +42,10 @@
         "weeklyPoint": 16
       },
       "2026-10-04": {
-        "bookmarks": 12,
+        "bookmarks": 13,
         "cheers": 15,
         "followers": 8,
-        "globalPoint": 50,
+        "globalPoint": 52,
         "kakuyomuTotalPv": 1285,
         "weeklyPoint": 16
       }
@@ -254,7 +254,7 @@
         "cheers": 208,
         "followers": 21,
         "globalPoint": 200,
-        "kakuyomuTotalPv": 4963,
+        "kakuyomuTotalPv": 4964,
         "weeklyPoint": 2
       }
     }

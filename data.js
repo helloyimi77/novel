@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年10月05日 10:31 時点（自動取得）";
+const LAST_UPDATED = "2026年10月05日 10:46 時点（自動取得）";
 const TODAY_ISO = "2026-10-05";
 const YEAR = 2026;
 
@@ -118,8 +118,8 @@ const BOOKS = [
     episodes: 50,
     tags: ["完結済み", "ESN大賞11", "なろうフェス2026"],
     mood: "書類仕事しか能がないと嗤われた令嬢の契約結婚。氷のような矜持で見返す静かな復讐劇。",
-    week: [{ d: "9/29", pv: 184 }, { d: "9/30", pv: 117 }, { d: "10/1", pv: 173 }, { d: "10/2", pv: 107 }, { d: "10/3", pv: 152 }, { d: "10/4", pv: 44 }, { d: "10/5", pv: 45 }],
-    unique: 6614, pc: 259, sp: 563, app: 0,
+    week: [{ d: "9/29", pv: 184 }, { d: "9/30", pv: 117 }, { d: "10/1", pv: 173 }, { d: "10/2", pv: 107 }, { d: "10/3", pv: 152 }, { d: "10/4", pv: 44 }, { d: "10/5", pv: 46 }],
+    unique: 6614, pc: 259, sp: 564, app: 0,
     narouStats: {
       bookmarks: 40,
       globalPoint: 200,
@@ -146,11 +146,11 @@ const BOOKS = [
     hourly: {
       todayDate: "10/05",
       yesterdayDate: "10/04",
-      today:     [0, 0, 7, 0, 1, 1, 18, 12, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      today:     [0, 0, 7, 0, 1, 1, 18, 12, 1, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       yesterday: [15, 5, 3, 0, 0, 1, 0, 1, 0, 1, 0, 1, 2, 4, 1, 0, 0, 1, 0, 3, 1, 2, 1, 2],
     },
     naroEpisodeCumulative: [1454, 1300, 1248, 1241, 1297, 1261, 1180, 1112, 1140, 1202, 1106, 1081, 1151, 1150, 1015, 1024, 1000, 925, 875, 818, 817, 858, 946, 793, 758, 718, 697, 687, 650, 640, 638, 603, 722, 615, 617, 580, 848, 572, 575, 604, 577, 554, 682, 609, 582, 678, 685, 676, 735, 872],
-    naroDailyHistory: [{ d: "8/6", pv: 194 }, { d: "8/7", pv: 505 }, { d: "8/8", pv: 222 }, { d: "8/9", pv: 350 }, { d: "8/10", pv: 344 }, { d: "8/11", pv: 373 }, { d: "8/12", pv: 576 }, { d: "8/13", pv: 543 }, { d: "8/14", pv: 481 }, { d: "8/15", pv: 250 }, { d: "8/16", pv: 451 }, { d: "8/17", pv: 339 }, { d: "8/18", pv: 412 }, { d: "8/19", pv: 592 }, { d: "8/20", pv: 578 }, { d: "8/21", pv: 384 }, { d: "8/22", pv: 457 }, { d: "8/23", pv: 410 }, { d: "8/24", pv: 3842 }, { d: "8/25", pv: 11529 }, { d: "8/26", pv: 5361 }, { d: "8/27", pv: 3268 }, { d: "8/28", pv: 2224 }, { d: "8/29", pv: 1334 }, { d: "8/30", pv: 1363 }, { d: "9/1", pv: 976 }, { d: "9/2", pv: 640 }, { d: "9/3", pv: 1051 }, { d: "9/4", pv: 914 }, { d: "9/5", pv: 668 }, { d: "9/6", pv: 1022 }, { d: "9/7", pv: 843 }, { d: "9/8", pv: 722 }, { d: "9/9", pv: 304 }, { d: "9/10", pv: 190 }, { d: "9/11", pv: 282 }, { d: "9/12", pv: 133 }, { d: "9/13", pv: 275 }, { d: "9/14", pv: 405 }, { d: "9/15", pv: 359 }, { d: "9/16", pv: 187 }, { d: "9/17", pv: 303 }, { d: "9/18", pv: 97 }, { d: "9/19", pv: 84 }, { d: "9/20", pv: 226 }, { d: "9/21", pv: 187 }, { d: "9/22", pv: 161 }, { d: "9/23", pv: 163 }, { d: "9/24", pv: 136 }, { d: "9/25", pv: 148 }, { d: "9/26", pv: 217 }, { d: "9/27", pv: 46 }, { d: "9/28", pv: 180 }, { d: "10/1", pv: 173 }, { d: "10/2", pv: 107 }, { d: "10/3", pv: 152 }, { d: "10/4", pv: 44 }, { d: "10/5", pv: 45 }],
+    naroDailyHistory: [{ d: "8/6", pv: 194 }, { d: "8/7", pv: 505 }, { d: "8/8", pv: 222 }, { d: "8/9", pv: 350 }, { d: "8/10", pv: 344 }, { d: "8/11", pv: 373 }, { d: "8/12", pv: 576 }, { d: "8/13", pv: 543 }, { d: "8/14", pv: 481 }, { d: "8/15", pv: 250 }, { d: "8/16", pv: 451 }, { d: "8/17", pv: 339 }, { d: "8/18", pv: 412 }, { d: "8/19", pv: 592 }, { d: "8/20", pv: 578 }, { d: "8/21", pv: 384 }, { d: "8/22", pv: 457 }, { d: "8/23", pv: 410 }, { d: "8/24", pv: 3842 }, { d: "8/25", pv: 11529 }, { d: "8/26", pv: 5361 }, { d: "8/27", pv: 3268 }, { d: "8/28", pv: 2224 }, { d: "8/29", pv: 1334 }, { d: "8/30", pv: 1363 }, { d: "9/1", pv: 976 }, { d: "9/2", pv: 640 }, { d: "9/3", pv: 1051 }, { d: "9/4", pv: 914 }, { d: "9/5", pv: 668 }, { d: "9/6", pv: 1022 }, { d: "9/7", pv: 843 }, { d: "9/8", pv: 722 }, { d: "9/9", pv: 304 }, { d: "9/10", pv: 190 }, { d: "9/11", pv: 282 }, { d: "9/12", pv: 133 }, { d: "9/13", pv: 275 }, { d: "9/14", pv: 405 }, { d: "9/15", pv: 359 }, { d: "9/16", pv: 187 }, { d: "9/17", pv: 303 }, { d: "9/18", pv: 97 }, { d: "9/19", pv: 84 }, { d: "9/20", pv: 226 }, { d: "9/21", pv: 187 }, { d: "9/22", pv: 161 }, { d: "9/23", pv: 163 }, { d: "9/24", pv: 136 }, { d: "9/25", pv: 148 }, { d: "9/26", pv: 217 }, { d: "9/27", pv: 46 }, { d: "9/28", pv: 180 }, { d: "10/1", pv: 173 }, { d: "10/2", pv: 107 }, { d: "10/3", pv: 152 }, { d: "10/4", pv: 44 }, { d: "10/5", pv: 46 }],
     rankHistory: [{ date: "2026-09-27", label: "カクヨム 恋愛・週間", rank: 779, note: "1672→779", source: "manual" }, { date: "2026-09-26", label: "カクヨム 恋愛・週間", rank: 1673, note: "1730→1673", source: "manual" }, { date: "2026-09-16", label: "カクヨム 恋愛・週間", rank: 1620, note: "1648→1620、スパイク後の減衰局面", source: "manual" }, { date: "2026-09-12", label: "カクヨム 恋愛・週間", rank: 1238, note: "1258→1238", source: "manual" }, { date: "2026-09-11", label: "カクヨム 恋愛・週間", rank: 1034, note: "新規ランクイン（完結後、久々の浮上）", source: "manual" }, { date: "2026-08-27", label: "なろう 日間・総合(完結済)", rank: 244, note: "8/27 18-19時", source: "manual" }, { date: "2026-08-27", label: "なろう 注目度(完結済)", rank: 90, note: "8/27 04-07時", source: "manual" }, { date: "2026-08-26", label: "なろう 日間・総合(完結済)", rank: 149, note: "8/26 04-07時", source: "manual" }, { date: "2026-08-26", label: "なろう 日間・総合(完結済)", rank: 169, note: "8/26 11-12時", source: "manual" }, { date: "2026-08-25", label: "なろう 日間・総合(完結済)", rank: 221, note: "8/25 11-12時", source: "manual" }, { date: "2026-08-25", label: "なろう 日間・総合(完結済)", rank: 126, note: "8/25 18-19時", source: "manual" }, { date: "2026-08-25", label: "なろう 日間・異世界〔恋愛〕(完結済)", rank: 95, note: "8/25 18-19時（全実績中の最高順位）", source: "manual" }],
     statsHistory: [{date: "2026-09-29", bookmarks: 40, globalPoint: 200, weeklyPoint: 6, followers: 21, cheers: 208, kakuyomuTotalPv: 4833}, {date: "2026-09-30", bookmarks: 40, globalPoint: 200, weeklyPoint: 4, followers: 21, cheers: 208, kakuyomuTotalPv: 4909}, {date: "2026-10-01", bookmarks: 40, globalPoint: 200, weeklyPoint: 4, followers: 21, cheers: 208, kakuyomuTotalPv: 4943}, {date: "2026-10-02", bookmarks: 40, globalPoint: 200, weeklyPoint: 4, followers: 21, cheers: 208, kakuyomuTotalPv: 4943}, {date: "2026-10-03", bookmarks: 40, globalPoint: 200, weeklyPoint: 4, followers: 21, cheers: 208, kakuyomuTotalPv: 4946}, {date: "2026-10-04", bookmarks: 40, globalPoint: 200, weeklyPoint: 2, followers: 21, cheers: 208, kakuyomuTotalPv: 4967}, {date: "2026-10-05", bookmarks: 40, globalPoint: 200, weeklyPoint: 2, followers: 21, cheers: 208, kakuyomuTotalPv: 4973}],
   },
@@ -310,8 +310,8 @@ const BOOKS = [
     episodes: 50,
     tags: ["現代", "アイドル", "芸能界", "女優", "お仕事", "成長", "青春"],
     mood: "人気4位の私、芝居になると別人らしい。女優も、この5人も絶対諦めない。5人組アイドル「Lumière cinq」の桜井陽葵が、演技の才能をきっかけに女優への道を見出していく、お仕事×青春×芸能界ストーリー。",
-    week: [{ d: "9/29", pv: 122 }, { d: "9/30", pv: 159 }, { d: "10/1", pv: 62 }, { d: "10/2", pv: 248 }, { d: "10/3", pv: 254 }, { d: "10/4", pv: 395 }, { d: "10/5", pv: 125 }],
-    unique: 1332, pc: 705, sp: 660, app: 0,
+    week: [{ d: "9/29", pv: 122 }, { d: "9/30", pv: 159 }, { d: "10/1", pv: 62 }, { d: "10/2", pv: 248 }, { d: "10/3", pv: 254 }, { d: "10/4", pv: 395 }, { d: "10/5", pv: 129 }],
+    unique: 1332, pc: 709, sp: 660, app: 0,
     narouStats: {
       bookmarks: 13,
       globalPoint: 52,
@@ -324,11 +324,11 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051607177270165",
-      totalPv: 1287,
-      todayPv: 1,
+      totalPv: 1288,
+      todayPv: 2,
       periodStart: "2026-08-28",
-      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 6 }, { d: "9/30", date: "2026-09-30", pv: 38 }, { d: "10/1", date: "2026-10-01", pv: 53 }, { d: "10/2", date: "2026-10-02", pv: 56 }, { d: "10/3", date: "2026-10-03", pv: 62 }, { d: "10/4", date: "2026-10-04", pv: 24 }, { d: "10/5", date: "2026-10-05", pv: 1 }],
-      episodes: [87, 78, 62, 65, 40, 45, 47, 41, 36, 33, 35, 25, 33, 31, 28, 31, 29, 28, 33, 27, 25, 21, 22, 20, 21, 22, 22, 21, 24, 17, 19, 16, 15, 14, 24, 21, 13, 13, 13, 9, 10, 9, 10, 12, 7, 5, 8, 7, 9, 4],
+      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 6 }, { d: "9/30", date: "2026-09-30", pv: 38 }, { d: "10/1", date: "2026-10-01", pv: 53 }, { d: "10/2", date: "2026-10-02", pv: 56 }, { d: "10/3", date: "2026-10-03", pv: 62 }, { d: "10/4", date: "2026-10-04", pv: 24 }, { d: "10/5", date: "2026-10-05", pv: 2 }],
+      episodes: [87, 78, 62, 65, 40, 45, 47, 41, 36, 33, 35, 25, 33, 31, 28, 31, 29, 28, 33, 27, 25, 21, 22, 20, 21, 22, 22, 21, 25, 17, 19, 16, 15, 14, 24, 21, 13, 13, 13, 9, 10, 9, 10, 12, 7, 5, 8, 7, 9, 4],
       followers: 7,
       reviewAvg: 3.0,
       reviewCount: 1,
@@ -338,13 +338,13 @@ const BOOKS = [
     hourly: {
       todayDate: "10/05",
       yesterdayDate: "10/04",
-      today:     [18, 1, 0, 4, 52, 0, 10, 4, 14, 11, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      today:     [18, 1, 0, 4, 52, 0, 10, 4, 14, 11, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       yesterday: [38, 14, 3, 1, 1, 3, 22, 4, 17, 16, 33, 11, 23, 30, 24, 10, 11, 2, 7, 56, 3, 13, 18, 35],
     },
     naroEpisodeCumulative: [138, 118, 99, 91, 93, 79, 96, 84, 73, 68, 61, 64, 67, 63, 59, 69, 61, 51, 58, 54, 60, 50, 48, 41, 48, 47, 38, 40, 31, 35, 31, 30, 32, 26, 25, 31, 26, 31, 24, 23, 20, 20, 22, 16, 26, 24, 20, 23, 22, 22],
-    naroDailyHistory: [{ d: "8/28", pv: 47 }, { d: "8/29", pv: 65 }, { d: "9/1", pv: 35 }, { d: "9/2", pv: 110 }, { d: "9/3", pv: 37 }, { d: "9/4", pv: 71 }, { d: "9/5", pv: 89 }, { d: "9/6", pv: 43 }, { d: "9/7", pv: 109 }, { d: "9/8", pv: 60 }, { d: "9/9", pv: 108 }, { d: "9/10", pv: 68 }, { d: "9/11", pv: 81 }, { d: "9/12", pv: 111 }, { d: "9/13", pv: 77 }, { d: "9/14", pv: 36 }, { d: "9/15", pv: 51 }, { d: "9/16", pv: 80 }, { d: "9/17", pv: 70 }, { d: "9/18", pv: 98 }, { d: "9/19", pv: 82 }, { d: "9/20", pv: 75 }, { d: "9/21", pv: 68 }, { d: "9/22", pv: 141 }, { d: "9/23", pv: 72 }, { d: "9/24", pv: 76 }, { d: "9/25", pv: 38 }, { d: "9/26", pv: 37 }, { d: "9/27", pv: 104 }, { d: "9/28", pv: 195 }, { d: "10/1", pv: 62 }, { d: "10/2", pv: 248 }, { d: "10/3", pv: 254 }, { d: "10/4", pv: 395 }, { d: "10/5", pv: 125 }],
+    naroDailyHistory: [{ d: "8/28", pv: 47 }, { d: "8/29", pv: 65 }, { d: "9/1", pv: 35 }, { d: "9/2", pv: 110 }, { d: "9/3", pv: 37 }, { d: "9/4", pv: 71 }, { d: "9/5", pv: 89 }, { d: "9/6", pv: 43 }, { d: "9/7", pv: 109 }, { d: "9/8", pv: 60 }, { d: "9/9", pv: 108 }, { d: "9/10", pv: 68 }, { d: "9/11", pv: 81 }, { d: "9/12", pv: 111 }, { d: "9/13", pv: 77 }, { d: "9/14", pv: 36 }, { d: "9/15", pv: 51 }, { d: "9/16", pv: 80 }, { d: "9/17", pv: 70 }, { d: "9/18", pv: 98 }, { d: "9/19", pv: 82 }, { d: "9/20", pv: 75 }, { d: "9/21", pv: 68 }, { d: "9/22", pv: 141 }, { d: "9/23", pv: 72 }, { d: "9/24", pv: 76 }, { d: "9/25", pv: 38 }, { d: "9/26", pv: 37 }, { d: "9/27", pv: 104 }, { d: "9/28", pv: 195 }, { d: "10/1", pv: 62 }, { d: "10/2", pv: 248 }, { d: "10/3", pv: 254 }, { d: "10/4", pv: 395 }, { d: "10/5", pv: 129 }],
     rankHistory: [{ date: "2026-09-28", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 83, note: "9/28 04-07時", source: "manual" }, { date: "2026-09-28", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 82, note: "9/28 11-12時", source: "manual" }, { date: "2026-09-28", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 77, note: "9/28 18-19時", source: "manual" }, { date: "2026-09-08", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 64, note: "9/8 04-07時（初のなろうランクイン）", source: "manual" }, { date: "2026-09-08", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 68, note: "9/8 11-12時", source: "manual" }, { date: "2026-09-08", label: "なろう 日間・現実世界〔恋愛〕(連載中)", rank: 63, note: "9/8 18-19時（最高順位）", source: "manual" }, { date: "2026-09-05", label: "カクヨム 恋愛・週間", rank: 600, note: "658→600", source: "manual" }, { date: "2026-09-02", label: "カクヨム 恋愛・週間", rank: 630, note: "801→630", source: "manual" }, { date: "2026-09-01", label: "カクヨム 恋愛・週間", rank: 801, note: "1252→801", source: "manual" }, { date: "2026-08-31", label: "カクヨム 恋愛・週間", rank: 1252, note: "ランクイン", source: "manual" }],
-    statsHistory: [{date: "2026-09-29", bookmarks: 7, globalPoint: 30, weeklyPoint: 6, followers: 8, cheers: 14, kakuyomuTotalPv: 1053}, {date: "2026-09-30", bookmarks: 9, globalPoint: 34, weeklyPoint: 10, followers: 8, cheers: 14, kakuyomuTotalPv: 1091}, {date: "2026-10-01", bookmarks: 11, globalPoint: 38, weeklyPoint: 14, followers: 8, cheers: 14, kakuyomuTotalPv: 1144}, {date: "2026-10-02", bookmarks: 11, globalPoint: 38, weeklyPoint: 16, followers: 8, cheers: 14, kakuyomuTotalPv: 1200}, {date: "2026-10-03", bookmarks: 11, globalPoint: 38, weeklyPoint: 16, followers: 8, cheers: 14, kakuyomuTotalPv: 1262}, {date: "2026-10-04", bookmarks: 13, globalPoint: 52, weeklyPoint: 16, followers: 8, cheers: 15, kakuyomuTotalPv: 1286}, {date: "2026-10-05", bookmarks: 13, globalPoint: 52, weeklyPoint: 24, followers: 7, cheers: 15, kakuyomuTotalPv: 1287}],
+    statsHistory: [{date: "2026-09-29", bookmarks: 7, globalPoint: 30, weeklyPoint: 6, followers: 8, cheers: 14, kakuyomuTotalPv: 1053}, {date: "2026-09-30", bookmarks: 9, globalPoint: 34, weeklyPoint: 10, followers: 8, cheers: 14, kakuyomuTotalPv: 1091}, {date: "2026-10-01", bookmarks: 11, globalPoint: 38, weeklyPoint: 14, followers: 8, cheers: 14, kakuyomuTotalPv: 1144}, {date: "2026-10-02", bookmarks: 11, globalPoint: 38, weeklyPoint: 16, followers: 8, cheers: 14, kakuyomuTotalPv: 1200}, {date: "2026-10-03", bookmarks: 11, globalPoint: 38, weeklyPoint: 16, followers: 8, cheers: 14, kakuyomuTotalPv: 1262}, {date: "2026-10-04", bookmarks: 13, globalPoint: 52, weeklyPoint: 16, followers: 8, cheers: 15, kakuyomuTotalPv: 1286}, {date: "2026-10-05", bookmarks: 13, globalPoint: 52, weeklyPoint: 24, followers: 7, cheers: 15, kakuyomuTotalPv: 1288}],
   },
   {
     ncode: "n6206mr",

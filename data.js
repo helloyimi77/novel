@@ -5,7 +5,7 @@
 // スクリプトを再実行するか、直接この配列を編集してください。
 // ============================================================
 
-const LAST_UPDATED = "2026年10月07日 02:16 時点（自動取得）";
+const LAST_UPDATED = "2026年10月07日 02:31 時点（自動取得）";
 const TODAY_ISO = "2026-10-07";
 const YEAR = 2026;
 
@@ -228,11 +228,11 @@ const BOOKS = [
     hot: false, note: "",
     kakuyomu: {
       workId: "2912051605488318680",
-      totalPv: 603,
+      totalPv: 604,
       todayPv: 1,
       periodStart: "2026-08-04",
-      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 0 }, { d: "10/2", date: "2026-10-02", pv: 1 }, { d: "10/3", date: "2026-10-03", pv: 1 }],
-      episodes: [28, 12, 12, 11, 10, 12, 12, 10, 10, 14, 10, 11, 11, 8, 13, 11, 9, 9, 8, 9, 9, 13, 12, 10, 10, 10, 11, 10, 10, 15, 11, 8, 9, 6, 7, 12, 7, 7, 6, 8, 8],
+      dailyHistory: [{ d: "9/29", date: "2026-09-29", pv: 0 }, { d: "10/2", date: "2026-10-02", pv: 1 }, { d: "10/3", date: "2026-10-03", pv: 1 }, { d: "10/7", date: "2026-10-07", pv: 1 }],
+      episodes: [28, 12, 12, 11, 10, 12, 12, 10, 10, 14, 10, 11, 11, 8, 13, 11, 9, 9, 8, 9, 9, 13, 12, 10, 10, 10, 11, 10, 10, 15, 11, 8, 9, 6, 7, 12, 7, 8, 6, 8, 8],
       followers: 3,
       reviewAvg: null,
       reviewCount: 0,
@@ -248,7 +248,7 @@ const BOOKS = [
     naroEpisodeCumulative: [41, 39, 33, 36, 29, 30, 31, 25, 27, 31, 28, 41, 36, 31, 32, 26, 31, 27, 28, 33, 31, 32, 32, 27, 34, 35, 33, 31, 28, 27, 27, 29, 30, 28, 25, 30, 27, 26, 29, 30, 37],
     naroDailyHistory: [{ d: "8/13", pv: 101 }, { d: "8/14", pv: 241 }, { d: "8/15", pv: 107 }, { d: "8/16", pv: 46 }, { d: "8/17", pv: 98 }, { d: "8/18", pv: 94 }, { d: "8/19", pv: 11 }, { d: "8/20", pv: 37 }, { d: "8/21", pv: 28 }, { d: "8/22", pv: 23 }, { d: "8/23", pv: 22 }, { d: "8/24", pv: 16 }, { d: "8/25", pv: 34 }, { d: "8/26", pv: 11 }, { d: "8/27", pv: 14 }, { d: "8/28", pv: 21 }, { d: "8/29", pv: 16 }, { d: "9/1", pv: 15 }, { d: "9/2", pv: 25 }, { d: "9/3", pv: 10 }, { d: "9/4", pv: 4 }, { d: "9/5", pv: 4 }, { d: "9/6", pv: 75 }, { d: "9/7", pv: 2 }, { d: "9/8", pv: 5 }, { d: "9/9", pv: 5 }, { d: "9/10", pv: 35 }, { d: "9/11", pv: 8 }, { d: "9/12", pv: 24 }, { d: "9/13", pv: 20 }, { d: "9/14", pv: 14 }, { d: "9/15", pv: 32 }, { d: "9/16", pv: 70 }, { d: "9/17", pv: 9 }, { d: "9/18", pv: 4 }, { d: "9/19", pv: 3 }, { d: "9/20", pv: 1 }, { d: "9/21", pv: 34 }, { d: "9/22", pv: 35 }, { d: "9/23", pv: 6 }, { d: "9/24", pv: 2 }, { d: "9/25", pv: 6 }, { d: "9/26", pv: 5 }, { d: "9/27", pv: 10 }, { d: "9/28", pv: 6 }, { d: "10/1", pv: 4 }, { d: "10/2", pv: 3 }, { d: "10/3", pv: 10 }, { d: "10/4", pv: 4 }, { d: "10/5", pv: 12 }, { d: "10/6", pv: 11 }, { d: "10/7", pv: 0 }],
     rankHistory: [{ date: "2026-09-07", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 87, note: "9/7 04-07時（約3週間ぶりの再ランクイン）", source: "manual" }, { date: "2026-09-07", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 85, note: "9/7 11-12時", source: "manual" }, { date: "2026-09-07", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 77, note: "9/7 18-19時", source: "manual" }, { date: "2026-08-18", label: "なろう 週間・歴史〔文芸〕(完結済)", rank: 97, note: "8/18 04-07時", source: "manual" }, { date: "2026-08-17", label: "なろう 週間・歴史〔文芸〕(完結済)", rank: 89, note: "8/17 04-07時", source: "manual" }, { date: "2026-08-16", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 39, note: "8/16 04-07時", source: "manual" }, { date: "2026-08-16", label: "なろう 週間・歴史〔文芸〕(完結済)", rank: 95, note: "8/16 04-07時", source: "manual" }, { date: "2026-08-15", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 82, note: "8/15 04-07時", source: "manual" }, { date: "2026-08-15", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 19, note: "8/15 11-12時（最高順位）", source: "manual" }, { date: "2026-08-15", label: "なろう 日間・歴史〔文芸〕(完結済)", rank: 21, note: "8/15 18-19時", source: "manual" }],
-    statsHistory: [{date: "2026-09-29", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 601}, {date: "2026-09-30", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 601}, {date: "2026-10-01", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 601}, {date: "2026-10-02", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 602}, {date: "2026-10-03", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 603}, {date: "2026-10-04", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 603}, {date: "2026-10-05", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 603}, {date: "2026-10-06", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 603}, {date: "2026-10-07", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 603}],
+    statsHistory: [{date: "2026-09-29", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 601}, {date: "2026-09-30", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 601}, {date: "2026-10-01", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 601}, {date: "2026-10-02", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 602}, {date: "2026-10-03", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 603}, {date: "2026-10-04", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 603}, {date: "2026-10-05", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 603}, {date: "2026-10-06", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 603}, {date: "2026-10-07", bookmarks: 0, globalPoint: 8, weeklyPoint: 0, followers: 3, cheers: 1, kakuyomuTotalPv: 604}],
   },
   {
     ncode: "n9265mq",
@@ -358,8 +358,8 @@ const BOOKS = [
     episodes: 50,
     tags: ["異世界", "呪い", "溺愛", "全50話完結"],
     mood: "氷の公爵は、涙に触れた夜だけ人間に戻る。無能と追い出された令嬢の涙だけが、唯一彼の呪いを溶かす。心を閉ざした公爵と冷遇されてきた令嬢が、出会いによって運命を変えていく氷解ロマンス。",
-    week: [{ d: "10/1", pv: 58 }, { d: "10/2", pv: 408 }, { d: "10/3", pv: 614 }, { d: "10/4", pv: 245 }, { d: "10/5", pv: 417 }, { d: "10/6", pv: 152 }, { d: "10/7", pv: 27 }],
-    unique: 1272, pc: 792, sp: 1128, app: 1,
+    week: [{ d: "10/1", pv: 58 }, { d: "10/2", pv: 408 }, { d: "10/3", pv: 614 }, { d: "10/4", pv: 245 }, { d: "10/5", pv: 417 }, { d: "10/6", pv: 152 }, { d: "10/7", pv: 33 }],
+    unique: 1272, pc: 793, sp: 1133, app: 1,
     narouStats: {
       bookmarks: 6,
       globalPoint: 32,
@@ -386,11 +386,11 @@ const BOOKS = [
     hourly: {
       todayDate: "10/07",
       yesterdayDate: "10/06",
-      today:     [3, 20, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      today:     [3, 20, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       yesterday: [4, 0, 0, 1, 2, 20, 29, 0, 6, 14, 2, 0, 5, 5, 1, 12, 8, 12, 0, 2, 15, 13, 0, 1],
     },
     naroEpisodeCumulative: [143, 78, 79, 73, 81, 69, 67, 78, 67, 61, 60, 69, 61, 62, 79, 104, 68, 84, 65, 59, 43, 45, 53, 45, 63, 45, 44, 42, 40, 40, 41, 33, 36, 32, 45, 44, 39, 40, 40, 45, 46, 42, 39, 43, 49, 37, 44, 45, 43, 67],
-    naroDailyHistory: [{ d: "9/4", pv: 69 }, { d: "9/5", pv: 68 }, { d: "9/6", pv: 81 }, { d: "9/7", pv: 26 }, { d: "9/8", pv: 16 }, { d: "9/9", pv: 41 }, { d: "9/10", pv: 47 }, { d: "9/11", pv: 77 }, { d: "9/12", pv: 66 }, { d: "9/13", pv: 130 }, { d: "9/14", pv: 49 }, { d: "9/15", pv: 104 }, { d: "9/16", pv: 60 }, { d: "9/17", pv: 94 }, { d: "9/18", pv: 62 }, { d: "9/19", pv: 50 }, { d: "9/20", pv: 112 }, { d: "9/21", pv: 122 }, { d: "9/22", pv: 35 }, { d: "9/23", pv: 83 }, { d: "9/24", pv: 29 }, { d: "9/25", pv: 44 }, { d: "9/26", pv: 38 }, { d: "9/27", pv: 76 }, { d: "9/28", pv: 125 }, { d: "10/1", pv: 58 }, { d: "10/2", pv: 408 }, { d: "10/3", pv: 614 }, { d: "10/4", pv: 245 }, { d: "10/5", pv: 417 }, { d: "10/6", pv: 152 }, { d: "10/7", pv: 27 }],
+    naroDailyHistory: [{ d: "9/4", pv: 69 }, { d: "9/5", pv: 68 }, { d: "9/6", pv: 81 }, { d: "9/7", pv: 26 }, { d: "9/8", pv: 16 }, { d: "9/9", pv: 41 }, { d: "9/10", pv: 47 }, { d: "9/11", pv: 77 }, { d: "9/12", pv: 66 }, { d: "9/13", pv: 130 }, { d: "9/14", pv: 49 }, { d: "9/15", pv: 104 }, { d: "9/16", pv: 60 }, { d: "9/17", pv: 94 }, { d: "9/18", pv: 62 }, { d: "9/19", pv: 50 }, { d: "9/20", pv: 112 }, { d: "9/21", pv: 122 }, { d: "9/22", pv: 35 }, { d: "9/23", pv: 83 }, { d: "9/24", pv: 29 }, { d: "9/25", pv: 44 }, { d: "9/26", pv: 38 }, { d: "9/27", pv: 76 }, { d: "9/28", pv: 125 }, { d: "10/1", pv: 58 }, { d: "10/2", pv: 408 }, { d: "10/3", pv: 614 }, { d: "10/4", pv: 245 }, { d: "10/5", pv: 417 }, { d: "10/6", pv: 152 }, { d: "10/7", pv: 33 }],
     rankHistory: [{ date: "2026-10-06", label: "カクヨム 異世界ファンタジー・週間", rank: 3755, note: "3987→3755", source: "manual" }, { date: "2026-10-03", label: "カクヨム 異世界ファンタジー・週間", rank: 3926, note: "3941→3926", source: "manual" }, { date: "2026-10-02", label: "カクヨム 異世界ファンタジー・週間", rank: 3966, note: "4094→3966", source: "manual" }, { date: "2026-09-11", label: "カクヨム 異世界ファンタジー・週間", rank: 3552, note: "4098→3552", source: "manual" }, { date: "2026-09-09", label: "カクヨム 異世界ファンタジー・週間", rank: 4098, note: "4258→4098", source: "manual" }, { date: "2026-09-08", label: "カクヨム 異世界ファンタジー・週間", rank: 4265, note: "4945→4265", source: "manual" }, { date: "2026-09-07", label: "カクヨム 異世界ファンタジー・週間", rank: 4948, note: "5370→4948", source: "manual" }, { date: "2026-09-06", label: "カクヨム 異世界ファンタジー・週間", rank: 5371, note: "新規ランクイン（配信からわずか数日）", source: "manual" }],
     statsHistory: [{date: "2026-09-29", bookmarks: 1, globalPoint: 12, weeklyPoint: 0, followers: 6, cheers: 37, kakuyomuTotalPv: 173}, {date: "2026-09-30", bookmarks: 1, globalPoint: 12, weeklyPoint: 0, followers: 6, cheers: 37, kakuyomuTotalPv: 225}, {date: "2026-10-01", bookmarks: 1, globalPoint: 12, weeklyPoint: 0, followers: 7, cheers: 37, kakuyomuTotalPv: 232}, {date: "2026-10-02", bookmarks: 3, globalPoint: 26, weeklyPoint: 0, followers: 7, cheers: 37, kakuyomuTotalPv: 235}, {date: "2026-10-03", bookmarks: 4, globalPoint: 28, weeklyPoint: 14, followers: 7, cheers: 37, kakuyomuTotalPv: 238}, {date: "2026-10-04", bookmarks: 5, globalPoint: 30, weeklyPoint: 18, followers: 7, cheers: 38, kakuyomuTotalPv: 252}, {date: "2026-10-05", bookmarks: 6, globalPoint: 32, weeklyPoint: 18, followers: 7, cheers: 38, kakuyomuTotalPv: 258}, {date: "2026-10-06", bookmarks: 6, globalPoint: 32, weeklyPoint: 20, followers: 7, cheers: 38, kakuyomuTotalPv: 258}, {date: "2026-10-07", bookmarks: 6, globalPoint: 32, weeklyPoint: 20, followers: 7, cheers: 38, kakuyomuTotalPv: 258}],
   },

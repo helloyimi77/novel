@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   update:
@@ -30,25 +30,13 @@ jobs:
       - name: Run regression tests
         run: python -m unittest discover -s tests -v
 
-      - name: Run scraper
-        run: python scripts/update_data.py
-
-      - name: Commit and push if changed
+      - name: Report paused collection
         run: |
-          git config user.name "pv-dashboard-bot"
-          git config user.email "actions@users.noreply.github.com"
-          pushed=false
-          if ! git diff --quiet -- data.js scripts/naro_episode_cache.json scripts/naro_daily_pv_cache.json scripts/kakuyomu_stats_cache.json scripts/kakuyomu_daily_cache.json scripts/stats_history.json scripts/rankings_auto.json; then
-            git add data.js scripts/naro_episode_cache.json scripts/naro_daily_pv_cache.json scripts/kakuyomu_stats_cache.json scripts/kakuyomu_daily_cache.json scripts/stats_history.json scripts/rankings_auto.json
-            git commit -m "chore: auto-update PV data ($(date -u +'%Y-%m-%d %H:%M UTC'))"
-            # 手動pushとの競合を避けるため、pushする前に最新を取り込んでリベース。
-            # 最大3回まで再試行する（うまくいかない時は次回の実行に任せる）。
-            for i in 1 2 3; do
-              git pull --rebase --autostash origin main && git push && { pushed=true; break; }
-              echo "push retry $i failed, retrying..."
-              sleep 5
-            done
-            if [ "$pushed" != true ]; then exit 1; fi
-          else
-            echo "No changes in data.js / caches"
-          fi
+          echo "PV collection is paused. Existing data and caches are unchanged."
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## PVデータの自動取得は停止中です
+
+          取得処理とデータの書き換えをスキップしました。
+          既存の data.js・更新日時・全キャッシュを保持しています。
+          回帰テストが成功した場合、この実行は正常終了します。
+          EOF

@@ -7,28 +7,57 @@ PVモニタ用データ自動更新スクリプト。
 - 各作品について KASASAGI（なろう）と カクヨムのaccessesページを取得・解析
 - 結果を data.js としてまとめて書き出す
 
-なろう用ページはログイン不要で完全公開。
+KASASAGIの自動取得は現行ガイドラインに従って停止。
 カクヨムのaccessesページも未ログインで閲覧可能（2026/08時点で確認済み）。
 サイト構造が変わるとパースが壊れる可能性があるため、
-失敗した作品はスキップしてエラーを標準エラー出力に出す。
+取得失敗時は既存のdata.jsとキャッシュを保持して異常終了する。
 """
 import json
 import re
 import sys
 import time
 import html as html_lib
+import os
+from pathlib import Path
+from urllib.parse import urlsplit
 from datetime import datetime, timezone, timedelta
 
 import requests
 
 JST = timezone(timedelta(hours=9))
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; pv-dashboard-bot/1.0)"}
+HEADERS = {"User-Agent": "novel-pv-dashboard/1.1 (+https://github.com/helloyimi77/novel)"}
 TIMEOUT = 20
+MIN_REQUEST_INTERVAL = 3.0
+_last_request = {}
+_blocked_hosts = set()
+
+
+def request(url):
+    """Identify the bot honestly; stop a host after access denial, without retries."""
+    host = urlsplit(url).hostname
+    if host == "kasasagi.hinaproject.com":
+        raise RuntimeError("KASASAGI automatic collection disabled: official guidelines prohibit non-API collection")
+    if host in _blocked_hosts:
+        raise RuntimeError(f"{host}: stopped after HTTP 403/429; no further requests this run")
+    delay = MIN_REQUEST_INTERVAL - (time.monotonic() - _last_request.get(host, float('-inf')))
+    if delay > 0:
+        time.sleep(delay)
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
+    finally:
+        _last_request[host] = time.monotonic()
+    if response.status_code in (403, 429):
+        _blocked_hosts.add(host)
+        raise requests.HTTPError(
+            f"HTTP {response.status_code} from {host}; access restriction respected, no retry. "
+            f"Retry-After: {response.headers.get('Retry-After', 'unspecified')}", response=response
+        )
+    response.raise_for_status()
+    return response
 
 
 def fetch(url):
-    r = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
-    r.raise_for_status()
+    r = request(url)
     return r.text
 
 
@@ -99,10 +128,11 @@ def fetch_narou_api_stats(ncodes):
     1回のリクエストで複数Ncodeを取得できる（ncode1-ncode2-...の形でハイフン区切り）。
     戻り値: {ncode(小文字): {...}} の辞書
     """
+    if not ncodes:
+        return {}
     joined = "-".join(ncodes)
     url = f"https://api.syosetu.com/novelapi/api/?ncode={joined}&out=json"
-    r = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
-    r.raise_for_status()
+    r = request(url)
     rows = r.json()
     result = {}
     for row in rows:
@@ -135,8 +165,7 @@ def fetch_narou_top300(rtype):
     上位300位以内に入っていない作品は含まれない（このAPIの仕様上の上限）。
     """
     url = f"https://api.syosetu.com/rank/rankget/?rtype={rtype}&out=json"
-    r = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
-    r.raise_for_status()
+    r = request(url)
     rows = r.json()
     return {row["ncode"].lower(): {"rank": row["rank"], "pt": row["pt"]} for row in rows}
 
@@ -165,7 +194,7 @@ def check_and_record_rankings(ncodes, auto_cache):
             top300 = fetch_narou_top300(rtype)
         except Exception as e:
             print(f"  ranking fetch failed ({rtype}): {e}", file=sys.stderr)
-            continue
+            break
         for ncode in ncodes:
             entry = top300.get(ncode.lower())
             if not entry:
@@ -708,16 +737,19 @@ def main():
     kakuyomu_daily_cache = load_json_cache(KAKUYOMU_DAILY_CACHE_PATH)
     stats_history_cache = load_json_cache(STATS_HISTORY_PATH)
 
-    all_ncodes = [b["ncode"] for b in config["books"]]
+    all_ncodes = [b["ncode"] for b in config["books"] if not (
+        b.get("prerelease") and (not b.get("releaseDate") or b["releaseDate"] > datetime.now(JST).date().isoformat())
+    )]
     try:
         narou_api_stats = fetch_narou_api_stats(all_ncodes)
     except Exception as e:
         print(f"WARNING: narou API stats fetch failed entirely: {e}", file=sys.stderr)
-        narou_api_stats = {}
+        raise RuntimeError("API取得失敗: data.jsとキャッシュを保持します") from e
 
     rankings_auto = load_json_cache(RANKINGS_AUTO_PATH)
     try:
-        check_and_record_rankings(all_ncodes, rankings_auto)
+        if all_ncodes:
+            check_and_record_rankings(all_ncodes, rankings_auto)
     except Exception as e:
         print(f"WARNING: ranking check failed entirely: {e}", file=sys.stderr)
     manual_rankings = load_manual_rankings()
@@ -753,14 +785,10 @@ def main():
             try:
                 kakuyomu_stats = get_kakuyomu_work_stats_cached(book["kakuyomuId"], kakuyomu_stats_cache)
             except Exception as e:
-                print(f"  work stats fetch failed {ncode}: {e} (フォロワー等は前回値/0で継続)", file=sys.stderr)
-                stale = kakuyomu_stats_cache.get(book["kakuyomuId"], {}).get("stats")
-                kakuyomu_stats = stale or {
-                    "followers": 0, "reviewAvg": None, "reviewCount": 0,
-                    "comments": 0,
-                }
+                print(f"  work stats fetch failed {ncode}: {e}", file=sys.stderr)
+                raise RuntimeError("作品統計の取得失敗: 0で補完せず更新を中止します") from e
             kakuyomu.update(kakuyomu_stats)
-            narou_extra = narou_api_stats.get(ncode.lower(), {})
+            narou_extra = narou_api_stats[ncode.lower()]
             rank_history = build_rank_history(ncode, rankings_auto, manual_rankings)
             stats_history = update_stats_history(ncode, narou_extra, kakuyomu, stats_history_cache)
             rendered_books.append(render_book(book, kasasagi, kakuyomu, kakuyomu_daily_history, naro_cumulative, naro_history, narou_extra, rank_history, stats_history))
@@ -769,6 +797,9 @@ def main():
             had_error = True
             print(f"FAILED: {ncode}: {e}", file=sys.stderr)
         time.sleep(1)
+
+    if had_error or not rendered_books:
+        raise RuntimeError("取得が不完全です。data.jsと全キャッシュを保持します")
 
     save_cache(cache)
     save_json_cache(DAILY_CACHE_PATH, daily_cache)
@@ -797,12 +828,14 @@ const BOOKS = [
 ];
 """
 
-    with open("data.js", "w", encoding="utf-8") as f:
-        f.write(output)
+    temporary = Path("data.js.tmp")
+    try:
+        temporary.write_text(output, encoding="utf-8")
+        os.replace(temporary, "data.js")
+    finally:
+        temporary.unlink(missing_ok=True)
 
     print(f"Wrote data.js with {len(rendered_books)} books", file=sys.stderr)
-    if had_error and not rendered_books:
-        sys.exit(1)
 
 
 if __name__ == "__main__":
